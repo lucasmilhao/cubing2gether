@@ -1,0 +1,12 @@
+C:\Users\Pichau\pastaPrincipal\meusCodigos\teste\src\main\java\com\example\teste\config\SecurityConfig.java
+C:\Users\Pichau\pastaPrincipal\meusCodigos\teste\src\main\java\com\example\teste\controller\ScramblesController.java
+C:\Users\Pichau\pastaPrincipal\meusCodigos\teste\src\main\java\com\example\teste\controller\UsuarioController.java
+C:\Users\Pichau\pastaPrincipal\meusCodigos\teste\src\main\java\com\example\teste\dto\usuario\UsuarioRequestDTO.java
+C:\Users\Pichau\pastaPrincipal\meusCodigos\teste\src\main\java\com\example\teste\dto\usuario\UsuarioResponseDTO.java
+C:\Users\Pichau\pastaPrincipal\meusCodigos\teste\src\main\java\com\example\teste\exception\SenhaInvalidaException.java
+C:\Users\Pichau\pastaPrincipal\meusCodigos\teste\src\main\java\com\example\teste\exception\UsuarioExistenteException.java
+C:\Users\Pichau\pastaPrincipal\meusCodigos\teste\src\main\java\com\example\teste\infra\RestExceptionHandler.java
+C:\Users\Pichau\pastaPrincipal\meusCodigos\teste\src\main\java\com\example\teste\model\Usuario.java
+C:\Users\Pichau\pastaPrincipal\meusCodigos\teste\src\main\java\com\example\teste\repository\UsuarioRepository.java
+C:\Users\Pichau\pastaPrincipal\meusCodigos\teste\src\main\java\com\example\teste\service\UsuarioService.java
+C:\Users\Pichau\pastaPrincipal\meusCodigos\teste\src\main\java\com\example\teste\TesteApplication.java
