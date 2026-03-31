@@ -1,0 +1,12 @@
+com\example\teste\dto\usuario\UsuarioRequestDTO.class
+com\example\teste\dto\usuario\UsuarioResponseDTO.class
+com\example\teste\config\SecurityConfig.class
+com\example\teste\infra\RestExceptionHandler.class
+com\example\teste\model\Usuario.class
+com\example\teste\repository\UsuarioRepository.class
+com\example\teste\TesteApplication.class
+com\example\teste\controller\ScramblesController.class
+com\example\teste\controller\UsuarioController.class
+com\example\teste\exception\UsuarioExistenteException.class
+com\example\teste\exception\SenhaInvalidaException.class
+com\example\teste\service\UsuarioService.class
