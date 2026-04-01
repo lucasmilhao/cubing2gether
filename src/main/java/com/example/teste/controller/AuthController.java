@@ -60,7 +60,6 @@ public class AuthController {
             this.userRepository.save(usuario);
             String token = this.tokenService.generateToken(usuario);
             return ResponseEntity.ok(new LoginResponseDTO(new UsuarioResponseDTO(usuario), token));
-
         }
 
 

@@ -12,7 +12,13 @@ interface SolveProps {
 }
 
 const fetchData = async (data : SolveRequest) : AxiosPromise<SolveProps> => {
-    const response = await axios.post(`${API}/solves`, data);
+    const token = localStorage.getItem("authToken");
+
+    const response = await axios.post(`${API}/solves`, data, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
 
     return response;
 } 

@@ -70,7 +70,7 @@ export function Register() {
           </div>
 
           <button type="submit" onClick={submit} className="login-btn">
-            Entrar
+            Crie sua Conta
           </button>
 
           <div className="signup-link">
