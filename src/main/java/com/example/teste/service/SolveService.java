@@ -47,4 +47,13 @@ public class SolveService {
     public List<SolveResponseDTO> getTodasSolves() {
         return solveRepository.findAll().stream().map(SolveResponseDTO::new).sorted(Comparator.comparing(SolveResponseDTO::id).reversed()).toList();
     }
+
+    public List<SolveResponseDTO> getTodasSolvesUsuario(String id) {
+        return solveRepository.findAll().stream()
+        .map(SolveResponseDTO::new)
+        .filter(e -> e.user().getId().equals(id))
+        .sorted(Comparator.comparing(SolveResponseDTO::id)
+        .reversed()).toList();
+    }
+    
 }

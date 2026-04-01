@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +20,7 @@ import com.example.teste.service.UsuarioService;
 
 import jakarta.validation.Valid;
 
+@CrossOrigin("http://localhost:5173")
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
@@ -36,6 +39,11 @@ public class UsuarioController {
         .toList();
 
         return ResponseEntity.ok(listaUsuarios);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UsuarioResponseDTO> getMe(@AuthenticationPrincipal Usuario user) {
+        return ResponseEntity.ok(new UsuarioResponseDTO(user));
     }
 
     @PostMapping

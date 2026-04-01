@@ -19,6 +19,7 @@ export function useScramble(puzzle : string){
     return useQuery({
         queryFn: () => fetchData(puzzle),
         queryKey: ['scramble-data', puzzle],
+
         enabled: false,
         retry: 2
     });

@@ -7,6 +7,9 @@ import { useSolveData } from '../hooks/solves/useSolveData'
 import 'cubing/twisty';
 import { useSolveDelete } from '../hooks/solves/useSolveDelete'
 import Swal from 'sweetalert2'
+import { useUsuarioLogado } from '../hooks/usuario/useUsuarioLogado'
+import { useSolveDataUser } from '../hooks/solves/useSolveDataUser'
+import { useNavigate } from 'react-router-dom'
 
 
 
@@ -19,10 +22,18 @@ export function Practice() {
   const {refetch} = useScramble(`${puzzle}`);
   const [scramble, setScramble] = useState("");
   const postSolve = useSolveMutate();
-  const {data : solves} = useSolveData();
+  const {data : usuarioLogado} = useUsuarioLogado();
+  const {data : solves, isError} = useSolveDataUser(usuarioLogado?.id);
   const [seconds, setSeconds] = useState("00.00")
   
+  const navigate = useNavigate();
+
   useEffect(() => {
+    console.log(usuarioLogado?.id);
+  if(usuarioLogado === undefined) {
+    navigate("/auth/login");
+  }
+
 
     gerarScramble();
   }, [puzzle])
@@ -32,7 +43,7 @@ export function Practice() {
         tempo: tempoCorrido.current,
         scramble,
         penalty,
-        userId
+        userId: usuarioLogado?.id
     }
     
     postSolve.mutate(request);
@@ -45,8 +56,6 @@ export function Practice() {
       setScramble(response.data);
     }
   }
-
-  const userId = "12b6fb42-0fcf-4a2e-9246-e6b867663321";
 
 
   let penalty : any = null;

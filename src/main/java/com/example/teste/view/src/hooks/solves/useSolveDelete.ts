@@ -4,7 +4,13 @@ import axios, { type AxiosPromise } from "axios"
 const API = 'http://localhost:8080'
 
 const fetchData = async (idSolve : number) : AxiosPromise<void> => {   
-    const response = await axios.delete(`${API}/solves/${idSolve}`)
+    const token = localStorage.getItem("authToken");
+
+    const response = await axios.delete(`${API}/solves/${idSolve}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
 
     return response;
 }

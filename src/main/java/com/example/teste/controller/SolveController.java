@@ -47,4 +47,11 @@ public class SolveController {
 
         return ResponseEntity.ok(listaSolves);
     }
+    
+    @GetMapping("{idUsuario}")
+    public ResponseEntity<List<SolveResponseDTO>> getSolvesUsuario(@PathVariable String idUsuario) {
+        List<SolveResponseDTO> listaSolves = service.getTodasSolvesUsuario(idUsuario);
+
+        return ResponseEntity.ok(listaSolves);
+    }
 }
