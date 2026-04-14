@@ -28,7 +28,7 @@ export function useSolveDataUser(userId : string | undefined) {
     return useQuery ({
         queryFn: () => fetchData(userId),
         queryKey: ["solves-data", userId],
-        retry: 2
+        retry: 2,
+        enabled: !!userId
     })
-    
 }

@@ -3,19 +3,22 @@ import './practice.css'
 import { useScramble } from '../hooks/useScramble'
 import { useSolveMutate } from '../hooks/solves/useSolveMutate'
 import type { SolveRequest } from '../interface/SolveRequest'
-import { useSolveData } from '../hooks/solves/useSolveData'
 import 'cubing/twisty';
 import { useSolveDelete } from '../hooks/solves/useSolveDelete'
 import Swal from 'sweetalert2'
 import { useUsuarioLogado } from '../hooks/usuario/useUsuarioLogado'
 import { useSolveDataUser } from '../hooks/solves/useSolveDataUser'
-import { useNavigate } from 'react-router-dom'
 
 
+export const segundos = (milis : number) : string => {
+  
+  const seconds = Math.floor((milis / 1000) % 60);
+  const milisecs = Math.floor(milis % 1000 / 10);
+  const finalTime = `${seconds}.${milisecs}`;
+  return finalTime;
+}
 
 export function Practice() {
-  
-  
   const puzzles = ['2x2x2', '3x3x3', '4x4x4', '5x5x5', '6x6x6', '7x7x7', 'square1', 'megaminx', 'clock', 'skewb', 'pyraminx', 'FM'];
   const [puzzle, setPuzzle] = useState(puzzles[1]);
   
@@ -23,18 +26,10 @@ export function Practice() {
   const [scramble, setScramble] = useState("");
   const postSolve = useSolveMutate();
   const {data : usuarioLogado} = useUsuarioLogado();
-  const {data : solves, isError} = useSolveDataUser(usuarioLogado?.id);
+  const {data : solves} = useSolveDataUser(usuarioLogado?.id);
   const [seconds, setSeconds] = useState("00.00")
   
-  const navigate = useNavigate();
-
   useEffect(() => {
-    console.log(usuarioLogado?.id);
-  if(usuarioLogado === undefined) {
-    navigate("/auth/login");
-  }
-
-
     gerarScramble();
   }, [puzzle])
   
@@ -129,13 +124,6 @@ function stop() {
     
   }
 
-  const segundos = (milis : number) : string => {
-    
-    const seconds = Math.floor((milis / 1000) % 60);
-    const milisecs = Math.floor(milis % 1000 / 10);
-    const finalTime = `${seconds}.${milisecs}`;
-    return finalTime;
-  }
 
   const TwistyPlayer = 'twisty-player' as any;
 
@@ -204,7 +192,7 @@ function stop() {
             </tr>
             </thead>
             <tbody>
-            {solves?.data.map((solve) => (
+            {solves?.data?.map((solve) => (
               <tr  key={solve.id}>
                 <td>{solve.id}</td>
                 <td onClick={() => Swal.fire({
