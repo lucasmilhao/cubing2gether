@@ -36,7 +36,7 @@ export function Usuario () {
                             <h1>{segundos(solveUser.data.reduce((a, b) => a + b.tempo, 0) / solveUser.data.length)}s</h1>
                         </div>
                     ) : (
-                        <p>Sem fotos ainda. Faça upload de suas melhores jogadas!</p>
+                        <p>Sem resoluções ainda. Faça upload de suas melhores jogadas!</p>
                     )}
                 </section>
 
