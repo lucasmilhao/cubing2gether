@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -12,20 +13,21 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.example.teste.exception.SenhaInvalidaException;
+import com.example.teste.dto.ErroResponseDTO;
 import com.example.teste.exception.UsuarioExistenteException;
+import com.example.teste.exception.SenhaInvalidaException;
 
 @RestControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(SenhaInvalidaException.class)
-    private ResponseEntity<String> senhaBadRequest(SenhaInvalidaException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
+    private ResponseEntity<ErroResponseDTO> senhaBadRequest(SenhaInvalidaException e) {
+        return ResponseEntity.badRequest().body(new ErroResponseDTO(e.getMessage(), HttpStatus.BAD_REQUEST.toString()));
     }
 
     @ExceptionHandler(UsuarioExistenteException.class)
-    private ResponseEntity<String> usuarioExistente(UsuarioExistenteException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
+    private ResponseEntity<Map<String, String>> usuarioExistente(UsuarioExistenteException e) {
+        return ResponseEntity.badRequest().body(e.getErros());
     }
 
     @Override

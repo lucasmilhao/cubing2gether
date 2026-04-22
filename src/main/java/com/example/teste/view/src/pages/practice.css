@@ -60,6 +60,30 @@ body {
     letter-spacing: 0.3px;
   }
 
+  .user-profile-practice {
+    display: flex;
+    gap: 15px;
+    padding: 12px;
+    align-items: center;
+    border-radius: 8px;
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    transition-duration: .2s;
+    
+    img {
+      height: 72px;
+      width: 72px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    &:hover{
+      cursor: pointer;
+      transform: scale(1.01);
+    }
+  }
+
   > div:first-of-type {
     display: flex;
     flex-direction: column;
