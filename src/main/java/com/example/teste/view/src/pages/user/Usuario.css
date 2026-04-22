@@ -1,19 +1,25 @@
-.user-container {
-  background-image: url("https://imgs.search.brave.com/ZKI3H4PwUlHEzc5ZrcC2oi9uNAeOjHGfJmNU8mRODkk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3RpL2ZvdG9z/LWdyYXRpcy90Mi80/MTA0MzcyOC1haS1n/ZXJhZG8tcG9yLWRv/LXNvbC1jZXUtZnVu/ZG8tY29tLW1pbnVz/Y3Vsby1udXZlbnMt/ZS1hcmNvLWlyaXMt/Zm90by5qcGc");
+/* .user-container {
+  background-image: url("https://media.istockphoto.com/id/1021380426/pt/foto/sunset-in-serra-da-beleza-mountains-between-rio-de-janeiro-and-minas-gerais-states.jpg?s=612x612&w=0&k=20&c=Zv_iYGwEhHQ6V3AK8OHOBNZQV85Vhf4S1v0E1RAchfE=");
   background-size: cover;
-}
+} */
 
 .usuario-page {
   max-width: 1000px;
   width: 100%;
   margin: 0 auto;
   padding: 20px;
-  olor: #222;
+  color: #222;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+}
+
+.actions {
+  display: flex;
+  gap: 15px;
+  align-items: center;
 }
 
 .usuario-card {
@@ -44,6 +50,12 @@
   font-weight: 600;
   color: #e6e6e6;
   box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  height: 45px;
+  transition-duration: .2s;
+
+  &:hover {
+    transform: scale(1.06);
+  }
 }
 
 .usuario-name {

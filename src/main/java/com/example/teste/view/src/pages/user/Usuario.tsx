@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useUsuarioDataId } from "../../hooks/usuario/useUsuarioDataId"
-import type { UsuarioProps } from "../../interface/UsuarioProps";
 import './Usuario.css';
+import defaltImage from "../../../../../../../../resources/images/default.webp";
 import { useSolveDataUser } from "../../hooks/solves/useSolveDataUser";
 import { segundos } from "../Practice";
 import { useUsuarioLogado } from "../../hooks/usuario/useUsuarioLogado";
@@ -11,27 +11,33 @@ export function Usuario () {
     const { data: usuario, isLoading, isError, error } = useUsuarioDataId(idUsuario);
     const usuarioLogado = useUsuarioLogado();
     const {data : solveUser} = useSolveDataUser(usuario?.id);
+    
+    const image = usuario?.fotoPerfil ? usuario.fotoPerfil : defaltImage;
 
     if (isLoading) return <div className="usuario-page">Carregando usuário...</div>;
-    if (isError) return <div className="usuario-page error">Erro ao buscar usuário: {String((error as any)?.message || error)}</div>;
+    if (isError) return <div className="usuario-page error">id: {idUsuario} Erro ao buscar usuário: {String((error as any)?.message || error)}</div>;
 
     const isUsuarioLogado = usuarioLogado.data?.id === idUsuario;
 
     return (
         <div className="user-container">
             <div className="usuario-page">
+                <div className="actions">
+
             <div className="usuario-card">
-                <img className="usuario-avatar" src={usuario?.fotoPerfil} alt={`${usuario?.nome || 'Usuário'} avatar`} />
-                <div>
-                    <h1 className="usuario-name">{usuario?.nome || 'Sem nome'}</h1>
-                </div>
-                {isUsuarioLogado && <button className="edit-profile-btn">Editar perfil</button>}
+                    <img className="usuario-avatar" src={image} alt="Foto Usuario" />
+                    
+                    <div>
+                        <h1 className="usuario-name">{usuario?.nome || 'Sem nome'}</h1>
+                    </div>
             </div>
+            {isUsuarioLogado && <button className="edit-profile-btn">Editar perfil</button>}
+                </div>
 
             <div className="usuario-sections">
                 <section className="usuario-section">
                     <h2>Média:</h2>
-                    {solveUser?.data ? (
+                    {solveUser?.data && solveUser.data.length > 0 ? (
                         <div className="photos-grid">
                             <h1>{segundos(solveUser.data.reduce((a, b) => a + b.tempo, 0) / solveUser.data.length)}s</h1>
                         </div>

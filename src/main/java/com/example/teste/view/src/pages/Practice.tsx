@@ -5,9 +5,11 @@ import { useSolveMutate } from '../hooks/solves/useSolveMutate'
 import type { SolveRequest } from '../interface/SolveRequest'
 import 'cubing/twisty';
 import { useSolveDelete } from '../hooks/solves/useSolveDelete'
+import defaltImage from "../../../../../../../resources/images/default.webp";
 import Swal from 'sweetalert2'
 import { useUsuarioLogado } from '../hooks/usuario/useUsuarioLogado'
 import { useSolveDataUser } from '../hooks/solves/useSolveDataUser'
+import { useNavigate } from 'react-router-dom'
 
 
 export const segundos = (milis : number) : string => {
@@ -27,7 +29,9 @@ export function Practice() {
   const postSolve = useSolveMutate();
   const {data : usuarioLogado} = useUsuarioLogado();
   const {data : solves} = useSolveDataUser(usuarioLogado?.id);
-  const [seconds, setSeconds] = useState("00.00")
+  const [seconds, setSeconds] = useState("00.00");
+
+  const navigate = useNavigate();
   
   useEffect(() => {
     gerarScramble();
@@ -213,6 +217,10 @@ function stop() {
         </div>
           <div>
         </div>
+      </div>
+      <div className="user-profile-practice" onClick={() => navigate(`/user/${usuarioLogado?.id}`)}>
+        <img src={usuarioLogado?.fotoPerfil ? usuarioLogado.fotoPerfil : defaltImage} alt="" />
+        <h1>{usuarioLogado?.nome}</h1>
       </div>
     </div>
   )

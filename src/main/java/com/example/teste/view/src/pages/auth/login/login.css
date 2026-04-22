@@ -76,6 +76,10 @@
         }
       }
 
+      .errors {
+        color: rgb(232, 106, 106);
+      }
+
       .toggle-btn {
         position: absolute;
         right: 14px;

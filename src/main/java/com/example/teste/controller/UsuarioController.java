@@ -7,7 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,6 +43,12 @@ public class UsuarioController {
         return ResponseEntity.ok(listaUsuarios);
     }
 
+    @GetMapping("{idUsuario}")
+    public ResponseEntity<UsuarioResponseDTO> getUsuarioPorId(@PathVariable String idUsuario) {
+        Usuario user = service.getUsuarioId(idUsuario);
+        return ResponseEntity.ok(new UsuarioResponseDTO(user));
+    }
+
     @GetMapping("/me")
     public ResponseEntity<UsuarioResponseDTO> getMe(@AuthenticationPrincipal Usuario user) {
         return ResponseEntity.ok(new UsuarioResponseDTO(user));
@@ -50,6 +58,13 @@ public class UsuarioController {
     public ResponseEntity<UsuarioResponseDTO> criarUser(@RequestBody @Valid UsuarioRequestDTO data) {
         Usuario user = service.criarUser(data);
         return ResponseEntity.ok(new UsuarioResponseDTO(user));
+    }
+
+    @PutMapping("{idUsuario}")
+    public ResponseEntity<UsuarioResponseDTO> editarUser(@RequestBody UsuarioRequestDTO data, @PathVariable String idUsuario) {
+        Usuario u = service.editarUsuario(data, idUsuario);
+
+        return ResponseEntity.ok(new UsuarioResponseDTO(u));
     }
 
 }

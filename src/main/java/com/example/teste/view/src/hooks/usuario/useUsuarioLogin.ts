@@ -21,7 +21,6 @@ export function useUsuarioLogin() {
 
     return useMutation({
         mutationFn: fetchdata,
-        retry: 2,
         onSuccess: () => {
             console.log("VAMO BRASISSSSISLSLSIDL");
             
