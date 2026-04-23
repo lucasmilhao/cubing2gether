@@ -196,12 +196,12 @@ function stop() {
             </tr>
             </thead>
             <tbody>
-            {solves?.data?.map((solve) => (
+            {solves?.data?.map((solve, index) => (
               <tr  key={solve.id}>
-                <td>{solve.id}</td>
+                <td>{solves.data.length - index}</td>
                 <td onClick={() => Swal.fire({
                   draggable: true,
-                  title: `Deletar solve ${solve.id}?`,
+                  title: `Deletar solve ${solves.data.length - index}?`,
                   text: "Essa solve será deletada!",
                   icon: "warning",
                   showCancelButton: true,
