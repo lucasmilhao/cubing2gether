@@ -45,7 +45,10 @@ public class SolveService {
     }
 
     public List<SolveResponseDTO> getTodasSolves() {
-        return solveRepository.findAll().stream().map(SolveResponseDTO::new).sorted(Comparator.comparing(SolveResponseDTO::id).reversed()).toList();
+
+        List<SolveResponseDTO> listaSolves = solveRepository.findAll().stream().map(SolveResponseDTO::new).sorted(Comparator.comparing(SolveResponseDTO::id).reversed()).toList();
+
+        return listaSolves.size() > 0 ? listaSolves :  null;
     }
 
     public List<SolveResponseDTO> getTodasSolvesUsuario(String id) {
