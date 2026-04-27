@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useUsuarioDataId } from "../../hooks/usuario/useUsuarioDataId"
 import './Usuario.css';
-//import logo from "../../../../../../../../resources/images/logo.png";
+import logo from "../../../../../../../../resources/images/logo.png";
 import defaltImage from "../../../../../../../../resources/images/default.webp";
 import { useSolveDataUser } from "../../hooks/solves/useSolveDataUser";
 import { segundos } from "../Practice";
@@ -22,12 +22,12 @@ export function Usuario () {
 
     const isUsuarioLogado = usuarioLogado.data?.id === idUsuario;
 
-    const show = solves ? solves.length > 0 : false;
+    
     
     return (
         <div className="user-container">
             <div className="user-header">
-                <img src="" alt="" />
+                <img src={logo} alt="" />
                 <h2 onClick={() => navigate("/practice")}>Practice</h2>
                 <h2>Sobre</h2>
                 <h2 onClick={() => navigate("/amigos")}>Amigos</h2>
@@ -67,9 +67,9 @@ export function Usuario () {
                     <p>Você não foi mencionado ainda.</p>
                 </section>
             </div>
-            {show && <h2>Histórico gráfico:</h2>}
-            
+            <h5>Histórico gráfico:</h5>
             <div className="graphic-solve" style={{width: "100%"}}>
+
             {solves?.map(e => {
                 
                 const hue = (e.id * 360) / solves.length;
@@ -81,10 +81,10 @@ export function Usuario () {
                     backgroundColor: `hsl(${hue}, 70%, 50%)`,
                     height: `${e.tempo / 100}px`,
                     flex: 1,
-                    color: `rgb(${segundos(e.tempo)} ${e.id} 32)`
+                    color: "white"
                 }}
                 >
-                <p>{segundos(e.tempo)}s</p>
+                <p style={{fontSize: "60%"}}>{segundos(e.tempo)}s</p>
                 </div>
             )})}
             </div>
