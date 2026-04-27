@@ -1,5 +1,7 @@
 package com.example.teste.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +39,17 @@ public class ParticipantesConversaService {
         pc.setUsuario(u);
 
         return participantesConversaRepository.save(pc);
+    }
+
+    public List<ParticipantesConversa> getTodosPorConversa(String idConversa) {
+        Conversa conversa = conversaRepository.findById(idConversa).orElseThrow(() -> new RuntimeException());
+        List<ParticipantesConversa> lista = participantesConversaRepository.findByConversa(conversa);
+
+        return lista;
+    }
+
+    public List<ParticipantesConversa> getTodos() {
+        return participantesConversaRepository.findAll();
     }
 
     
