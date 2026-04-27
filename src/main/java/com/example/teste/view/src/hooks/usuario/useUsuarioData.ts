@@ -1,16 +1,11 @@
-import axios from "axios";
 import {useQuery} from "@tanstack/react-query";
 import type { UsuarioProps } from "../../interface/UsuarioProps";
+import { api } from "../../service/api";
 
 const API_URL = `http://localhost:8080`;
 
 const fetchdata = async () : Promise<UsuarioProps[]> => {
-    const token = localStorage.getItem("authToken");
-    const response = await axios.get(`${API_URL}/usuarios`, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    });
+    const response = await api.get(`${API_URL}/usuarios`);
 
     return response.data;
 }
