@@ -5,7 +5,7 @@ import { useSolveMutate } from '../hooks/solves/useSolveMutate'
 import type { SolveRequest } from '../interface/SolveRequest'
 import 'cubing/twisty';
 import { useSolveDelete } from '../hooks/solves/useSolveDelete'
-//import defaltImage from "../../../../../../../resources/images/default.webp";
+import defaltImage from "../../../../../../../resources/images/default.webp";
 import Swal from 'sweetalert2'
 import { useUsuarioLogado } from '../hooks/usuario/useUsuarioLogado'
 import { useSolveDataUser } from '../hooks/solves/useSolveDataUser'
@@ -219,7 +219,7 @@ function stop() {
         </div>
       </div>
       <div className="user-profile-practice" onClick={() => navigate(`/user/${usuarioLogado?.id}`)}>
-        <img src={usuarioLogado?.fotoPerfil} alt="" />
+        <img src={usuarioLogado?.fotoPerfil ? usuarioLogado.fotoPerfil : defaltImage} alt="" />
         <h1>{usuarioLogado?.nome}</h1>
       </div>
     </div>
