@@ -1,16 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios, { type AxiosPromise } from "axios"
+import { type AxiosPromise } from "axios"
+import { api } from "../../service/api";
 
 const API = 'http://localhost:8080'
 
 const fetchData = async (idSolve : number) : AxiosPromise<void> => {   
-    const token = localStorage.getItem("authToken");
-
-    const response = await axios.delete(`${API}/solves/${idSolve}`, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    })
+    const response = api.delete(`${API}/solves/${idSolve}`);
 
     return response;
 }

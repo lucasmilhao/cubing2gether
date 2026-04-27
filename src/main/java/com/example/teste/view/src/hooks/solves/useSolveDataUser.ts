@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import type { AxiosPromise } from "axios";
-import axios from "axios";
+import { api } from "../../service/api";
 
 const API = `http://localhost:8080`;
 
@@ -13,13 +13,7 @@ interface SolveProps {
 }
 
 const fetchData = async (userId : string | undefined) : AxiosPromise<SolveProps[]> => {
-    const token = localStorage.getItem("authToken");
-    
-    const response = await axios.get(`${API}/solves/${userId}`, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    });
+    const response = api.get(`${API}/solves/${userId}`);
 
     return response;
 }
