@@ -1,8 +1,12 @@
 package com.example.teste.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +32,12 @@ public class MensagemController {
         return ResponseEntity.ok(new MensagemResponseDTO(m));
     }
 
+    @GetMapping("/{idConversa}")
+    public ResponseEntity<List<MensagemResponseDTO>> getMensagensConversa(@PathVariable String idConversa) {
+        List<MensagemResponseDTO> listaMensagens = service.getMensagensConversa(idConversa).stream()
+        .map(MensagemResponseDTO::new).toList();
 
+        return ResponseEntity.ok(listaMensagens);
+    }
 
 }

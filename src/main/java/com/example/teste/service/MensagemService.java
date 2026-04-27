@@ -1,5 +1,7 @@
 package com.example.teste.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +39,13 @@ public class MensagemService {
         mensagemRepository.save(mensagem);
 
         return mensagem;
+    }
+
+    public List<Mensagem> getMensagensConversa(String idConversa) {
+        Conversa c = conversaRepository.findById(idConversa).orElseThrow(); 
+        List<Mensagem> listaMensagens = mensagemRepository.findByConversaIdConversaOrderByMandado(idConversa);
+
+        return listaMensagens;
     }
 
 }

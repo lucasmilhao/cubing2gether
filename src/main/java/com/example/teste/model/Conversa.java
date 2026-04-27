@@ -1,6 +1,7 @@
 package com.example.teste.model;
 
 import java.time.Instant;
+import java.util.List;
 
 import com.example.teste.dto.chat.conversa.ConversaRequestDTO;
 
@@ -9,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
@@ -34,6 +36,9 @@ public class Conversa {
 
     @Column(name = "data_criado")
     private Instant dataCriado;
+
+    @OneToMany(mappedBy = "conversa")
+    private List<ParticipantesConversa> participantes;
 
     @PrePersist
     public void prePersist() {
