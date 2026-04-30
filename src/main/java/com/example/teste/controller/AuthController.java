@@ -16,7 +16,6 @@ import com.example.teste.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-@CrossOrigin("http://localhost:5173")
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor

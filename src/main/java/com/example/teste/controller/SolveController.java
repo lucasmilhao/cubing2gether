@@ -19,7 +19,7 @@ import com.example.teste.dto.usuario.UsuarioRequestDTO;
 import com.example.teste.model.Solve;
 import com.example.teste.service.SolveService;
 
-@CrossOrigin("http://localhost:5173")
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/solves")
 public class SolveController {

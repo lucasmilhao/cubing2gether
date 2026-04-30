@@ -3,7 +3,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { UsuarioLoginRequest } from "../../interface/UsuarioLoginRequest";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = `http://localhost:8080`;
+const API_URL = `https://musical-succotash-g4gr9p6xv573vgpp-8080.app.github.dev`;
+
 
 const fetchdata = async (request : UsuarioLoginRequest) => {
     const response = await axios.post(`${API_URL}/auth/login`, request);

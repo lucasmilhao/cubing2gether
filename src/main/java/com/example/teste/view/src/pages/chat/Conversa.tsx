@@ -6,10 +6,12 @@ import type { MensagemRequest } from "../../interface/MensagemRequest";
 import { useState, useRef, useEffect } from "react";
 import { Mensagem } from "../../components/mensagem/Mensagem";
 import "./conversa.css";
+import { useConversaData } from "../../hooks/chat/conversa/useConversaData";
 
 export function Conversa() {
     const {idConversa} = useParams();
     const {data : mensagens} = useMensagemData(idConversa);
+    const {data : conversa} = useConversaData(idConversa);
     const enviaMensagem = useMensagemPost();
     const {data : usuarioLogado} = useUsuarioLogado();
     const [texto, setTexto] = useState("");
@@ -40,7 +42,7 @@ export function Conversa() {
     return (
         <div className="conversa-container">
             <header className="conversa-header">
-                <h1>Chat</h1>
+                <h1>{conversa?.nome}</h1>
             </header>
             
             <div className="mensagens-container">
