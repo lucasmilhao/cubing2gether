@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.teste.service.ScrambleService;
 
-@CrossOrigin("http://localhost:5173")
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/scrambles")
 public class ScramblesController {

@@ -22,7 +22,7 @@ import com.example.teste.service.UsuarioService;
 
 import jakarta.validation.Valid;
 
-@CrossOrigin("http://localhost:5173")
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {

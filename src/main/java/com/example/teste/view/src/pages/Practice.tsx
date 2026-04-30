@@ -69,10 +69,25 @@ export function Practice() {
     if(!isRunning) {
       startTime.current = Date.now();
         timer.current = setInterval(Update, 16);
+        gerarScramble();
         setIsRunning(true);
     }
     else {
       stop();
+    }
+  }
+
+  const handleStart = () => {
+        if(isRunning) {
+          stop();
+        } else {
+          setIsPronto(true);
+        }
+  }
+
+  const handleEnd = () => {
+    if(isPronto) {
+      start();
     }
   }
 
@@ -83,29 +98,35 @@ export function Practice() {
 
       e.preventDefault();
 
-      
-      if(isPronto) {
-        start();
-      }
+      handleEnd();
     };
       
     const keyHandlerDown = (e: KeyboardEvent) => {
       if(e.code !== "Space") return;
-        if(isRunning) {
-          stop();
-        } else {
-          setIsPronto(true);
-        }
-        
       e.preventDefault();
 
+      handleStart();
+
     };
+
+    const handleTouchEnter = (e: TouchEvent) =>  {
+      handleStart();
+    }
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      handleEnd();
+}               
+
     window.addEventListener("keydown", keyHandlerDown);
     window.addEventListener("keyup", keyHandlerUp);
+    window.addEventListener("touchstart", handleTouchEnter);
+    window.addEventListener("touchend", handleTouchEnd);
 
   return () => {
     window.removeEventListener("keydown", keyHandlerDown);
     window.removeEventListener("keyup", keyHandlerUp);
+    window.removeEventListener("touchstart", handleTouchEnter);
+    window.removeEventListener("touchend", handleTouchEnd);
   };
 }, [isPronto, isRunning])
 
@@ -114,7 +135,6 @@ export function Practice() {
 function stop() {
   submit();
     if(timer.current) clearInterval(timer.current);
-    gerarScramble();
     setIsRunning(false);
     setIsPronto(false);
   }
@@ -160,7 +180,7 @@ function stop() {
     return (
       <div className='container'>
         <p>{scramble}</p>
-        <div>
+        <div className='info-cube'>
         <TwistyPlayer
         puzzle={puzzle}
         control-panel='none'

@@ -62,11 +62,17 @@ public class ConversaService {
         return conversa;
     }
 
-    public List<Conversa> getConversaPorId(String idUsuario) {
+    public List<Conversa> getConversaPorIdUsuario(String idUsuario) {
         Usuario u = usuarioRepository.findById(idUsuario).orElseThrow(() -> new UsuarioNaoEncontradoException());
         List<Conversa> lista = participantesConversaRepository.findByUsuario(u)
         .stream().map(e -> e.getConversa()).toList();
 
         return lista;
+    }
+
+    public Conversa getConversaPorId(String idConversa) {
+        Conversa c = conversaRepository.findById(idConversa).orElseThrow(() -> new RuntimeException("Conversa nao encontrada"));
+
+        return c;
     }
 }

@@ -3,10 +3,12 @@ import type { UsuarioRequest } from "../../interface/UsuarioRequest";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = `http://localhost:8080`;
+const API_URL = `https://musical-succotash-g4gr9p6xv573vgpp-8080.app.github.dev`;
 
 const fetchdata = async (request : UsuarioRequest) => {
-    const response = await axios.post(`${API_URL}/auth/register`, request);
+    const response = await axios.post(`${API_URL}/auth/register`, request, {
+        withCredentials: true
+    });
 
     return response.data;
 }

@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,7 @@ import com.example.teste.model.Conversa;
 import com.example.teste.model.Usuario;
 import com.example.teste.service.ConversaService;
 
-@CrossOrigin("http://localhost:5173")
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/conversa")
 public class ConversaControllerDTO {
@@ -40,9 +41,16 @@ public class ConversaControllerDTO {
 
     @GetMapping
     public ResponseEntity<List<ConversaResponseDTO>> getMinhasConversas(@AuthenticationPrincipal Usuario u) {
-        List<ConversaResponseDTO> lista = service.getConversaPorId(u.getId())
+        List<ConversaResponseDTO> lista = service.getConversaPorIdUsuario(u.getId())
         .stream().map(ConversaResponseDTO::new).toList();
 
         return ResponseEntity.ok(lista);
+    }
+
+    @GetMapping("/{idConversa}")
+    public ResponseEntity<ConversaResponseDTO> getConversaId(@PathVariable String idConversa) {
+        Conversa c = service.getConversaPorId(idConversa);
+
+        return ResponseEntity.ok(new ConversaResponseDTO(c));
     }
 }

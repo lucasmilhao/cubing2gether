@@ -17,7 +17,7 @@ import com.example.teste.dto.chat.mensagem.MensagemResponseDTO;
 import com.example.teste.model.Mensagem;
 import com.example.teste.service.MensagemService;
 
-@CrossOrigin("http://localhost:5173")
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/mensagens")
 public class MensagemController {

@@ -3,7 +3,8 @@ import { type AxiosPromise } from "axios"
 import type { SolveRequest } from "../../interface/SolveRequest";
 import { api } from "../../service/api";
 
-const API = 'http://localhost:8080'
+
+const API_URL = `https://musical-succotash-g4gr9p6xv573vgpp-8080.app.github.dev`;
 
 interface SolveProps {
     tempo : number,
@@ -13,7 +14,7 @@ interface SolveProps {
 }
 
 const fetchData = async (data : SolveRequest) : AxiosPromise<SolveProps> => {
-    const response = api.post(`${API}/solves`, data);
+    const response = api.post(`${API_URL}/solves`, data);
 
     return response;
 } 
