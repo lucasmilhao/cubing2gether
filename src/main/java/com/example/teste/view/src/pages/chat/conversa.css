@@ -7,17 +7,18 @@
 }
 
 .conversa-header {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--bg-secondary);
     backdrop-filter: blur(10px);
     padding: 20px 24px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: var(--shadow-lg);
 }
 
 .conversa-header h1 {
     margin: 0;
     font-size: 1.5rem;
     font-weight: 600;
-    color: #fff;
+    color: var(--text-primary);
     letter-spacing: 0.5px;
 }
 
@@ -27,6 +28,7 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
+    background: var(--bg-primary);
     gap: 16px;
 }
 
@@ -44,13 +46,14 @@
 }
 
 .input-area {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--bg-primary);
     backdrop-filter: blur(10px);
     padding: 16px 24px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     align-items: center;
     gap: 12px;
+    box-shadow: var(--shadow-sm);
 }
 
 .input-area input {
@@ -67,7 +70,7 @@
 }
 
 .input-area input::placeholder {
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--text-primary);
 }
 
 .input-area input:focus {

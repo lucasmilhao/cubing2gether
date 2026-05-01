@@ -2,11 +2,12 @@
     display: flex;
     flex-direction: column;
     padding: 16px 20px;
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--bg-tertiary);
     border-radius: 16px;
     max-width: 75%;
     align-self: flex-start;
     animation: fadeIn 0.3s ease;
+    box-shadow: var(--shadow-lg);
 }
 
 @keyframes fadeIn {
@@ -60,12 +61,12 @@
     margin: 0;
     font-size: 0.95rem;
     font-weight: 600;
-    color: #fff;
+    color: var(--text-primary);
 }
 
 .info {
     font-size: 0.75rem;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-secondary);
     margin: 0;
 }
 
@@ -73,6 +74,6 @@
     margin: 0;
     font-size: 1rem;
     line-height: 1.5;
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--text-primary);
     word-wrap: break-word;
 }

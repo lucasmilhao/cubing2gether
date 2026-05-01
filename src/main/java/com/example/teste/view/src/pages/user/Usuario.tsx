@@ -28,7 +28,7 @@ export function Usuario () {
     
     return (
         <div className="user-container">
-            <div className="user-header">
+            <header className="user-header">
                 <img src={logo} alt="" />
                 <h2 onClick={() => navigate("/practice")}>Practice</h2>
                 <h2 onClick={() => navigate("/sobre")}>Sobre</h2>
@@ -44,7 +44,7 @@ export function Usuario () {
                         </svg>
                     )}
                 </button>
-            </div>
+            </header>
             <div className="usuario-page">
                 <div className="actions">
 

@@ -34,6 +34,9 @@
   gap: 15px;
   padding: 10px;
   position: relative;
+  border-bottom: #eeeeee3d 1px solid;
+  background-color: var(--bg-secondary);
+  box-shadow: var(--shadow-lg);
 
   h2 {
     font-weight: 500;
