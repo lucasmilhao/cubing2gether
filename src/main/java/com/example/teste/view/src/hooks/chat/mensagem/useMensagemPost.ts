@@ -3,7 +3,7 @@ import type { MensagemRequest } from "../../../interface/MensagemRequest";
 import { api } from "../../../service/api"
 
 
-const API_URL = `https://musical-succotash-g4gr9p6xv573vgpp-8080.app.github.dev`;
+const API_URL = `http://localhost:8080`;
 
 const fetchdata = async (data : MensagemRequest) => {
     const response = await api.post(`${API_URL}/mensagens`, data);

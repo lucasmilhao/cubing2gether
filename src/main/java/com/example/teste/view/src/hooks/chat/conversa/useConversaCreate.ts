@@ -4,7 +4,7 @@ import type { ConversaRequestProps } from "../../../interface/ConversaRequestPro
 import type { ConversaResponseProps } from "../../../interface/ConversaResponse";
 import type { AxiosPromise } from "axios";
 
-const API_URL = `https://musical-succotash-g4gr9p6xv573vgpp-8080.app.github.dev`;
+const API_URL = `http://localhost:8080`;
 
 
 const fetchdata = async (data : ConversaRequestProps) : Promise<ConversaResponseProps> => {
