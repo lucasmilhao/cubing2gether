@@ -34,11 +34,17 @@ create table participantes_conversa (
 );
 
 create table mensagem (
-    id varchar(36) primary key not null auto_increment,
+    id varchar(36) primary key not null,
     texto varchar(250),
     id_sender varchar(36),
     id_conversa varchar(36),
     mandado timestamp default current_time,
 
     foreign key (id_sender) REFERENCES usuario(id_usuario),
+);
+
+create table arquivo (
+    id_arquivo varchar(36) primary key not null,
+    nome varchar(150) not null,
+    caminho varchar(250) not null
 );
