@@ -241,7 +241,7 @@ function stop() {
         </div>
       </div>
       <div className="user-profile-practice" onClick={() => navigate(`/user/${usuarioLogado?.id}`)}>
-        <img src={usuarioLogado?.fotoPerfil ? usuarioLogado.fotoPerfil : defaltImage} alt="" />
+        <img src={`http://localhost:8080/uploads/${usuarioLogado?.fotoPerfil}`} alt="" />
         <h1>{usuarioLogado?.nome}</h1>
       </div>
       <button className="theme-toggle" onClick={toggleTheme} title={theme === 'light' ? 'Modo escuro' : 'Modo claro'}>

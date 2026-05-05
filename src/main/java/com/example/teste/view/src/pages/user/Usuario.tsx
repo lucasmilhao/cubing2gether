@@ -7,6 +7,8 @@ import { useSolveDataUser } from "../../hooks/solves/useSolveDataUser";
 import { segundos } from "../Practice";
 import { useUsuarioLogado } from "../../hooks/usuario/useUsuarioLogado";
 import { useTheme } from "../../context/ThemeContext";
+import { useState } from "react";
+import { Modal } from "../../components/modal/Modal";
 
 export function Usuario () {
     const {idUsuario} = useParams();
@@ -15,6 +17,11 @@ export function Usuario () {
     const navigate = useNavigate();
     const {data : solveUser} = useSolveDataUser(usuario?.id);
     const { theme, toggleTheme } = useTheme();
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleModal = () => {
+        setIsOpen(prev => !prev);
+    }
 
     const solves = solveUser?.data.reverse();
     const image = usuario?.fotoPerfil ? usuario.fotoPerfil : defaltImage;
@@ -28,6 +35,7 @@ export function Usuario () {
     
     return (
         <div className="user-container">
+            {isOpen && <Modal closeModal={handleModal} usuarioLogado={usuarioLogado.data}/>}
             <header className="user-header">
                 <img src={logo} alt="" />
                 <h2 onClick={() => navigate("/practice")}>Practice</h2>
@@ -49,13 +57,13 @@ export function Usuario () {
                 <div className="actions">
 
             <div className="usuario-card">
-                    <img className="usuario-avatar" src={image} alt="Foto Usuario" />
+                    <img className="usuario-avatar" src={`http://localhost:8080/uploads/${usuario?.fotoPerfil}` } alt="Foto Usuario" />
                     
                     <div>
                         <h1 className="usuario-name">{usuario?.nome || 'Sem nome'}</h1>
                     </div>
             </div>
-            {isUsuarioLogado && <button className="edit-profile-btn">Editar perfil</button>}
+            {isUsuarioLogado && <button onClick={handleModal} className="edit-profile-btn">Editar perfil</button>}
                 </div>
 
             <div className="usuario-sections">

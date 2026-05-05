@@ -2,8 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "../../../service/api"
 import type { MensagemResponse } from "../../../interface/MensagemResponse";
 
-const API_URL = `https://musical-succotash-g4gr9p6xv573vgpp-8080.app.github.dev`;
-
+const API_URL = `http://localhost:8080`;
 
 const fetchdata = async (idConversa : string | undefined) : Promise<MensagemResponse[]> => {
     const response = await api.get(`${API_URL}/mensagens/${idConversa}`);

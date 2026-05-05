@@ -4,7 +4,7 @@ import type { SolveRequest } from "../../interface/SolveRequest";
 import { api } from "../../service/api";
 
 
-const API_URL = `https://musical-succotash-g4gr9p6xv573vgpp-8080.app.github.dev`;
+const API_URL = `http://localhost:8080`;
 
 interface SolveProps {
     tempo : number,

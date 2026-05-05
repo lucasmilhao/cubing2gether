@@ -7,15 +7,18 @@ export function Amigos (){
 
     return (
         <div >
-            {usuarios?.map((e) => (
+            {usuarios?.map((e) => {
+                console.log(e.fotoPerfil);
+                
+                return (
                 <div key={e.id} className="user-card-amigo">
-                    <img src={e.fotoPerfil ? e.fotoPerfil : defaultFoto} alt="" />
+                    <img src={`http://localhost:8080/uploads/${e.fotoPerfil}`} alt="" />
                     <div>
                     <h1 >{e.nome}</h1>
                     <p>{e.email}</p>
                     </div>
                 </div>
-            ))}
+            )})}
         </div>
     )
 }

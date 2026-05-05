@@ -37,7 +37,7 @@ export function Amigos() {
                     return (
                         <div key={e.id} className="user-card-amigo">
                             <div className="informacoes">
-                                <img onClick={() => navigate(`/user/${e.id}`)} src={e.fotoPerfil ? e.fotoPerfil : defaultFoto} alt="" />
+                                <img onClick={() => navigate(`/user/${e.id}`)} src={`http://localhost:8080/uploads/${e.fotoPerfil}`} alt="" />
                                 <div>
                                     <h1 >{e.nome}</h1>
                                     <p>{e.email}</p>
