@@ -10,3 +10,5 @@ mvn install:install-file \
 
 
 MUST have some database, in this project using MySQL;
+
+git clone ----single-branch -branch develop https://github.com/lucasmilhao/cubing2gether.git
