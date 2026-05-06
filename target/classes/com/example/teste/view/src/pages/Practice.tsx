@@ -3,27 +3,38 @@ import './practice.css'
 import { useScramble } from '../hooks/useScramble'
 import { useSolveMutate } from '../hooks/solves/useSolveMutate'
 import type { SolveRequest } from '../interface/SolveRequest'
-import { useSolveData } from '../hooks/solves/useSolveData'
 import 'cubing/twisty';
 import { useSolveDelete } from '../hooks/solves/useSolveDelete'
+import defaltImage from "../../../../../../../resources/images/default.webp";
 import Swal from 'sweetalert2'
+import { useUsuarioLogado } from '../hooks/usuario/useUsuarioLogado'
+import { useSolveDataUser } from '../hooks/solves/useSolveDataUser'
+import { useNavigate } from 'react-router-dom'
+import { useTheme } from '../context/ThemeContext';
 
 
+export const segundos = (milis : number) : string => {
+  
+  const seconds = Math.floor((milis / 1000) % 60);
+  const milisecs = Math.floor(milis % 1000 / 10);
+  const finalTime = `${seconds}.${milisecs}`;
+  return finalTime;
+}
 
 export function Practice() {
-  
-  
   const puzzles = ['2x2x2', '3x3x3', '4x4x4', '5x5x5', '6x6x6', '7x7x7', 'square1', 'megaminx', 'clock', 'skewb', 'pyraminx', 'FM'];
   const [puzzle, setPuzzle] = useState(puzzles[1]);
   
   const {refetch} = useScramble(`${puzzle}`);
   const [scramble, setScramble] = useState("");
   const postSolve = useSolveMutate();
-  const {data : solves} = useSolveData();
-  const [seconds, setSeconds] = useState("00.00")
+  const {data : usuarioLogado} = useUsuarioLogado();
+  const {data : solves} = useSolveDataUser(usuarioLogado?.id);
+  const [seconds, setSeconds] = useState("00.00");
+
+  const navigate = useNavigate();
   
   useEffect(() => {
-
     gerarScramble();
   }, [puzzle])
   
@@ -32,7 +43,7 @@ export function Practice() {
         tempo: tempoCorrido.current,
         scramble,
         penalty,
-        userId
+        userId: usuarioLogado?.id
     }
     
     postSolve.mutate(request);
@@ -46,8 +57,6 @@ export function Practice() {
     }
   }
 
-  const userId = "12b6fb42-0fcf-4a2e-9246-e6b867663321";
-
 
   let penalty : any = null;
   let [isPronto, setIsPronto] = useState(false);
@@ -60,10 +69,25 @@ export function Practice() {
     if(!isRunning) {
       startTime.current = Date.now();
         timer.current = setInterval(Update, 16);
+        gerarScramble();
         setIsRunning(true);
     }
     else {
       stop();
+    }
+  }
+
+  const handleStart = () => {
+        if(isRunning) {
+          stop();
+        } else {
+          setIsPronto(true);
+        }
+  }
+
+  const handleEnd = () => {
+    if(isPronto) {
+      start();
     }
   }
 
@@ -74,29 +98,35 @@ export function Practice() {
 
       e.preventDefault();
 
-      
-      if(isPronto) {
-        start();
-      }
+      handleEnd();
     };
       
     const keyHandlerDown = (e: KeyboardEvent) => {
       if(e.code !== "Space") return;
-        if(isRunning) {
-          stop();
-        } else {
-          setIsPronto(true);
-        }
-        
       e.preventDefault();
 
+      handleStart();
+
     };
+
+    const handleTouchEnter = (e: TouchEvent) =>  {
+      handleStart();
+    }
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      handleEnd();
+}               
+
     window.addEventListener("keydown", keyHandlerDown);
     window.addEventListener("keyup", keyHandlerUp);
+    window.addEventListener("touchstart", handleTouchEnter);
+    window.addEventListener("touchend", handleTouchEnd);
 
   return () => {
     window.removeEventListener("keydown", keyHandlerDown);
     window.removeEventListener("keyup", keyHandlerUp);
+    window.removeEventListener("touchstart", handleTouchEnter);
+    window.removeEventListener("touchend", handleTouchEnd);
   };
 }, [isPronto, isRunning])
 
@@ -105,7 +135,6 @@ export function Practice() {
 function stop() {
   submit();
     if(timer.current) clearInterval(timer.current);
-    gerarScramble();
     setIsRunning(false);
     setIsPronto(false);
   }
@@ -120,13 +149,6 @@ function stop() {
     
   }
 
-  const segundos = (milis : number) : string => {
-    
-    const seconds = Math.floor((milis / 1000) % 60);
-    const milisecs = Math.floor(milis % 1000 / 10);
-    const finalTime = `${seconds}.${milisecs}`;
-    return finalTime;
-  }
 
   const TwistyPlayer = 'twisty-player' as any;
 
@@ -142,6 +164,7 @@ function stop() {
   }
 
   const [dimension, setDimension] = useState("3D");
+  const { theme, toggleTheme } = useTheme();
 
   if(isPronto) {
     return (
@@ -157,7 +180,7 @@ function stop() {
     return (
       <div className='container'>
         <p>{scramble}</p>
-        <div>
+        <div className='info-cube'>
         <TwistyPlayer
         puzzle={puzzle}
         control-panel='none'
@@ -195,12 +218,12 @@ function stop() {
             </tr>
             </thead>
             <tbody>
-            {solves?.data.map((solve) => (
+            {solves?.data?.map((solve, index) => (
               <tr  key={solve.id}>
-                <td>{solve.id}</td>
+                <td>{solves.data.length - index}</td>
                 <td onClick={() => Swal.fire({
                   draggable: true,
-                  title: `Deletar solve ${solve.id}?`,
+                  title: `Deletar solve ${solves.data.length - index}?`,
                   text: "Essa solve será deletada!",
                   icon: "warning",
                   showCancelButton: true,
@@ -217,6 +240,21 @@ function stop() {
           <div>
         </div>
       </div>
+      <div className="user-profile-practice" onClick={() => navigate(`/user/${usuarioLogado?.id}`)}>
+        <img src={`http://localhost:8080/uploads/${usuarioLogado?.fotoPerfil}`} alt="" />
+        <h1>{usuarioLogado?.nome}</h1>
+      </div>
+      <button className="theme-toggle" onClick={toggleTheme} title={theme === 'light' ? 'Modo escuro' : 'Modo claro'}>
+        {theme === 'light' ? (
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+          </svg>
+        ) : (
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" />
+          </svg>
+        )}
+      </button>
     </div>
   )
   }

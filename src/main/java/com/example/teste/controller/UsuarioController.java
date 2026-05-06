@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.teste.dto.usuario.UsuarioEditRequestDTO;
 import com.example.teste.dto.usuario.UsuarioRequestDTO;
 import com.example.teste.dto.usuario.UsuarioResponseDTO;
 import com.example.teste.model.Usuario;
@@ -61,8 +62,8 @@ public class UsuarioController {
     }
 
     @PutMapping("{idUsuario}")
-    public ResponseEntity<UsuarioResponseDTO> editarUser(@RequestBody UsuarioRequestDTO data, @PathVariable String idUsuario) {
-        Usuario u = service.editarUsuario(data, idUsuario);
+    public ResponseEntity<UsuarioResponseDTO> editarUser(@RequestBody UsuarioEditRequestDTO data) {
+        Usuario u = service.editarUsuario(data);
 
         return ResponseEntity.ok(new UsuarioResponseDTO(u));
     }

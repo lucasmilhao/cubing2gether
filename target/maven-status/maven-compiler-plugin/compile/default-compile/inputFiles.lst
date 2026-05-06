@@ -1,20 +1,57 @@
-C:\Users\Pichau\pastaPrincipal\meusCodigos\cubing2gether\cubing2gether spring\src\main\java\com\example\teste\config\SecurityConfig.java
-C:\Users\Pichau\pastaPrincipal\meusCodigos\cubing2gether\cubing2gether spring\src\main\java\com\example\teste\controller\ScramblesController.java
-C:\Users\Pichau\pastaPrincipal\meusCodigos\cubing2gether\cubing2gether spring\src\main\java\com\example\teste\controller\SolveController.java
-C:\Users\Pichau\pastaPrincipal\meusCodigos\cubing2gether\cubing2gether spring\src\main\java\com\example\teste\controller\UsuarioController.java
-C:\Users\Pichau\pastaPrincipal\meusCodigos\cubing2gether\cubing2gether spring\src\main\java\com\example\teste\dto\solve\SolveRequestDTO.java
-C:\Users\Pichau\pastaPrincipal\meusCodigos\cubing2gether\cubing2gether spring\src\main\java\com\example\teste\dto\solve\SolveResponseDTO.java
-C:\Users\Pichau\pastaPrincipal\meusCodigos\cubing2gether\cubing2gether spring\src\main\java\com\example\teste\dto\usuario\UsuarioRequestDTO.java
-C:\Users\Pichau\pastaPrincipal\meusCodigos\cubing2gether\cubing2gether spring\src\main\java\com\example\teste\dto\usuario\UsuarioResponseDTO.java
-C:\Users\Pichau\pastaPrincipal\meusCodigos\cubing2gether\cubing2gether spring\src\main\java\com\example\teste\exception\SenhaInvalidaException.java
-C:\Users\Pichau\pastaPrincipal\meusCodigos\cubing2gether\cubing2gether spring\src\main\java\com\example\teste\exception\solve\SolveNaoEncontradaException.java
-C:\Users\Pichau\pastaPrincipal\meusCodigos\cubing2gether\cubing2gether spring\src\main\java\com\example\teste\exception\UsuarioExistenteException.java
-C:\Users\Pichau\pastaPrincipal\meusCodigos\cubing2gether\cubing2gether spring\src\main\java\com\example\teste\exception\UsuarioNaoEncontradoException.java
-C:\Users\Pichau\pastaPrincipal\meusCodigos\cubing2gether\cubing2gether spring\src\main\java\com\example\teste\infra\RestExceptionHandler.java
-C:\Users\Pichau\pastaPrincipal\meusCodigos\cubing2gether\cubing2gether spring\src\main\java\com\example\teste\model\Solve.java
-C:\Users\Pichau\pastaPrincipal\meusCodigos\cubing2gether\cubing2gether spring\src\main\java\com\example\teste\model\Usuario.java
-C:\Users\Pichau\pastaPrincipal\meusCodigos\cubing2gether\cubing2gether spring\src\main\java\com\example\teste\repository\SolveRepository.java
-C:\Users\Pichau\pastaPrincipal\meusCodigos\cubing2gether\cubing2gether spring\src\main\java\com\example\teste\repository\UsuarioRepository.java
-C:\Users\Pichau\pastaPrincipal\meusCodigos\cubing2gether\cubing2gether spring\src\main\java\com\example\teste\service\SolveService.java
-C:\Users\Pichau\pastaPrincipal\meusCodigos\cubing2gether\cubing2gether spring\src\main\java\com\example\teste\service\UsuarioService.java
-C:\Users\Pichau\pastaPrincipal\meusCodigos\cubing2gether\cubing2gether spring\src\main\java\com\example\teste\TesteApplication.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\controller\AuthController.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\controller\ConversaControllerDTO.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\controller\MensagemController.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\controller\ParticipantesConversaController.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\controller\ScramblesController.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\controller\SolveController.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\controller\UploadController.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\controller\UsuarioController.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\dto\arquivo\ArquivoRequestDTO.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\dto\arquivo\ArquivoResponseDTO.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\dto\chat\conversa\ConversaRequestDTO.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\dto\chat\conversa\ConversaResponseDTO.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\dto\chat\mensagem\MensagemRequestDTO.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\dto\chat\mensagem\MensagemResponseDTO.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\dto\chat\participantes\ParticipantesConversaRequestDTO.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\dto\chat\participantes\ParticipantesConversaResponseDTO.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\dto\ErroResponseDTO.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\dto\erros\ErroEmailResponseDTO.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\dto\erros\ErroNomeResponseDTO.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\dto\erros\ErroResponseDTO.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\dto\login\LoginRequestDTO.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\dto\login\LoginResponseDTO.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\dto\solve\SolveRequestDTO.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\dto\solve\SolveResponseDTO.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\dto\usuario\UsuarioEditRequestDTO.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\dto\usuario\UsuarioRequestDTO.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\dto\usuario\UsuarioResponseDTO.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\exception\SenhaInvalidaException.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\exception\solve\SolveNaoEncontradaException.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\exception\UsuarioExistenteException.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\exception\UsuarioNaoEncontradoException.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\infra\RestExceptionHandler.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\infra\security\CustomUserDetailsService.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\infra\security\SecurityConfig.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\infra\security\SecurityFilter.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\infra\security\TokenService.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\model\Arquivo.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\model\Conversa.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\model\Mensagem.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\model\ParticipantesConversa.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\model\Solve.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\model\Usuario.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\repository\ArquivoRepository.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\repository\ConversaRepository.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\repository\MensagemRepository.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\repository\ParticipantesConversaRepository.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\repository\SolveRepository.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\repository\UsuarioRepository.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\service\AuthService.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\service\ConversaService.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\service\MensagemService.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\service\ParticipantesConversaService.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\service\ScrambleService.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\service\SolveService.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\service\UploadService.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\service\UsuarioService.java
+C:\Users\Pichau\nada\cubing2gether\src\main\java\com\example\teste\TesteApplication.java

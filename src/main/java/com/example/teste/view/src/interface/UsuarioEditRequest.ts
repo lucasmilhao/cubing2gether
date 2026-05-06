@@ -1,5 +1,6 @@
 export interface UsuarioEditRequest {
     id? : string,
     nome? : string,
-    fotoPerfil? : string
+    email?: string,
+    fotoPerfil?: string,
 }

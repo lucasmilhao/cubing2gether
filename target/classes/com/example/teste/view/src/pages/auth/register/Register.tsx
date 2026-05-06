@@ -11,8 +11,10 @@ export function Register() {
   const [senha, setSenha] = useState("");
   const [nome, setNome] = useState("");
   const [tipo, setTipo] = useState("password");
+  const [errors, setErrors] = useState({});
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const data = useUsuarioCreate();
+
 
 
   const togglePassword = () => {
@@ -27,13 +29,20 @@ export function Register() {
         senha
     }
 
-    data.mutate(user);
+    data.mutate(user, {
+      onError: (err : any) => {
+        if(err.response && err.response.data) {
+          console.log(JSON.stringify(err.response.data));
+          setErrors(err.response.data);
+        }
+      }
+    });
   }
 
   return (
     <div className="login-container">
       <div className="esquerda">
-        <form action="login">
+        <form onSubmit={(e) => e.preventDefault()}>
           <h1 className="login-title">cubing2gether</h1>
 
           <div className="input-field">
@@ -44,6 +53,7 @@ export function Register() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="seu@email.com"
             />
+          {errors.email && <p className="errors">{errors.email}</p>}
           </div>
           
           <div className="input-field">
@@ -54,6 +64,7 @@ export function Register() {
               onChange={(e) => setNome(e.target.value)}
               placeholder="seunickname123"
             />
+            {errors.nome && <p className="errors">{errors.nome}</p>}
           </div>
 
           <div className="input-field">
@@ -67,10 +78,11 @@ export function Register() {
             <button type="button" onClick={togglePassword} className="toggle-btn">
               {mostrarSenha ? "🙈" : "🐵"}
             </button>
+          {errors.senha && <p className="errors">{errors.senha}</p>}
           </div>
 
           <button type="submit" onClick={submit} className="login-btn">
-            Entrar
+            Crie sua Conta
           </button>
 
           <div className="signup-link">

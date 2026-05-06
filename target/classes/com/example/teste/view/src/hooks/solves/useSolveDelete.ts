@@ -1,10 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios, { type AxiosPromise } from "axios"
+import { type AxiosPromise } from "axios"
+import { api } from "../../service/api";
 
-const API = 'http://localhost:8080'
+const API_URL = `http://localhost:8080`;
 
 const fetchData = async (idSolve : number) : AxiosPromise<void> => {   
-    const response = await axios.delete(`${API}/solves/${idSolve}`)
+    const response = api.delete(`${API_URL}/solves/${idSolve}`);
 
     return response;
 }
