@@ -7,6 +7,7 @@ import { Usuario } from './pages/user/Usuario'
 import { Amigos } from './pages/amigos/Amigos'
 import { Conversa } from './pages/chat/Conversa'
 import { Sobre } from './pages/sobre/Sobre'
+import Video from './pages/video/Video'
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
       <Route path='/amigos' Component={Amigos}/>
       <Route path='/chat/:idConversa' Component={Conversa}/>
       <Route path='/sobre' Component={Sobre}/>
+      <Route path='/video/:roomId' Component={Video}/>
     </Routes>
     </>
   )
