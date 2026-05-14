@@ -3,7 +3,7 @@ import { api } from "../../service/api";
 
 const API_URL = `http://localhost:8080`;
 
-const fetchdata = async (request : FormData) => {
+const fetchdata = async (request : FormData) : Promise<string> => {
     const response = await api.post(`${API_URL}/uploads`, request);
 
     return response.data;
