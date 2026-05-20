@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
 
 import com.example.teste.dto.solve.SolveRequestDTO;
 import com.example.teste.dto.solve.SolveResponseDTO;
-import com.example.teste.dto.usuario.UsuarioRequestDTO;
 import com.example.teste.model.Solve;
 import com.example.teste.service.SolveService;
 
@@ -31,7 +31,7 @@ public class SolveController {
     public ResponseEntity<SolveResponseDTO> createSolve(@RequestBody SolveRequestDTO request) {
         Solve solve = service.criarSolve(request);
 
-        return ResponseEntity.ok(new SolveResponseDTO(solve));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new SolveResponseDTO(solve));
     }
 
     @DeleteMapping("{idSolve}")

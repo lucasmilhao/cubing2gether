@@ -48,7 +48,7 @@ public class UploadService {
             arquivoRepository.save(arquivo);
             usuarioRepository.save(user);
 
-            return path;
+            return fileName;
         }catch (Exception e ) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());

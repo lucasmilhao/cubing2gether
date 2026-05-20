@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -21,6 +22,7 @@ import com.example.teste.exception.SenhaInvalidaException;
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(SenhaInvalidaException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     private ResponseEntity<ErroResponseDTO> senhaBadRequest(SenhaInvalidaException e) {
         return ResponseEntity.badRequest().body(new ErroResponseDTO(e.getMessage(), HttpStatus.BAD_REQUEST.toString()));
     }
@@ -44,4 +46,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
         return ResponseEntity.badRequest().body(errors);
     }
+
+    
 }

@@ -3,6 +3,7 @@ package com.example.teste.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.teste.dto.usuario.UsuarioEditRequestDTO;
 import com.example.teste.dto.usuario.UsuarioRequestDTO;
 import com.example.teste.exception.UsuarioNaoEncontradoException;
 import com.example.teste.model.Usuario;
@@ -29,13 +30,13 @@ public class UsuarioService {
         return usuarioRepository.findById(idUsuario).orElseThrow(() -> new UsuarioNaoEncontradoException());
     }
 
-    public Usuario editarUsuario(UsuarioRequestDTO data, String idUsuario){
+    public Usuario editarUsuario(UsuarioEditRequestDTO data){
         
-        Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(() -> new UsuarioNaoEncontradoException());
+        Usuario usuario = usuarioRepository.findById(data.id()).orElseThrow(() -> new UsuarioNaoEncontradoException());
+
+        System.out.println("O USUARIO MUDOU DE NOME SIM SIM SIM MUDOU SIM AGORA O NOVO NOME É " + data.nome() + " POR FAVOR OQ ESTPA ACONTECENTDO");
 
         usuario.setNome(data.nome());
-        usuario.setEmail(data.email());
-        usuario.setFotoPerfil(data.fotoPerfil());
     
         usuarioRepository.save(usuario);
 
