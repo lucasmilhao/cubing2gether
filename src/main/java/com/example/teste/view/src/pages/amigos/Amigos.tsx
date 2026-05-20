@@ -6,15 +6,20 @@ import { useUsuarioLogado } from "../../hooks/usuario/useUsuarioLogado";
 import { useConversaCreate } from "../../hooks/chat/conversa/useConversaCreate";
 import type { ConversaRequestProps } from "../../interface/ConversaRequestProps";
 import { useEffect } from "react";
+import { usePartidaCreate } from "../../hooks/partidas/usePartidaCreate";
+import { useMensagemPost } from "../../hooks/chat/mensagem/useMensagemPost";
+import type { MensagemRequest } from "../../interface/MensagemRequest";
 
 export function Amigos() {
     const { data: usuarios } = useUsuarioData();
     const navigate = useNavigate();
     const { data: usuarioLogado } = useUsuarioLogado();
     const conversa = useConversaCreate();
+    const partida = usePartidaCreate();
+    const enviaMensagem = useMensagemPost();
     let idsUsuarios: string[] | undefined = [];
 
-    const submit = (nome: string, idsUsuarios: string[]) => {
+    const submitConversa = (nome: string, idsUsuarios: string[])=> {
         const props: ConversaRequestProps = {
             nome,
             idsUsuarios
@@ -24,6 +29,36 @@ export function Amigos() {
             onSuccess: (data) => {
                 navigate(`/chat/${data.idConversa}`)
                 console.log(data.nome);
+            }
+        });
+    }
+
+    const submitPartida = (nome : string, idsUsuarios : string[]) => {
+        
+        partida.mutate(idsUsuarios, {
+            onSuccess: (data) => {
+                
+                const propsConversa: ConversaRequestProps = {
+                    nome,
+                    idsUsuarios
+                }
+
+                conversa.mutate(propsConversa, {
+                    onSuccess: (dataConversa) => {
+                        const props : MensagemRequest = {
+                            texto:`Junte-se à mim em: localhost:5173/video/${data.idPartida}`,
+                            idSender: usuarioLogado?.id,
+                            idConversa: dataConversa.idConversa
+                        }
+        
+                        enviaMensagem.mutate(props, {
+                            onSuccess: () => console.log("Mensagem enviada")
+                            
+                        })
+                        navigate(`/video/${data.idPartida}`)
+                    }
+                });
+                
             }
         });
     }
@@ -43,8 +78,16 @@ export function Amigos() {
                                     <p>{e.email}</p>
                                 </div>
                             </div>
-                            <button className="chat-button" onClick={() => { idsUsuarios.push(e.id); idsUsuarios.push(usuarioLogado?.id); submit(`${e.nome} e ${usuarioLogado?.nome}`, idsUsuarios) }} title="Iniciar conversa">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M267.7 576.9C267.7 576.9 267.7 576.9 267.7 576.9L229.9 603.6C222.6 608.8 213 609.4 205 605.3C197 601.2 192 593 192 584L192 512L160 512C107 512 64 469 64 416L64 192C64 139 107 96 160 96L480 96C533 96 576 139 576 192L576 416C576 469 533 512 480 512L359.6 512L267.7 576.9zM332 472.8C340.1 467.1 349.8 464 359.7 464L480 464C506.5 464 528 442.5 528 416L528 192C528 165.5 506.5 144 480 144L160 144C133.5 144 112 165.5 112 192L112 416C112 442.5 133.5 464 160 464L216 464C226.4 464 235.3 470.6 238.6 479.9C239.5 482.4 240 485.1 240 488L240 537.7C272.7 514.6 303.3 493 331.9 472.8z" /></svg>
+                            <button className="chat-button" onClick={() => {
+                                idsUsuarios.push(e.id);
+                                idsUsuarios.push(usuarioLogado?.id);
+                                submitPartida(`${e.nome} e ${usuarioLogado?.nome}`,idsUsuarios);
+                            }
+                            } title="Iniciar partida">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M96 64c-35.3 0-64 28.7-64 64l0 256c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-256c0-35.3-28.7-64-64-64L96 64zM464 336l73.5 58.8c4.2 3.4 9.4 5.2 14.8 5.2 13.1 0 23.7-10.6 23.7-23.7l0-240.6c0-13.1-10.6-23.7-23.7-23.7-5.4 0-10.6 1.8-14.8 5.2L464 176 464 336z" /></svg>
+                            </button>
+                            <button className="chat-button" onClick={() => { idsUsuarios.push(e.id); idsUsuarios.push(usuarioLogado?.id); submitConversa(`${e.nome} e ${usuarioLogado?.nome}`, idsUsuarios) }} title="Iniciar conversa">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M64 416L64 192C64 139 107 96 160 96L480 96C533 96 576 139 576 192L576 416C576 469 533 512 480 512L360 512C354.8 512 349.8 513.7 345.6 516.8L230.4 603.2C226.2 606.3 221.2 608 216 608C202.7 608 192 597.3 192 584L192 512L160 512C107 512 64 469 64 416z" /></svg>
                             </button>
                         </div>
                     )

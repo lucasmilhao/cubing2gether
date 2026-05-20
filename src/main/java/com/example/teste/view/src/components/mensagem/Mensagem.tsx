@@ -1,5 +1,6 @@
 import type { MensagemResponse } from "../../interface/MensagemResponse"
 import dft from "../../../../../../../../resources/images/default.webp";
+import Linkify from "react-linkify";
 import "./mensagens.css";
 import { useNavigate } from "react-router-dom";
 
@@ -21,7 +22,9 @@ export const Mensagem = (props : MensagemProps) => {
                     <p className="info">{props.mandado}</p>
                 </div>
             </div>
-            <p className="mensagem-texto">{props.texto}</p>
+            <Linkify>
+                <p className="mensagem-texto">{props.texto}</p>
+            </Linkify>
         </div>
     )
 }
