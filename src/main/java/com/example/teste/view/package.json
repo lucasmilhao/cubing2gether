@@ -12,10 +12,15 @@
   "dependencies": {
     "@tanstack/react-query": "^5.90.21",
     "axios": "^1.13.6",
+    "cors": "^2.8.6",
     "cubing": "^0.63.3",
+    "express": "^5.2.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-linkify": "^1.0.0-alpha",
     "react-router-dom": "^7.13.1",
+    "socket.io": "^4.8.3",
+    "socket.io-client": "^4.8.3",
     "sweetalert2": "^11.26.22",
     "tanstack-query": "^1.0.0"
   },

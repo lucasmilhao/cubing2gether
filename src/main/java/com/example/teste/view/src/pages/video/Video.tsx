@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { socket } from "./socket";
+import { usePartidaUsuarioData } from "../../hooks/partidas/usePartidaUsuarioData";
+import { useUsuarioLogado } from "../../hooks/usuario/useUsuarioLogado";
 
 export default function Video() {
     const localVideoRef = useRef<HTMLVideoElement>(null);
@@ -8,6 +10,9 @@ export default function Video() {
     const [isMuted, setIsMuted] = useState(false);
     const peerConnection = useRef<RTCPeerConnection | null>(null);
     const { roomId } = useParams();
+    const {data : usuarioLogado} = useUsuarioLogado();
+    const {data : dadosPartida} = usePartidaUsuarioData(roomId);
+    const [connected, setConnected] = useState(false);
 
     useEffect(() => {
         if (!roomId) return;
@@ -55,6 +60,7 @@ export default function Video() {
 
         const handleAnswer = async ({ answer }: { answer: RTCSessionDescriptionInit }) => {
             console.log("Recebeu answer");
+            setConnected(true);
             try {
                 await pc.setRemoteDescription(answer);
             } catch (error) {
@@ -77,6 +83,7 @@ export default function Video() {
             if (remoteVideoRef.current) {
                 remoteVideoRef.current.srcObject = null;
             }
+            setConnected(false);
         };
 
         const attachRemoteStream = (event: RTCTrackEvent) => {
@@ -85,6 +92,7 @@ export default function Video() {
             if (remoteVideoRef.current) {
                 remoteVideoRef.current.srcObject = stream;
             }
+            setConnected(true);
         };
 
         pc.ontrack = attachRemoteStream;
@@ -132,11 +140,15 @@ export default function Video() {
         };
     }, [roomId]);
 
+    console.log();
+    
+
     return (
         <div>
             <video ref={localVideoRef} autoPlay playsInline muted width={300} />
-            <p>sla</p>
+            <p>{usuarioLogado?.nome}</p>
             <video ref={remoteVideoRef} autoPlay playsInline muted={isMuted} width={300} />
+            {connected && <p>{dadosPartida?.at(1)?.usuario.nome === usuarioLogado?.nome ? dadosPartida?.at(0)?.usuario.nome : dadosPartida?.at(1)?.usuario.nome}</p>}
             <button onClick={() => setIsMuted((prev) => !prev)}>Mutar</button>
         </div>
     );
