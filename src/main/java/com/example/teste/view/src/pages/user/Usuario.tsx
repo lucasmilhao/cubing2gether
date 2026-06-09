@@ -9,6 +9,7 @@ import { useUsuarioLogado } from "../../hooks/usuario/useUsuarioLogado";
 import { useTheme } from "../../context/ThemeContext";
 import { useState } from "react";
 import { Modal } from "../../components/modal/Modal";
+import Swal from "sweetalert2";
 
 export function Usuario () {
     const {idUsuario} = useParams();
@@ -19,8 +20,22 @@ export function Usuario () {
     const { theme, toggleTheme } = useTheme();
     const [isOpen, setIsOpen] = useState(false);
 
+    const checarConvidado = () : boolean => {
+        return usuarioLogado.data?.isGuest === undefined ? false : usuarioLogado.data?.isGuest;
+    }
+
     const handleModal = () => {
-        setIsOpen(prev => !prev);
+
+        if(checarConvidado()) Swal.fire({
+            title: "Login",
+            text: "Faça login para editar seu perfil",
+            showCancelButton: true,
+            confirmButtonText: "Login",
+        }).then((result) => {
+            if(result.isConfirmed) navigate("/auth/login");
+        })
+
+        else setIsOpen(prev => !prev);
     }
 
     const solves = solveUser?.data.reverse();
@@ -40,7 +55,7 @@ export function Usuario () {
                 <img src={logo} alt="" />
                 <h2 onClick={() => navigate("/practice")}>Practice</h2>
                 <h2 onClick={() => navigate("/sobre")}>Sobre</h2>
-                <h2 onClick={() => navigate("/amigos")}>Amigos</h2>
+                { !checarConvidado() && <h2 onClick={() => navigate("/amigos")}>Amigos</h2>}
                 <button className="theme-toggle" onClick={toggleTheme} title={theme === 'light' ? 'Modo escuro' : 'Modo claro'}>
                     {theme === 'light' ? (
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">

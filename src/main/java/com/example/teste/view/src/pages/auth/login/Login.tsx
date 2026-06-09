@@ -3,6 +3,7 @@ import "./login.css";
 import { useUsuarioLogin } from "../../../hooks/usuario/useUsuarioLogin";
 import type { UsuarioLoginRequest } from "../../../interface/UsuarioLoginRequest";
 import { useNavigate } from "react-router-dom";
+import { useGuestCreate } from "../../../hooks/usuario/useGuestCreate";
 
 const LOGO_URL =
   "https://imgs.search.brave.com/E-_iV4OVdepshvCmTFiCaVOgd6wd99Zcws7s7rnkH7Y/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/Z2FsbGVyaWVzLnNt/Y2xvdWQubmV0L3Qv/Z2FsbGVyaWVzL2dm/LTRtMnAtVThaYy0z/ODV2X3d5Y3p5bmlh/LWN1ZGEtei1rb3N0/a2EtcnViaWthLW1s/b2R5LXBvem5hbmlh/ay1qZXN0LXJla29y/ZHppc3RhLXN3aWF0/YS02NjR4NDQyLmpw/Zw";
@@ -12,7 +13,8 @@ export function Login() {
   const [senha, setSenha] = useState("");
   const [tipo, setTipo] = useState("password");
   const [mostrarSenha, setMostrarSenha] = useState(false);
-  const {mutate, isSuccess, isPending} = useUsuarioLogin();
+  const {mutate, isPending} = useUsuarioLogin();
+  const {mutate : convidado, isPending : isCarregando} = useGuestCreate();
 
 
 const togglePassword = () => {
@@ -62,6 +64,10 @@ return (
 
           <button type="submit" className="login-btn">
             {isPending? "Entrando..." : "Entrar"}
+          </button>
+
+          <button onClick={() => convidado()} className="guest-btn">
+            {"Entrar como convidado"}
           </button>
 
           <div className="signup-link">

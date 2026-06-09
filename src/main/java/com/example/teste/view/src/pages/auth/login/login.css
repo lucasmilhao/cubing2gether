@@ -49,7 +49,7 @@
         font-family: 'Poppins', sans-serif;
         font-size: 14px;
         font-weight: 600;
-        color: #333;
+        color: #333 !important;
         margin-bottom: 10px;
         text-transform: uppercase;
         letter-spacing: 0.5px;
@@ -57,16 +57,17 @@
 
       input {
         padding: 14px 16px 14px 16px;
-        border: 2px solid #e0e0e0;
+        border: 2px solid #e0e0e0 !important;
         border-radius: 10px;
+        color: #333 !important;
         font-size: 15px;
         font-family: 'Poppins', sans-serif;
         transition: all 0.3s ease;
-        background-color: #fafafa;
+        background-color: #fafafa !important;
 
         &:focus {
           outline: none;
-          border-color: #667eea;
+          border-color: #667eea !important;
           background-color: white;
           box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
@@ -111,6 +112,33 @@
       padding: 14px 20px;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+      }
+
+      &:active {
+        transform: translateY(0px);
+      }
+    }
+    
+    .guest-btn {
+      width: 100%;
+      padding: 14px 20px;
+      background: linear-gradient(135deg, #eff2ff 0%, #eeddff 100%);
+      color: rgba(0, 0, 0, 0.664);
       border: none;
       border-radius: 10px;
       font-size: 16px;
