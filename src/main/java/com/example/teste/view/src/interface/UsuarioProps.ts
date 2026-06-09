@@ -28,6 +28,8 @@ export interface UsuarioProps {
   id: string;
   nome: string;
   email?: string;
+  tipo : string;
+  isGuest : boolean;
   fotoPerfil?: string;
 }
 

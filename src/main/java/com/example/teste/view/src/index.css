@@ -68,12 +68,13 @@ h1, h2, h3, h4, h5, h6, p, label, td {
   color: var(--text-primary);
 }
 
-/* Input and select backgrounds */
+/*select background */
 select, input {
   background: var(--input-bg) !important;
   color: var(--text-primary) !important;
   border-color: var(--border-color) !important;
 }
+
 
 /* Scrollbar styling for dark mode */
 ::-webkit-scrollbar-track {
