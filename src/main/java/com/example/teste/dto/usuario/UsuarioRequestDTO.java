@@ -17,6 +17,10 @@ public record UsuarioRequestDTO(
     @Size(min=8, message="Senha muito curta.")
     String senha, 
 
+    String tipo,
+
+    Boolean isGuest,
+
     String fotoPerfil) {
     
 }

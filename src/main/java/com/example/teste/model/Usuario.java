@@ -8,9 +8,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,6 +31,10 @@ public class Usuario {
 
     private String senha;
 
+    private String tipo;
+
+    private Boolean isGuest;
+
     @Column(name="foto_perfil")
     private String fotoPerfil;
     
@@ -41,6 +42,8 @@ public class Usuario {
         this.nome = data.nome();
         this.email = data.email();
         this.senha = data.senha();
+        this.tipo = data.tipo();
+        this.isGuest = data.isGuest();
         this.fotoPerfil = data.fotoPerfil();
     }
 
