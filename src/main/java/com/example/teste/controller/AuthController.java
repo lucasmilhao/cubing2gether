@@ -1,8 +1,8 @@
 package com.example.teste.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,8 +34,15 @@ public class AuthController {
     public ResponseEntity<LoginResponseDTO> registrarUsuario(@RequestBody @Valid UsuarioRequestDTO request) {
         LoginResponseDTO response = service.registrarUsuario(request);
         
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
+    }
+
+    @PostMapping("/guest")
+    public ResponseEntity<LoginResponseDTO> registrarConvidado() {
+        LoginResponseDTO response = service.registrarConvidado();
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
 
