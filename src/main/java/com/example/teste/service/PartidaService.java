@@ -34,9 +34,6 @@ public class PartidaService {
     }
 
     public Partida criarPartidaComParticipantes(PartidaRequestDTO request) {
-        Optional<Partida> p = partidaRepository.findPartidaByParticipantes(request.idsUsuarios(), (long) request.idsUsuarios().size());
-
-        if(p.isPresent()) return p.get();
 
         Partida partida = new Partida();
         partidaRepository.save(partida);
