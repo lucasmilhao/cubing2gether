@@ -3,6 +3,10 @@ import { useParams } from "react-router-dom";
 import { socket } from "./socket";
 import { usePartidaUsuarioData } from "../../hooks/partidas/usePartidaUsuarioData";
 import { useUsuarioLogado } from "../../hooks/usuario/useUsuarioLogado";
+import { useScramble } from "../../hooks/useScramble";
+import { puzzles } from "../Practice";
+import { useSolveMutate } from "../../hooks/solves/useSolveMutate";
+import type { SolveRequest } from "../../interface/SolveRequest";
 
 export default function Video() {
     const localVideoRef = useRef<HTMLVideoElement>(null);
@@ -10,12 +14,110 @@ export default function Video() {
     const [isMuted, setIsMuted] = useState(false);
     const peerConnection = useRef<RTCPeerConnection | null>(null);
     const { roomId } = useParams();
-    const {data : usuarioLogado} = useUsuarioLogado();
-    const {data : dadosPartida} = usePartidaUsuarioData(roomId);
+    const { data: usuarioLogado } = useUsuarioLogado();
+    const { data: dadosPartida } = usePartidaUsuarioData(roomId);
     const [connected, setConnected] = useState(false);
+    const { refetch } = useScramble(puzzles[1]);
+    const solve = useSolveMutate();
+    const [scramble, setScramble] = useState("");
+    const scrambleSentRef = useRef(false);
+
+    //variaveis para timer
+    let penalty: any = null;
+    let [isPronto, setIsPronto] = useState(false);
+    const [isRunning, setIsRunning] = useState(false);
+    const startTime = useRef(0);
+    const timer = useRef<number | null>(null);
+    const tempoCorrido = useRef(0);
+    const [seconds, setSeconds] = useState("00.00");
+    const [aguardandoOponente, setAguardandoOponente] = useState(false);
+
+    function Update() {
+        const currentTime = Date.now();
+        tempoCorrido.current = currentTime - startTime.current;
+
+        const seconds = Math.floor((tempoCorrido.current / 1000) % 60);
+        const milis = Math.floor(tempoCorrido.current % 1000 / 10);
+        setSeconds(`${seconds}.${milis}`);
+    }
+
+    function start() {
+        if (!isRunning) {
+            startTime.current = Date.now();
+            timer.current = setInterval(Update, 16);
+            setIsRunning(true);
+        }
+        else {
+            stop();
+        }
+    }
+
+
+    const submit = () => {
+        const request: SolveRequest = {
+            tempo: tempoCorrido.current,
+            scramble,
+            penalty,
+            userId: usuarioLogado?.id
+        }
+
+        solve.mutate(request);
+    }
+
+
+    function stop() {
+        submit();
+        if (timer.current) clearInterval(timer.current);
+        setIsRunning(false);
+        setIsPronto(false);
+        setAguardandoOponente(true);
+        socket.emit("solve-done", {roomId, userId : usuarioLogado?.id})
+    }
+
+    const handleStart = () => {
+        if(aguardandoOponente) return;
+
+        if (isRunning) {
+            stop();
+        } else {
+            setIsPronto(true);
+        }
+    }
+
+    const handleEnd = () => {
+        if (isPronto) {
+            start();
+        }
+    }
+    useEffect(() => {
+
+        const keyHandlerUp = (e: KeyboardEvent) => {
+            if (e.code !== "Space") return;
+
+            e.preventDefault();
+
+            handleEnd();
+        };
+
+        const keyHandlerDown = (e: KeyboardEvent) => {
+            if (e.code !== "Space") return;
+            e.preventDefault();
+
+            handleStart();
+
+        };
+
+        window.addEventListener("keydown", keyHandlerDown);
+        window.addEventListener("keyup", keyHandlerUp);
+        return () => {
+            window.removeEventListener("keydown", keyHandlerDown);
+            window.removeEventListener("keyup", keyHandlerUp);
+        };
+
+    }, [isPronto, isRunning])
 
     useEffect(() => {
-        if (!roomId) return;
+        if (!roomId || !usuarioLogado?.id) return;
 
         const pc = new RTCPeerConnection({
             iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
@@ -35,9 +137,37 @@ export default function Video() {
             stream.getTracks().forEach((track) => pc.addTrack(track, stream));
         };
 
+        const broadcastScramble = async () => {
+            if (scrambleSentRef.current || !roomId) return;
+
+            const response = await refetch();
+            const nextScramble = response.data ?? "";
+
+            if (nextScramble) {
+                scrambleSentRef.current = true;
+                setScramble(nextScramble);
+                socket.emit("scramble-created", { scramble: nextScramble, roomId });
+            }
+        };
+
+        const handleScrambleRoom = ({ scramble: incomingScramble }: { scramble: string }) => {
+            if (incomingScramble) {
+                scrambleSentRef.current = true;
+                setScramble(incomingScramble);
+            }
+        };
+
+        const handleRoundComplete = () => {
+            scrambleSentRef.current = false;
+            setAguardandoOponente(false);
+            setScramble("");
+            void broadcastScramble();
+        }
+
         const handleJoinRoom = async () => {
             console.log("Entrou na sala");
             try {
+                socket.emit("request-scramble", { roomId });
                 const offer = await pc.createOffer();
                 await pc.setLocalDescription(offer);
                 socket.emit("offer", { offer: pc.localDescription, roomId });
@@ -107,26 +237,31 @@ export default function Video() {
 
         socket.on("created", () => {
             console.log("Criou sala");
+            void broadcastScramble();
         });
         socket.on("joined", handleJoinRoom);
         socket.on("offer", handleOffer);
         socket.on("answer", handleAnswer);
         socket.on("ice-candidate", handleIce);
+        socket.on("scramble", handleScrambleRoom);
         socket.on("user-disconnected", handleUserDisconnected);
-
+        socket.on("round-complete", handleRoundComplete)
+        
         const init = async () => {
             await setupLocalMedia();
-            socket.emit("join-room", roomId);
+            socket.emit("join-room", {roomId, userId : usuarioLogado.id});
         };
         init();
-
+        
         return () => {
             socket.off("created");
             socket.off("joined", handleJoinRoom);
             socket.off("offer", handleOffer);
+            socket.off("scramble", handleScrambleRoom);
             socket.off("answer", handleAnswer);
             socket.off("ice-candidate", handleIce);
             socket.off("user-disconnected", handleUserDisconnected);
+            socket.off("round-complete", handleRoundComplete)
 
             if (peerConnection.current) {
                 peerConnection.current.close();
@@ -138,10 +273,10 @@ export default function Video() {
                 stream.getTracks().forEach((track) => track.stop());
             }
         };
-    }, [roomId]);
+    }, [roomId, usuarioLogado?.id]);
 
     console.log();
-    
+
 
     return (
         <div>
@@ -150,6 +285,13 @@ export default function Video() {
             <video ref={remoteVideoRef} autoPlay playsInline muted={isMuted} width={300} />
             {connected && <p>{dadosPartida?.at(1)?.usuario.nome === usuarioLogado?.nome ? dadosPartida?.at(0)?.usuario.nome : dadosPartida?.at(1)?.usuario.nome}</p>}
             <button onClick={() => setIsMuted((prev) => !prev)}>Mutar</button>
+
+            <p>Scramble: {scramble}</p>
+            <div className="container">
+                <div>
+                    <h1 className='timer' style={isRunning ? { color: 'green' } : { color: 'red' }} >{seconds}</h1>
+                </div>
+            </div>
         </div>
     );
 }
