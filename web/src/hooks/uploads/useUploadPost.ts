@@ -16,6 +16,8 @@ export function useUploadPost() {
         mutationFn: fetchdata,
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey : ["upload-data"]})
+            queryClient.invalidateQueries({queryKey : ["usuario-id-data"]})
+            queryClient.invalidateQueries({queryKey : ["usuario-logado-data"]})
         }
     });
 }
