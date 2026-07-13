@@ -1,0 +1,121 @@
+.usuario-card-shell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 640px;
+  padding: 16px 20px;
+  gap: 16px;
+  border: none;
+  border-radius: 16px;
+  background: var(--bg-secondary);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.usuario-card-shell:hover,
+.usuario-card-shell:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  outline: none;
+}
+
+.usuario-card-main {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 14px;
+  min-width: 0;
+}
+
+.usuario-card-avatar {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #e8e8e8;
+  flex-shrink: 0;
+}
+
+.usuario-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.usuario-card-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.usuario-card-email {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.usuario-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.usuario-card-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #e0f2fe;
+  color: #0369a1;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.usuario-card-badge--muted {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.usuario-card-badge--subtle {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.usuario-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .usuario-card-shell {
+    padding: 12px 14px;
+    gap: 10px;
+  }
+
+  .usuario-card-avatar {
+    width: 50px;
+    height: 50px;
+  }
+
+  .usuario-card-name {
+    font-size: 14px;
+  }
+
+  .usuario-card-email {
+    font-size: 12px;
+  }
+}
