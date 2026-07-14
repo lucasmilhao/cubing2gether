@@ -16,25 +16,29 @@ import { SearchModal } from "../../components/search/SearchModal";
 
 
 export function Usuario () {
+    //dados da página
     const {idUsuario} = useParams();
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const { theme, toggleTheme } = useTheme();
+    const navigate = useNavigate();
+
+    //dados do usuario
     const { data: usuario, isLoading, isError, error } = useUsuarioDataId(idUsuario);
     const {data : usuarioLogado, isError : erroUsuario} = useUsuarioLogado();
+    const {data : solveUser} = useSolveDataUser(usuario?.id);
+    const solves = solveUser?.data.reverse();
+    
+    //variáveis de relação com outros usuarios
     const {data : seguindo} = useFollowSeguindoData(idUsuario);
     const {data : seguidores} = useFollowSeguidoresData(idUsuario);
     const {mutate : seguir} = useFollowCreate();
-    const navigate = useNavigate();
-    const {data : solveUser} = useSolveDataUser(usuario?.id);
-    const { theme, toggleTheme } = useTheme();
-    const [isOpen, setIsOpen] = useState(false);
-    const [isSearchOpen, setIsSearchOpen] = useState(false);
     const {data : followStatus} = useFollowStatus(idUsuario);
     const followInfo = useMemo(() => {
     if (!followStatus) return "Seguir";
-
     if (followStatus.sigo && followStatus.meSegue) return "Amigos";
     if (followStatus.sigo) return "Seguindo";
     if (followStatus.meSegue) return "Seguir de volta";
-
     return "Seguir";
 }, [followStatus]);
     
@@ -85,7 +89,6 @@ export function Usuario () {
 
     }, [usuario?.fotoPerfil, usuario?.nome])
 
-    const solves = solveUser?.data.reverse();
     const [image, setImage] = useState(usuario?.fotoPerfil ? usuario.fotoPerfil : "defaltImage");
     const [nome, setNome] = useState(usuario?.nome ? usuario.nome : "usuario");
 
