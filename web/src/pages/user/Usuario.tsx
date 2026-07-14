@@ -78,14 +78,16 @@ export function Usuario () {
     }
 
     useEffect(() => {
-        if(!usuario?.fotoPerfil) return;
+        if(!usuario?.fotoPerfil || !usuario?.nome) return;
 
-        setImage(usuario.fotoPerfil)
+        setImage(usuario.fotoPerfil);
+        setNome(usuario.nome);
 
-    }, [usuario?.fotoPerfil])
+    }, [usuario?.fotoPerfil, usuario?.nome])
 
     const solves = solveUser?.data.reverse();
     const [image, setImage] = useState(usuario?.fotoPerfil ? usuario.fotoPerfil : "defaltImage");
+    const [nome, setNome] = useState(usuario?.nome ? usuario.nome : "usuario");
 
     if (isLoading) return <div className="usuario-page">Carregando usuário...</div>;
     if (isError) return <div className="usuario-page error">id: {idUsuario} Erro ao buscar usuário: {String((error as any)?.message || error)}</div>;
@@ -133,7 +135,7 @@ export function Usuario () {
                     <img className="usuario-avatar" src={`http://localhost:8080/uploads/${image}` } alt="Foto Usuario" />
                     
                     <div>
-                        <h1 className="usuario-name">{usuario?.nome || 'Sem nome'}</h1>
+                        <h1 className="usuario-name">{nome}</h1>
                     </div>
             </div>
             {isUsuarioLogado ? EditarPerfilBtn : FollowBtn}
