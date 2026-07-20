@@ -2,6 +2,8 @@ import { useState } from "react";
 import "../login/login.css";
 import { useUsuarioCreate } from "../../../hooks/usuario/useUsuarioCreate";
 import type { UsuarioRequest } from "../../../interface/UsuarioRequest";
+import { GoogleLogin } from "@react-oauth/google";
+import { useUsuarioLoginGoogle } from "../../../hooks/usuario/useUsuarioLoginGoogle";
 
 const LOGO_URL =
   "https://imgs.search.brave.com/E-_iV4OVdepshvCmTFiCaVOgd6wd99Zcws7s7rnkH7Y/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/Z2FsbGVyaWVzLnNt/Y2xvdWQubmV0L3Qv/Z2FsbGVyaWVzL2dm/LTRtMnAtVThaYy0z/ODV2X3d5Y3p5bmlh/LWN1ZGEtei1rb3N0/a2EtcnViaWthLW1s/b2R5LXBvem5hbmlh/ay1qZXN0LXJla29y/ZHppc3RhLXN3aWF0/YS02NjR4NDQyLmpw/Zw";
@@ -13,6 +15,7 @@ export function Register() {
   const [tipo, setTipo] = useState("password");
   const [errors, setErrors] = useState({});
   const [mostrarSenha, setMostrarSenha] = useState(false);
+  const {mutate : loginGoogle} = useUsuarioLoginGoogle();
   const data = useUsuarioCreate();
 
 
@@ -21,6 +24,10 @@ export function Register() {
     setMostrarSenha(!mostrarSenha);
     setTipo(mostrarSenha ? "password" : "text");
   };
+  
+  const login = (response : string | undefined) => {
+    loginGoogle(response);
+  }
   
   const submit = () => {
     const user : UsuarioRequest =  {
@@ -81,6 +88,7 @@ export function Register() {
           {errors.senha && <p className="errors">{errors.senha}</p>}
           </div>
 
+          <GoogleLogin context="signup" text="continue_with" useOneTap onSuccess={e => login(e.credential)} onError={() => {}}/>
           <button type="submit" onClick={submit} className="login-btn">
             Crie sua Conta
           </button>
