@@ -16,35 +16,31 @@ import { SearchModal } from "../../components/search/SearchModal";
 
 
 export function Usuario () {
-    //dados da página
     const {idUsuario} = useParams();
-    const [isSearchOpen, setIsSearchOpen] = useState(false);
-    const [isOpen, setIsOpen] = useState(false);
-    const { theme, toggleTheme } = useTheme();
-    const navigate = useNavigate();
-
-    //dados do usuario
     const { data: usuario, isLoading, isError, error } = useUsuarioDataId(idUsuario);
     const {data : usuarioLogado, isError : erroUsuario} = useUsuarioLogado();
-    const {data : solveUser} = useSolveDataUser(usuario?.id);
-    const solves = solveUser?.data.reverse();
-    
-    //variáveis de relação com outros usuarios
     const {data : seguindo} = useFollowSeguindoData(idUsuario);
     const {data : seguidores} = useFollowSeguidoresData(idUsuario);
     const {mutate : seguir} = useFollowCreate();
+    const navigate = useNavigate();
+    const {data : solveUser} = useSolveDataUser(usuario?.id);
+    const { theme, toggleTheme } = useTheme();
+    const [isOpen, setIsOpen] = useState(false);
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
     const {data : followStatus} = useFollowStatus(idUsuario);
+    const [nome, setNome] = useState(usuario?.nome);
     const followInfo = useMemo(() => {
-    if (!followStatus) return "Seguir";
-    if (followStatus.sigo && followStatus.meSegue) return "Amigos";
-    if (followStatus.sigo) return "Seguindo";
-    if (followStatus.meSegue) return "Seguir de volta";
-    return "Seguir";
-}, [followStatus]);
+        if (!followStatus) return "Seguir";
+
+        if (followStatus.sigo && followStatus.meSegue) return "Amigos";
+        if (followStatus.sigo) return "Seguindo";
+        if (followStatus.meSegue) return "Seguir de volta";
+
+        return "Seguir";
+    }, [followStatus]);
     
     const EditarPerfilBtn = <button onClick={() => handleModal()} className="edit-profile-btn">Editar perfil</button>; 
-    const FollowBtn = <button onClick={() => handleSeguir()} className="edit-profile-btn">{followInfo}</button>; 
-
+    
     const checarConvidado = () : boolean => {
         return usuarioLogado?.isGuest === undefined ? false : usuarioLogado?.isGuest;
     }
@@ -52,11 +48,11 @@ export function Usuario () {
     function handleSearchModal() {
         setIsSearchOpen(prev => !prev);
     }
-
+    
     useEffect(() => {
         if(erroUsuario) navigate("/auth/login");
     }, [erroUsuario, navigate])
-
+    
     const handleSeguir = () => {
         
         const props : FollowRequest = {
@@ -66,6 +62,7 @@ export function Usuario () {
 
         seguir(props);
     }
+    const FollowBtn = <button onClick={() => handleSeguir()} className="edit-profile-btn">{followInfo}</button>; 
 
     const handleModal = () => {
 
@@ -82,16 +79,18 @@ export function Usuario () {
     }
 
     useEffect(() => {
-        if(!usuario?.fotoPerfil || !usuario?.nome) return;
+        if(!usuario?.picture || !usuario?.nome) return;
 
-        setImage(usuario.fotoPerfil);
+        setImage(usuario.picture);
         setNome(usuario.nome);
 
-    }, [usuario?.fotoPerfil, usuario?.nome])
+    }, [usuario?.picture, usuario?.picture])
 
-    const [image, setImage] = useState(usuario?.fotoPerfil ? usuario.fotoPerfil : "defaltImage");
-    const [nome, setNome] = useState(usuario?.nome ? usuario.nome : "usuario");
-
+    const solves = solveUser?.data.reverse();
+    
+    const [image, setImage] = useState(usuario?.picture ? usuario.picture : "defaltImage");
+    
+    console.log(usuario?.picture);
     if (isLoading) return <div className="usuario-page">Carregando usuário...</div>;
     if (isError) return <div className="usuario-page error">id: {idUsuario} Erro ao buscar usuário: {String((error as any)?.message || error)}</div>;
 
@@ -135,7 +134,7 @@ export function Usuario () {
                 <div className="actions">
 
             <div className="usuario-card">
-                    <img className="usuario-avatar" src={`http://localhost:8080/uploads/${image}` } alt="Foto Usuario" />
+                    <img className="usuario-avatar" src={usuario?.picture} alt="Foto Usuario" />
                     
                     <div>
                         <h1 className="usuario-name">{nome}</h1>

@@ -57,6 +57,8 @@ export default function Video() {
         }
     }
 
+    console.log(scramble);
+    
 
     const submit = () => {
         const request: SolveRequest = {
@@ -147,6 +149,8 @@ export default function Video() {
         peerConnection.current = pc;
 
         const setupLocalMedia = async () => {
+            console.log("Setando os bagui aqui");
+            
             const stream = await navigator.mediaDevices.getUserMedia({
                 video: true,
                 audio: true
@@ -167,15 +171,15 @@ export default function Video() {
 
             if (nextScramble) {
                 scrambleSentRef.current = true;
-                setScramble(nextScramble);
-                socket.emit("scramble-created", { scramble: nextScramble, roomId });
+                setScramble(nextScramble.scramble);
+                socket.emit("scramble-created", { scramble: nextScramble.scramble, roomId });
             }
         };
 
         const handleScrambleRoom = ({ scramble: incomingScramble }: { scramble: string }) => {
             if (incomingScramble) {
                 scrambleSentRef.current = true;
-                setScramble(incomingScramble);
+                setScramble(incomingScramble.scramble);
             }
         };
 

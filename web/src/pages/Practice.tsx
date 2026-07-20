@@ -56,7 +56,7 @@ export function Practice() {
     const response = await refetch();
 
     if (response.data) {
-      setScramble(response.data);
+      setScramble(response.data.scramble);
     }
   }
 
@@ -169,6 +169,9 @@ export function Practice() {
   const [dimension, setDimension] = useState("3D");
   const { theme, toggleTheme } = useTheme();
 
+  console.log(Array.isArray(solves?.data));
+  console.log(solves?.data);
+
   if (isPronto) {
     return (
       <div className="container">
@@ -221,7 +224,7 @@ export function Practice() {
                 </tr>
               </thead>
               <tbody>
-                {solves?.data?.map((solve, index) => (
+                {solves?.data?.slice().reverse().map((solve, index) => (
                   <tr key={solve.id}>
                     <td>{solves.data.length - index}</td>
                     <td onClick={() => Swal.fire({
@@ -244,7 +247,7 @@ export function Practice() {
           </div>
         </div>
         <div className="user-profile-practice" onClick={() => navigate(`/user/${usuarioLogado?.id}`)}>
-          <img src={`http://localhost:8080/uploads/${usuarioLogado?.fotoPerfil}`} alt="" />
+          <img src={usuarioLogado?.picture} alt="" />
           <h1>{usuarioLogado?.nome}</h1>
         </div>
         <button className="theme-toggle" onClick={toggleTheme} title={theme === 'light' ? 'Modo escuro' : 'Modo claro'}>

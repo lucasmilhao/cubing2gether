@@ -10,13 +10,13 @@ import { useFollowAmigosData } from "../../hooks/follow/useAmigosData";
 import { UsuarioCard } from "../../components/usuario/UsuarioCard";
 
 export function Amigos() {
-    const navigate = useNavigate();
     const { data: usuarioLogado } = useUsuarioLogado();
     const { data: usuarios } = useFollowAmigosData()
     const conversa = useConversaCreate();
     const partida = usePartidaCreate();
     const enviaMensagem = useMensagemPost();
     let idsUsuarios: string[] | undefined = [];
+    const navigate = useNavigate();
 
 
     const submitConversa = (nome: string, idsUsuarios: string[])=> {
