@@ -40,7 +40,7 @@ public class UploadService {
             Arquivo arquivo = new Arquivo();
             arquivo.setCaminho(path);
             arquivo.setNome(fileName);
-            user.setFotoPerfil(fileName); 
+            user.setPicture("http://localhost:8080/uploads/"+fileName); 
 
             arquivoRepository.save(arquivo);
             usuarioRepository.save(user);

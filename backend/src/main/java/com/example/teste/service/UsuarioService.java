@@ -36,6 +36,10 @@ public class UsuarioService {
         return usuarioRepository.findByNomeContaining(nomeUsuario);
     }
 
+    public Usuario getUsuarioPorEmail(String emailUsuario) {
+        return usuarioRepository.findByEmail(emailUsuario).orElseThrow(() -> new UsuarioNaoEncontradoException());
+    }
+
     public Usuario editarUsuario(UsuarioEditRequestDTO data){
         
         Usuario usuario = usuarioRepository.findById(data.id()).orElseThrow(() -> new UsuarioNaoEncontradoException());
