@@ -1,13 +1,16 @@
 package com.example.teste.service;
 
 import org.springframework.stereotype.Service;
+import org.worldcubeassociation.tnoodle.scrambles.InvalidScrambleException;
 import org.worldcubeassociation.tnoodle.scrambles.Puzzle;
 import org.worldcubeassociation.tnoodle.scrambles.PuzzleRegistry;
+
+import com.example.teste.dto.scramble.ScrambleResponseDTO;
 
 @Service
 public class ScrambleService {
     
-    public String getScramble(String cube) {
+    public ScrambleResponseDTO getScramble(String cube) {
         
         Puzzle puzzle;
         switch(cube) {
@@ -26,6 +29,16 @@ public class ScrambleService {
             default -> puzzle = PuzzleRegistry.THREE.getScrambler();
         }
         
-        return puzzle.generateScramble();
+
+        String scramble = puzzle.generateScramble();
+        try {
+            String svg = puzzle.drawScramble(scramble, null).toString();
+            return new ScrambleResponseDTO(scramble, svg);
+        } catch (InvalidScrambleException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return new ScrambleResponseDTO(scramble, null);
     }
 }
