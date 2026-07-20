@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { useUsuarioNomeData } from "../../hooks/usuario/useUsuarioDataNome";
 import { UsuarioCard } from "../usuario/UsuarioCard";
 import "./search-modal.css";
+import { useNavigate } from "react-router-dom";
 
 interface SearchProps {
 closeModal() : void
@@ -10,6 +11,7 @@ closeModal() : void
 export function SearchModal({closeModal} : SearchProps) {
 const [nome, setNome] = useState("");
 const { data: usuarios, isLoading, isError } = useUsuarioNomeData(nome);
+const navigate = useNavigate();
 
 const hasQuery = nome.trim().length > 0;
 const results = useMemo(() => usuarios ?? [], [usuarios]);
@@ -37,6 +39,17 @@ return (
                 <path d="m20 20-4.2-4.2"></path>
             </svg>
         </span>
+        <form action="submit" 
+        onSubmit={(e) => {
+            e.preventDefault();
+
+            const usuario = results.at(0);
+
+            if(!usuario) return;
+
+            navigate(`/user/${results[0].id}`)
+            closeModal()
+        }} >
         <input
         id="search-users"
         onChange={(e) => setNome(e.target.value)}
@@ -45,6 +58,7 @@ return (
         placeholder="Procure por nome"
         value={nome}
         />
+        </form>
     </label>
 
     <section className="search-modal-results" aria-live="polite">

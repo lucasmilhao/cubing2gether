@@ -24,7 +24,7 @@ export function Modal ({closeModal, usuarioLogado} : ModalProps) {
             id: usuarioLogado?.id,
             nome: nome,
             email: usuarioLogado?.email,
-            fotoPerfil: usuarioLogado?.fotoPerfil
+            fotoPerfil: usuarioLogado?.picture
         };
 
         if (file) {
@@ -36,7 +36,7 @@ export function Modal ({closeModal, usuarioLogado} : ModalProps) {
                     edit.mutate({
                         ...baseData,
                         nome: nome,
-                        fotoPerfil: fileName
+                        picture: fileName
                     }, {
                         onSuccess: closeModal
                     });
@@ -54,8 +54,8 @@ export function Modal ({closeModal, usuarioLogado} : ModalProps) {
         if(e.target.files && e.target.files.length > 0) setFile(e.target.files[0]);
     }
 
-    let avatarSrc = usuarioLogado?.fotoPerfil
-        ? `http://localhost:8080/uploads/${usuarioLogado.fotoPerfil}`
+    let avatarSrc = usuarioLogado?.picture
+        ? usuarioLogado.picture
         : "https://imgs.search.brave.com/Lbxkvs17cXgIoCX846ro-mnHvSEe8dGMNQNDdxnGyp8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTcy/NjIxMzk5My92ZWN0/b3IvZGVmYXVsdC1h/dmF0YXItcHJvZmls/ZS1wbGFjZWhvbGRl/ci1hYnN0cmFjdC12/ZWN0b3Itc2lsaG91/ZXR0ZS1lbGVtZW50/LmpwZz9zPTYxMng2/MTImdz0wJms9MjAm/Yz1uWWxrMGowNzZD/Qlo1eEdDQ2FWWHRJ/U1lHSzJTelhSd3VR/QlhQa2ZtTVg0PQ"
 
     if(file) {
