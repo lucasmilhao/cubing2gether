@@ -10,25 +10,54 @@ import org.springframework.stereotype.Service;
 
 import com.example.teste.dto.login.LoginRequestDTO;
 import com.example.teste.dto.login.LoginResponseDTO;
+import com.example.teste.dto.usuario.AuthenticatedUserDTO;
 import com.example.teste.dto.usuario.UsuarioRequestDTO;
 import com.example.teste.dto.usuario.UsuarioResponseDTO;
 import com.example.teste.exception.UsuarioExistenteException;
 import com.example.teste.exception.UsuarioNaoEncontradoException;
 import com.example.teste.infra.security.TokenService;
+import com.example.teste.model.AuthenticationProvider;
+import com.example.teste.model.Credential;
+import com.example.teste.model.TypeProvider;
 import com.example.teste.model.Usuario;
+import com.example.teste.repository.CredentialRepository;
 import com.example.teste.repository.UsuarioRepository;
 
 import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
 @Service
+@AllArgsConstructor
 public class AuthService {
-    
-    private final UsuarioRepository userRepository;
+
+    private final UsuarioRepository usuarioRepository;
+    private final CredentialRepository credentialRepository;
+
+    private final AuthenticationProviderFactory providerFactory;
+
     private final PasswordEncoder passwordEncoder;
+
     private final TokenService tokenService;
 
+    private final UsuarioRepository userRepository;
 
+    public <T> LoginResponseDTO login(
+            TypeProvider provider,
+            T credential) {
+
+        AuthenticationProvider<T> authenticationProvider = providerFactory.get(provider);
+
+        AuthenticatedUserDTO authenticated = authenticationProvider.authenticate(credential);
+
+        Usuario usuario = buscarOuCriarUsuario(authenticated);
+
+        String token = tokenService.generateToken(usuario);
+
+        return new LoginResponseDTO(
+                new UsuarioResponseDTO(usuario),
+                token);
+    }
+
+    
     public LoginResponseDTO registrarUsuario(UsuarioRequestDTO request) {
         Optional<Usuario> uEmail = userRepository.findByEmail(request.email());
         Optional<Usuario> uNome = userRepository.findByNome(request.nome());
@@ -52,32 +81,63 @@ public class AuthService {
         return new LoginResponseDTO(new UsuarioResponseDTO(usuario), token);
     }
 
-    public LoginResponseDTO registrarConvidado() {
-        Usuario u = new Usuario();
-        u.setNome("guest_" + UUID.randomUUID().toString().substring(0, 6));
-        u.setSenha(
-            passwordEncoder.encode(UUID.randomUUID().toString())
-        );
-        u.setEmail("guest_" + UUID.randomUUID().toString().substring(0, 6) + "@temp.local");
-        u.setIsGuest(true);
-        u.setTipo("ROLE_GUEST");
+    public Usuario buscarOuCriarUsuario(AuthenticatedUserDTO dto) {
 
-        this.userRepository.save(u);
+        Optional<Credential> cred = credentialRepository.findByProviderAndExternalId(
+                dto.provider(),
+                dto.externalId());
 
-        String token = this.tokenService.generateToken(u);
-
-        return new LoginResponseDTO(new UsuarioResponseDTO(u), token);
-    }
-    
-    public LoginResponseDTO fazerLoginUsuario(LoginRequestDTO request) {
-        Usuario user = userRepository.findByEmail(request.email()).orElseThrow(() -> new UsuarioNaoEncontradoException());
-
-        if (passwordEncoder.matches(request.senha(), user.getSenha()) ) {
-            String token = tokenService.generateToken(user);
-            return new LoginResponseDTO(new UsuarioResponseDTO(user), token);
+        if (cred.isPresent()) {
+            return cred.get().getUsuario();
         }
-        
-        throw new UsuarioNaoEncontradoException();
 
+        Usuario usuario = usuarioRepository
+                .findByEmail(dto.email())
+                .orElse(null);
+
+        if (usuario == null) {
+            usuario = criarUsuario(dto);
+        }
+
+        criarCredential(usuario, dto);
+
+        return usuario;
+    }
+
+    private Credential criarCredential(
+            Usuario usuario,
+            AuthenticatedUserDTO authenticated) {
+
+        Credential credential = new Credential();
+
+        credential.setUsuario(usuario);
+
+        credential.setProvider(authenticated.provider());
+
+        credential.setExternalId(authenticated.externalId());
+
+        if(authenticated.provider() == TypeProvider.LOCAL) {
+            credential.setPasswordHash("");
+        }
+
+        credentialRepository.save(credential);
+
+        return credential;
+    }
+
+    private Usuario criarUsuario(
+            AuthenticatedUserDTO authenticated) {
+
+        Usuario usuario = new Usuario();
+
+        usuario.setNome(authenticated.name());
+
+        usuario.setEmail(authenticated.email());
+
+        usuario.setPicture(authenticated.pictureUrl());
+
+        usuarioRepository.save(usuario);
+
+        return usuario;
     }
 }
