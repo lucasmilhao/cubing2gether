@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.teste.dto.scramble.ScrambleResponseDTO;
 import com.example.teste.service.ScrambleService;
 
 @CrossOrigin("*")
@@ -19,8 +20,8 @@ public class ScramblesController {
     private ScrambleService service;
 
     @GetMapping("/{cube}")
-    public ResponseEntity<String> getScramble(@PathVariable String cube) {
-        String scramble = service.getScramble(cube);
+    public ResponseEntity<ScrambleResponseDTO> getScramble(@PathVariable String cube) {
+        ScrambleResponseDTO scramble = service.getScramble(cube);
         return ResponseEntity.ok(scramble);
     }
     

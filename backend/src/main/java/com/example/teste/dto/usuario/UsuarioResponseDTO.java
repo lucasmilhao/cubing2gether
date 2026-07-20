@@ -2,10 +2,10 @@ package com.example.teste.dto.usuario;
 
 import com.example.teste.model.Usuario;
 
-public record UsuarioResponseDTO(String id, String nome, String email, String tipo, Boolean isGuest, String fotoPerfil) {
+public record UsuarioResponseDTO(String id, String nome, String email, String tipo, Boolean isGuest, String picture) {
 
     public UsuarioResponseDTO(Usuario data) {
-        this(data.getId(), data.getNome(), data.getEmail(), data.getTipo(), data.getIsGuest(), data.getFotoPerfil());
+        this(data.getId(), data.getNome(), data.getEmail(), data.getTipo(), data.getIsGuest(), data.getPicture());
     }
 
 }

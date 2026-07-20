@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.teste.dto.login.LoginRequestDTO;
 import com.example.teste.dto.login.LoginResponseDTO;
 import com.example.teste.dto.usuario.UsuarioRequestDTO;
+import com.example.teste.model.TypeProvider;
 import com.example.teste.service.AuthService;
 
 import jakarta.validation.Valid;
@@ -24,8 +25,15 @@ public class AuthController {
     private AuthService service;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> fazerLoginUsuario(@RequestBody LoginRequestDTO request) {
-        LoginResponseDTO response = service.fazerLoginUsuario(request);
+    public ResponseEntity<LoginResponseDTO> fazerLoginUsuarioLocal(@RequestBody LoginRequestDTO request) {
+        LoginResponseDTO response = service.login(TypeProvider.LOCAL, request);
+
+        return ResponseEntity.ok(response);
+    }
+    
+    @PostMapping("/login/google")
+    public ResponseEntity<LoginResponseDTO> fazerLoginUsuarioGoogle(@RequestBody String request) {
+        LoginResponseDTO response = service.login(TypeProvider.GOOGLE, request);
 
         return ResponseEntity.ok(response);
     }
@@ -38,12 +46,12 @@ public class AuthController {
 
     }
 
-    @PostMapping("/guest")
-    public ResponseEntity<LoginResponseDTO> registrarConvidado() {
-        LoginResponseDTO response = service.registrarConvidado();
+    // @PostMapping("/guest")
+    // public ResponseEntity<LoginResponseDTO> registrarConvidado() {
+    //     LoginResponseDTO response = service.registrarConvidado();
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
+    //     return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    // }
 
 
 }
