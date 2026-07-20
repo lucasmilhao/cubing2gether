@@ -30,7 +30,7 @@ export interface UsuarioProps {
   email?: string;
   tipo : string;
   isGuest : boolean;
-  fotoPerfil?: string;
+  picture?: string;
 }
 
 // Keep only named exports for types

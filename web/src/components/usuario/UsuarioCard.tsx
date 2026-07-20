@@ -1,7 +1,11 @@
-import { type KeyboardEvent, type ReactNode } from "react";
+import { useMemo, type KeyboardEvent, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import type { UsuarioProps } from "../../interface/UsuarioProps";
 import "./usuario-card.css";
+import { useFollowSeguidoresData } from "../../hooks/follow/useFollowSeguidoresData";
+import { useUsuarioLogado } from "../../hooks/usuario/useUsuarioLogado";
+import { useFollowCreate, type FollowRequest } from "../../hooks/follow/useFollowCreate";
+import { useFollowStatus } from "../../hooks/follow/useFollowStatus";
 
 interface UsuarioCardProps {
   usuario: UsuarioProps;
@@ -10,12 +14,36 @@ interface UsuarioCardProps {
 }
 
 export function UsuarioCard({ usuario, actions, onNavigate }: UsuarioCardProps) {
+  const {data : usuarioLogado} = useUsuarioLogado();
   const navigate = useNavigate();
+  const {data : usuarios} = useFollowSeguidoresData(usuarioLogado?.id);
+  const {mutate : seguir} = useFollowCreate();
+  const {data : followStatus} = useFollowStatus(usuario.id);
+  const followInfo = useMemo(() => {
+      if (!followStatus) return "Seguir";
+
+      if (followStatus.sigo && followStatus.meSegue) return "Amigos";
+      if (followStatus.sigo) return "Seguindo";
+      if (followStatus.meSegue) return "Seguir de volta";
+
+      return "Seguir";
+  }, [followStatus]);
 
   const handleNavigate = () => {
     onNavigate?.();
     navigate(`/user/${usuario.id}`);
   };
+
+  
+  const handleSeguir = () => {
+      
+      const props : FollowRequest = {
+          idSeguidor : usuarioLogado?.id,
+          idSeguindo : usuario.id
+      }
+
+      seguir(props);
+  }
 
   const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
     if (event.key === "Enter" || event.key === " ") {
@@ -24,9 +52,8 @@ export function UsuarioCard({ usuario, actions, onNavigate }: UsuarioCardProps) 
     }
   };
 
-  const avatarSrc = usuario.fotoPerfil
-    ? `http://localhost:8080/uploads/${usuario.fotoPerfil}`
-    : `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`
+  const avatarSrc = usuario.picture ?? `data:image/svg+xml;charset=UTF-8,${encodeURIComponent
+    (`
       <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">
         <rect width="96" height="96" rx="48" fill="#e5e7eb"/>
         <circle cx="48" cy="38" r="20" fill="#9ca3af"/>
@@ -61,7 +88,8 @@ export function UsuarioCard({ usuario, actions, onNavigate }: UsuarioCardProps) 
 
       {actions ? (
         <div className="usuario-card-actions" onClick={(event) => event.stopPropagation()}>
-          {actions}
+          {followInfo === "Amigos" ? actions : null}
+          <button onClick={handleSeguir} className="edit-profile-btn">{followInfo}</button>
         </div>
       ) : null}
     </article>
