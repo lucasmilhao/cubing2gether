@@ -58,6 +58,13 @@ public class UsuarioController {
 
         return ResponseEntity.ok(lista);
     }
+    
+    @GetMapping("/email/{emailUsuario}")
+    public ResponseEntity<UsuarioResponseDTO> getUsuarioPorEmail(@PathVariable String emailUsuario) {
+        Usuario u = service.getUsuarioPorEmail(emailUsuario);
+
+        return ResponseEntity.ok(new UsuarioResponseDTO(u));
+    }
 
     @GetMapping("/me")
     public ResponseEntity<UsuarioResponseDTO> getMe(@AuthenticationPrincipal Usuario user) {

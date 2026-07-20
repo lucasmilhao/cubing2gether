@@ -21,6 +21,6 @@ public record UsuarioRequestDTO(
 
     Boolean isGuest,
 
-    String fotoPerfil) {
+    String picture) {
     
 }
