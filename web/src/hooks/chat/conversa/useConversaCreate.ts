@@ -1,11 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { api } from "../../../service/api"
+import { api, API_URL } from "../../../service/api"
 import type { ConversaRequestProps } from "../../../interface/ConversaRequestProps";
 import type { ConversaResponseProps } from "../../../interface/ConversaResponse";
 import type { AxiosPromise } from "axios";
-
-const API_URL = `http://localhost:8080`;
-
 
 const fetchdata = async (data : ConversaRequestProps) : Promise<ConversaResponseProps> => {
     const response = await api.post(`${API_URL}/conversa/participantes`, data);

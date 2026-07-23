@@ -1,5 +1,7 @@
 package com.example.teste.service;
 
+import java.util.List;
+
 import org.apache.hc.client5.http.auth.InvalidCredentialsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,6 +14,7 @@ import com.example.teste.model.AuthenticationProvider;
 import com.example.teste.model.Credential;
 import com.example.teste.model.TypeProvider;
 import com.example.teste.model.Usuario;
+import com.example.teste.repository.CredentialRepository;
 import com.example.teste.repository.UsuarioRepository;
 
 import lombok.AllArgsConstructor;
@@ -26,16 +29,20 @@ public class LocalAuthService implements AuthenticationProvider<LoginRequestDTO>
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private CredentialRepository credentialRepository;
+
     @Override
     public TypeProvider getProvider() {
         return TypeProvider.LOCAL;
     }
 
     @Override
-    public AuthenticatedUserDTO authenticate(LoginRequestDTO credential) {
-        Usuario u = usuarioRepository.findByEmail(credential.email()).orElseThrow(() -> new UsuarioNaoEncontradoException());
+    public AuthenticatedUserDTO authenticate(LoginRequestDTO dto) {
+        Usuario u = usuarioRepository.findByEmail(dto.email()).orElseThrow(() -> new UsuarioNaoEncontradoException());
+        Credential cred = u.getCredentials().stream().filter(e -> e.getProvider() == TypeProvider.LOCAL).toList().get(0);
 
-        if(!passwordEncoder.matches(credential.senha(), u.getSenha()))    {
+        if(!passwordEncoder.matches(dto.senha(), cred.getPasswordHash()))    {
             throw new RuntimeException();
         }
 

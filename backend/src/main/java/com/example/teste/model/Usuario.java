@@ -34,8 +34,6 @@ public class Usuario {
 
     private String email;
 
-    private String senha;
-
     private String tipo;
 
     private Boolean isGuest;
@@ -50,7 +48,6 @@ public class Usuario {
     public Usuario(UsuarioRequestDTO data) {
         this.nome = data.nome();
         this.email = data.email();
-        this.senha = data.senha();
         this.tipo = data.tipo();
         this.isGuest = data.isGuest();
     }

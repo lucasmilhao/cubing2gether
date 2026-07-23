@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 
 import com.example.teste.exception.UsuarioNaoEncontradoException;
+import com.example.teste.model.TypeProvider;
 import com.example.teste.model.Usuario;
 import com.example.teste.repository.UsuarioRepository;
 
@@ -19,6 +20,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Usuario user = this.repository.findByEmail(username).orElseThrow(() -> new UsuarioNaoEncontradoException());
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getSenha(), new ArrayList<>());
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getCredentials().stream().filter(e -> e.getProvider() == TypeProvider.LOCAL).toList().get(0).getPasswordHash(), new ArrayList<>());
     }
 }
