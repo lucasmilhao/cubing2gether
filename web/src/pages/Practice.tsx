@@ -10,7 +10,6 @@ import { useUsuarioLogado } from '../hooks/usuario/useUsuarioLogado'
 import { useSolveDataUser } from '../hooks/solves/useSolveDataUser'
 import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext';
-import { API_URL } from '../hooks/chat/mensagem/useMensagemPost'
 
 
 export const segundos = (milis: number): string => {
@@ -58,7 +57,7 @@ export function Practice() {
     const response = await refetch();
 
     if (response.data) {
-      setScramble(response.data);
+      setScramble(response.data.scramble);
     }
   }
 
@@ -241,7 +240,7 @@ export function Practice() {
             </div>
           </div>
           <div className="user-profile-practice" onClick={() => navigate(`/user/${usuarioLogado?.id}`)}>
-            <img src={`${API_URL}/uploads/${usuarioLogado?.fotoPerfil}`} alt="" />
+            <img src={usuarioLogado?.picture} alt="" />
             <h1>{usuarioLogado?.nome}</h1>
           </div>
           <button className="theme-toggle" onClick={toggleTheme} title={theme === 'light' ? 'Modo escuro' : 'Modo claro'}>

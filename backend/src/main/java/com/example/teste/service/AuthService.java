@@ -70,15 +70,23 @@ public class AuthService {
         if(!erros.isEmpty()) throw new UsuarioExistenteException(erros);
 
         
-        Usuario usuario = new Usuario();
-        usuario.setSenha(passwordEncoder.encode(request.senha()));
-        usuario.setEmail(request.email());
-        usuario.setNome(request.nome());
-        usuario.setIsGuest(false);
-        usuario.setTipo("USER");
-        this.userRepository.save(usuario);
-        String token = this.tokenService.generateToken(usuario);
-        return new LoginResponseDTO(new UsuarioResponseDTO(usuario), token);
+        Usuario u = new Usuario();
+        u.setEmail(request.email());
+        u.setNome(request.nome());
+        u.setIsGuest(false);
+        u.setTipo("USER");
+        
+        Credential cred = new Credential();
+        cred.setExternalId(u.getEmail());
+        cred.setProvider(TypeProvider.LOCAL);
+        cred.setPasswordHash(passwordEncoder.encode(request.senha()));
+        cred.setUsuario(u);
+        
+        userRepository.save(u);
+        credentialRepository.save(cred);
+        
+        String token = tokenService.generateToken(u);
+        return new LoginResponseDTO(new UsuarioResponseDTO(u), token);
     }
 
     public Usuario buscarOuCriarUsuario(AuthenticatedUserDTO dto) {

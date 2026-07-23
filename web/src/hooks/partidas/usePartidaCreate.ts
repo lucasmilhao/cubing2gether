@@ -1,8 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { AxiosPromise } from "axios";
-import { api } from "../../service/api";
-
-const API_URL = `http://localhost:8080`;
+import { api, API_URL } from "../../service/api";
 
 const fetchdata = async (data : string[]) => {
     const response = await api.post(`${API_URL}/partida`, {

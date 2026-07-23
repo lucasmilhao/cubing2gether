@@ -1,9 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { type AxiosPromise } from "axios"
 import type { SolveRequest } from "../../interface/SolveRequest";
-import { api } from "../../service/api";
-
-const API_URL = `http://localhost:8080`;
+import { api, API_URL } from "../../service/api";
 
 interface SolveProps {
     tempo : number,
