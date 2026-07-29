@@ -1,15 +1,22 @@
 package com.example.teste.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.worldcubeassociation.tnoodle.scrambles.InvalidScrambleException;
 import org.worldcubeassociation.tnoodle.scrambles.Puzzle;
 import org.worldcubeassociation.tnoodle.scrambles.PuzzleRegistry;
 
+import com.example.teste.dto.scramble.ScrambleRequestDTO;
 import com.example.teste.dto.scramble.ScrambleResponseDTO;
+import com.example.teste.model.Scramble;
+import com.example.teste.repository.ScrambleRepository;
 
 @Service
 public class ScrambleService {
     
+    @Autowired
+    private ScrambleRepository scrambleRepository;
+
     public ScrambleResponseDTO getScramble(String cube) {
         
         Puzzle puzzle;
@@ -33,12 +40,32 @@ public class ScrambleService {
         String scramble = puzzle.generateScramble();
         try {
             String svg = puzzle.drawScramble(scramble, null).toString();
-            return new ScrambleResponseDTO(scramble, svg);
+            return new ScrambleResponseDTO(null, scramble, null, svg);
+        } catch (InvalidScrambleException e) {
+            e.printStackTrace();
+        }
+
+        return new ScrambleResponseDTO(null, scramble, null, null);
+    }
+
+    public Scramble criarScramble(ScrambleRequestDTO request) {
+
+        Puzzle puzzle = PuzzleRegistry.THREE.getScrambler();
+        Scramble scramble = new Scramble();
+        try {
+            String svg = puzzle.drawScramble(request.scramble(), null).toString();
+            scramble.setScramble(request.scramble());
+            scramble.setSolution(request.solution());
+            scramble.setSvg(svg);
+
+            scrambleRepository.save(scramble);
+
         } catch (InvalidScrambleException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
-        return new ScrambleResponseDTO(scramble, null);
+
+        return scramble;
     }
 }

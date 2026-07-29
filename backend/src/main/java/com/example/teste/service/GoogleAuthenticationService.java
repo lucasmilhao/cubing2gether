@@ -6,11 +6,11 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.example.teste.dto.usuario.AuthenticatedUserDTO;
 import com.example.teste.model.AuthenticationProvider;
 import com.example.teste.model.Credential;
 import com.example.teste.model.TypeProvider;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -34,6 +34,10 @@ public class GoogleAuthenticationService implements AuthenticationProvider<Strin
 
         try {
             GoogleIdToken idToken = verifier.verify(credential);
+
+            if(idToken == null) {
+                throw new RuntimeException("Token inválido");
+            }
 
             Payload payload = idToken.getPayload();
 
