@@ -11,6 +11,8 @@ import Video from './pages/video/Video'
 import { Followers } from './pages/amigos/Followers'
 import { Following } from './pages/amigos/Following'
 import { SearchModal } from './components/search/SearchModal'
+import { PostModal } from './components/postagem/PostModal'
+import Home from './pages/home/Home'
 
 function App() {
 
@@ -29,6 +31,7 @@ function App() {
       <Route path='/sobre' Component={Sobre}/>
       <Route path='/video/:roomId' Component={Video}/>
       <Route path='/search' Component={SearchModal}/> 
+      <Route path='/' Component={Home}/> 
     </Routes>
     </>
   )

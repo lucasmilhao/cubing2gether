@@ -1,6 +1,8 @@
 import {useQuery} from "@tanstack/react-query";
 import type { UsuarioProps } from "../../interface/UsuarioProps";
-import { api, API_URL } from "../../service/api";
+import { api } from "../../service/api";
+
+const API_URL = `http://localhost:8080`;
 
 export interface FollowProps {
     id : string,

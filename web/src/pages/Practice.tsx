@@ -31,9 +31,8 @@ export function Practice() {
   const { data: solves } = useSolveDataUser(usuarioLogado?.id);
   const [seconds, setSeconds] = useState("00.00");
 
-
   useEffect(() => {
-    if (isError) navigate("/auth/login")
+    if(isError) navigate("/auth/login")
   }, [isError])
 
   const navigate = useNavigate();
@@ -73,6 +72,7 @@ export function Practice() {
     if (!isRunning) {
       startTime.current = Date.now();
       timer.current = setInterval(Update, 16);
+      gerarScramble();
       setIsRunning(true);
     }
     else {
@@ -113,12 +113,11 @@ export function Practice() {
     };
 
     const handleTouchEnter = (e: TouchEvent) => {
-      e.preventDefault();
-
-      if(isRunning) handleEnd();
+      handleStart();
     }
 
     const handleTouchEnd = (e: TouchEvent) => {
+      handleEnd();
     }
 
     window.addEventListener("keydown", keyHandlerDown);
@@ -138,7 +137,6 @@ export function Practice() {
 
   function stop() {
     submit();
-    gerarScramble();
     if (timer.current) clearInterval(timer.current);
     setIsRunning(false);
     setIsPronto(false);
@@ -171,13 +169,25 @@ export function Practice() {
   const [dimension, setDimension] = useState("3D");
   const { theme, toggleTheme } = useTheme();
 
+  console.log(Array.isArray(solves?.data));
+  console.log(solves?.data);
 
-  return (
-    <div className='container'>
-      {!isPronto && <p>{scramble}</p>}
-      <div className='info-cube'>
-        {!isRunning &&
-          <TwistyPlayer onTouchStart={(e) => handleStart()} onTouchEnd={(e) => handleEnd()}
+  if (isPronto) {
+    return (
+      <div className="container">
+        <div>
+          <h1 className='practice-timer' style={isRunning ? { color: 'green' } : { color: 'red' }} >{seconds}</h1>
+        </div>
+      </div>
+    )
+  } else {
+
+
+    return (
+      <div className='container'>
+        <p>{scramble}</p>
+        <div className='info-cube'>
+          <TwistyPlayer
             puzzle={puzzle}
             control-panel='none'
             viewer-link='none'
@@ -185,78 +195,73 @@ export function Practice() {
             background='none'
             visualization={dimension}
           ></TwistyPlayer>
-        }
-        <h1 className='practice-timer' style={isRunning ? { color: 'green' } : { color: 'var(--text-primary)' }} >{seconds}</h1>
-      </div>
-      {!isPronto && (
-        <>
+          <h1 className='practice-timer'>{seconds}</h1>
+        </div>
+        <div className='sidebar'>
 
-          <div className='sidebar'>
-            <label title='select the puzzle'>
-              <p>Selecione o puzzle</p>
-              <select className='pipipopo' name='super' value={puzzle} onChange={(e) => { mudarPuzzle(e.target.value) }}>
-                {puzzles.map(puzzle => (
-                  <option key={puzzle} value={puzzle}>{puzzle}</option>
-                ))}
-              </select>
-            </label>
-            <label htmlFor="" title='selecione como o cubo aparecerá'>
-              <p>Formato cubo</p>
-              <select name="cubeShow" id="3dor2d" onChange={e => setDimension(e.target.value)} value={dimension}>
-                <option value="3D">3D</option>
-                <option value="2D">2D</option>
-              </select>
-            </label>
-            <div className="solves">
+          <label title='select the puzzle'>
+            <p>Selecione o puzzle</p>
+            <select className='pipipopo' name='super' value={puzzle} onChange={(e) => { mudarPuzzle(e.target.value) }}>
+              {puzzles.map(puzzle => (
+                <option key={puzzle} value={puzzle}>{puzzle}</option>
+              ))}
+            </select>
+          </label>
+          <label htmlFor="" title='selecione como o cubo aparecerá'>
+            <p>Formato cubo</p>
+            <select name="cubeShow" id="3dor2d" onChange={e => setDimension(e.target.value)} value={dimension}>
+              <option value="3D">3D</option>
+              <option value="2D">2D</option>
+            </select>
+          </label>
+          <div className="solves">
 
-              <table>
-                <thead>
-                  <tr>
-                    <td>solve</td>
-                    <td>tempo</td>
+            <table>
+              <thead>
+                <tr>
+                  <td>solve</td>
+                  <td>tempo</td>
+                </tr>
+              </thead>
+              <tbody>
+                {solves?.data?.slice().reverse().map((solve, index) => (
+                  <tr key={solve.id}>
+                    <td>{solves.data.length - index}</td>
+                    <td onClick={() => Swal.fire({
+                      draggable: true,
+                      title: `Deletar solve ${solves.data.length - index}?`,
+                      text: "Essa solve será deletada!",
+                      icon: "warning",
+                      showCancelButton: true,
+                      confirmButtonText: "Sim",
+                      cancelButtonText: "Cancelar"
+                    }).then((result) => {
+                      if (result.isConfirmed) deletarSolve(solve.id);
+                    })}>{segundos(solve.tempo)}</td>
                   </tr>
-                </thead>
-                <tbody>
-                  {solves?.data?.slice().reverse().map((solve, index) => (
-                    <tr key={solve.id}>
-                      <td>{solves.data.length - index}</td>
-                      <td onClick={() => Swal.fire({
-                        draggable: true,
-                        title: `Deletar solve ${solves.data.length - index}?`,
-                        text: "Essa solve será deletada!",
-                        icon: "warning",
-                        showCancelButton: true,
-                        confirmButtonText: "Sim",
-                        cancelButtonText: "Cancelar"
-                      }).then((result) => {
-                        if (result.isConfirmed) deletarSolve(solve.id);
-                      })}>{segundos(solve.tempo)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <div>
-            </div>
+                ))}
+              </tbody>
+            </table>
           </div>
-          <div className="user-profile-practice" onClick={() => navigate(`/user/${usuarioLogado?.id}`)}>
-            <img src={usuarioLogado?.picture} alt="" />
-            <h1>{usuarioLogado?.nome}</h1>
+          <div>
           </div>
-          <button className="theme-toggle" onClick={toggleTheme} title={theme === 'light' ? 'Modo escuro' : 'Modo claro'}>
-            {theme === 'light' ? (
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
-              </svg>
-            ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" />
-              </svg>
-            )}
-          </button>
-        </>
-      )}
-    </div>
-  )
-
+        </div>
+        <div className="user-profile-practice" onClick={() => navigate(`/user/${usuarioLogado?.id}`)}>
+          <img src={usuarioLogado?.picture} alt="" />
+          <h1>{usuarioLogado?.nome}</h1>
+        </div>
+        <button className="theme-toggle" onClick={toggleTheme} title={theme === 'light' ? 'Modo escuro' : 'Modo claro'}>
+          {theme === 'light' ? (
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+            </svg>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" />
+            </svg>
+          )}
+        </button>
+      </div>
+    )
+  }
 }

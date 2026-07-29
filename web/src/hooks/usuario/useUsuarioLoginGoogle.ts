@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { API_URL } from "../../service/api";
+
+const API_URL = `http://localhost:8080`;
 
 const fetchdata = async (request : string | undefined) => {
     const response = await axios.post(`${API_URL}/auth/login/google`, request);

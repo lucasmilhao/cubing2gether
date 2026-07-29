@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import type { AxiosPromise } from "axios";
-import { api, API_URL } from "../../service/api";
+import { api } from "../../service/api";
+
+const API_URL = `http://localhost:8080`;
 
 interface SolveProps {
     id : number,

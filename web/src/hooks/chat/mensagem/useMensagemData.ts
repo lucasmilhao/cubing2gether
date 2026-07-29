@@ -1,6 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { api, API_URL } from "../../../service/api"
+import { api } from "../../../service/api"
 import type { MensagemResponse } from "../../../interface/MensagemResponse";
+
+const API_URL = `http://localhost:8080`;
 
 const fetchdata = async (idConversa : string | undefined) : Promise<MensagemResponse[]> => {
     const response = await api.get(`${API_URL}/mensagens/${idConversa}`);

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { API_URL } from "../../service/api";
+
+const API_URL = `http://localhost:8080`;
 
 export interface FollowRequest {
     idSeguidor : string | undefined,
