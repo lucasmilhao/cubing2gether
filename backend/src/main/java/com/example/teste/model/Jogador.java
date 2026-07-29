@@ -1,3 +1,4 @@
+package com.example.teste.model;
 // package com.example.teste.model;
 
 // import jakarta.persistence.Column;
