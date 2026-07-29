@@ -1,0 +1,236 @@
+.post-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 8vh;
+  z-index: 1000;
+}
+
+.post-modal {
+  width: 100%;
+  max-width: 560px;
+  background: #15181c;
+  color: #e7e9ea;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.post-modal-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 12px;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  color: #e7e9ea;
+  font-size: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+
+.icon-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.post-modal-body {
+  display: flex;
+  gap: 12px;
+  padding: 0 16px 8px;
+}
+
+.post-modal-avatar img,
+.avatar-placeholder {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatar-placeholder {
+  background: #2f3336;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #e7e9ea;
+}
+
+.post-modal-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.post-textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  color: #e7e9ea;
+  font-size: 18px;
+  line-height: 1.4;
+  font-family: inherit;
+  padding-top: 8px;
+}
+
+.post-textarea::placeholder {
+  color: #71767b;
+}
+
+.scramble-attachment {
+  position: relative;
+  border: 1px solid #2f3336;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #000;
+}
+
+.scramble-remove-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  background: rgba(15, 20, 25, 0.75);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+
+.scramble-remove-btn:hover {
+  background: rgba(15, 20, 25, 0.9);
+}
+
+.scramble-attachment-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.scramble-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  background: #000;
+}
+
+.scramble-preview twisty-player {
+  width: 100%;
+  max-width: 300px;
+  height: 220px;
+}
+
+.scramble-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: #15181c;
+  border-top: 1px solid #2f3336;
+}
+
+.scramble-label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: #71767b;
+}
+
+.scramble-input {
+  background: #0f1419;
+  border: 1px solid #2f3336;
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: #e7e9ea;
+  font-size: 14px;
+  outline: none;
+}
+
+.scramble-input:focus {
+  border-color: #1d9bf0;
+}
+
+.post-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-top: 1px solid #2f3336;
+}
+
+.post-modal-tools {
+  display: flex;
+  gap: 4px;
+}
+
+.tool-btn {
+  background: transparent;
+  border: none;
+  color: #1d9bf0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.tool-btn:hover:not(:disabled) {
+  background: rgba(29, 155, 240, 0.1);
+}
+
+.tool-btn:disabled {
+  color: #2f3336;
+  cursor: not-allowed;
+}
+
+.tool-btn-active {
+  background: rgba(29, 155, 240, 0.15);
+}
+
+.post-submit-btn {
+  background: #1d9bf0;
+  color: #fff;
+  border: none;
+  border-radius: 9999px;
+  padding: 8px 20px;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.post-submit-btn:hover:not(:disabled) {
+  background: #1a8cd8;
+}
+
+.post-submit-btn:disabled {
+  background: #0d5a8f;
+  opacity: 0.5;
+  cursor: not-allowed;
+}

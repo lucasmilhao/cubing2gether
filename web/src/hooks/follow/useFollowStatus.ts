@@ -1,5 +1,7 @@
 import {useQuery} from "@tanstack/react-query";
-import { api, API_URL } from "../../service/api";
+import { api } from "../../service/api";
+
+const API_URL = `http://localhost:8080`;
 
 interface FollowStatus {
     sigo : boolean,
