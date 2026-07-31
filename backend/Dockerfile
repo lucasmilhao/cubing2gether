@@ -19,9 +19,5 @@ WORKDIR /app
 # Copy only the compiled JAR file from the first stage
 COPY --from=build /app/target/*.jar app.jar
 
-COPY src ./src
-
-RUN ./mvnw package -DskipTests
-
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
