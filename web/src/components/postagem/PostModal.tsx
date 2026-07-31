@@ -18,7 +18,7 @@ export function PostModal({ onClose }: { onClose?: () => void }) {
 
   const TwistyPlayer = "twisty-player" as any;
 
-  const hasContent = descricao.trim().length > 0 || (showScramble && setupScramble.trim().length > 0);
+  const hasContent = descricao.trim().length > 0 || (showScramble && solution.trim().length > 0);
 
   const removeScramble = () => {
     setShowScramble(false);
@@ -37,19 +37,31 @@ export function PostModal({ onClose }: { onClose?: () => void }) {
         solution
     }
 
-    scramble(props, {
-        onSuccess: (scramble : ScrambleProps) => {
-            const postProps : PostagemRequest = {
-                descricao,
-                idScramble: scramble.id,
-                idUsuario: usuario?.id
-            }
+    if(solution.length > 0) {
 
-            console.log(scramble.id);
-            
-            postar(postProps);
+      scramble(props, {
+        onSuccess: (scramble : ScrambleProps) => {
+          const postProps : PostagemRequest = {
+            descricao,
+            idScramble: scramble.id,
+            idUsuario: usuario?.id
+          }
+          
+          console.log(scramble.id);
+          
+          postar(postProps);
         }
-    })
+      })
+    }
+    else {
+          const postProps : PostagemRequest = {
+            descricao,
+            idUsuario: usuario?.id
+          }
+          
+          postar(postProps);
+
+    }
   };
 
   return (

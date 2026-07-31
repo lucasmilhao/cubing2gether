@@ -6,7 +6,7 @@ import type { PostagemProps } from "./usePostagemData";
 export interface PostagemRequest {
     descricao : string,
     idUsuario : string,
-    idScramble : string
+    idScramble? : string
 }
 
 const API_URL = `http://localhost:8080`;

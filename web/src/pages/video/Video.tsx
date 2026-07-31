@@ -179,7 +179,7 @@ export default function Video() {
         const handleScrambleRoom = ({ scramble: incomingScramble }: { scramble: string }) => {
             if (incomingScramble) {
                 scrambleSentRef.current = true;
-                setScramble(incomingScramble.scramble);
+                setScramble(incomingScramble);
             }
         };
 
