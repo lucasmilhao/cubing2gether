@@ -2,6 +2,7 @@ import type { MensagemResponse } from "../../interface/MensagemResponse"
 import "./mensagens.css";
 import { useNavigate } from "react-router-dom";
 import Linkify from "react-linkify";
+import { formatarTempoRelativo } from "../postagem/PostCard";
 
 interface MensagemProps extends MensagemResponse {
     isOwnMessage?: boolean;
@@ -18,7 +19,7 @@ export const Mensagem = (props : MensagemProps) => {
                 <img onClick={() => navigate(`/user/${user.id}`)} src={user?.picture} alt="" />
                 <div className="user-info">
                     <h3>{user?.nome}</h3>
-                    <p className="info">{props.mandado}</p>
+                    <p className="info">{formatarTempoRelativo(props.mandado)}</p>
                 </div>
             </div>
             <Linkify>

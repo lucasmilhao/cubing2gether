@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.teste.dto.chat.conversa.ConversaResponseDTO;
 import com.example.teste.dto.chat.participantes.ParticipantesConversaResponseDTO;
 import com.example.teste.service.ParticipantesConversaService;
 
@@ -34,5 +35,15 @@ public class ParticipantesConversaController {
 
         return ResponseEntity.ok(lista);
     }
+
+    @GetMapping("/usuario/{idUsuario}")
+    public ResponseEntity<List<ConversaResponseDTO>> getPorIdUsuario(@PathVariable String idUsuario) {
+        List<ConversaResponseDTO> lista = service.getPorIdUsuario(idUsuario).stream()
+            .map(e -> new ConversaResponseDTO(e.getConversa()))
+            .toList();
+
+        return ResponseEntity.ok(lista);
+    }
+
 
 }
