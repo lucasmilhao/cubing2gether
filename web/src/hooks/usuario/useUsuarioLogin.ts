@@ -25,7 +25,7 @@ export function useUsuarioLogin() {
             console.log("VAMO BRASISSSSISLSLSIDL");
             
             queryClient.invalidateQueries({queryKey : ["usuario-data"]});
-            navigate("/practice");
+            navigate("/");
         },
         onError: () => {
             console.log("FERROU RAPAZES");

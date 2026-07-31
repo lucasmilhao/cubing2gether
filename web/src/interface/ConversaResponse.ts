@@ -1,5 +1,8 @@
+import type { UsuarioProps } from "./UsuarioProps";
+
 export interface ConversaResponseProps {
     idConversa : string,
     nome : string,
-    dataCriado?: string
+    participantes : UsuarioProps[]
+    dataCriado?: string,
 }
