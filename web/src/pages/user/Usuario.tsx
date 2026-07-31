@@ -105,6 +105,7 @@ export function Usuario () {
             <header className="user-header">
                 <img src={"logo"} alt="" />
                 <div className="user-header-nav">
+                    <h2 onClick={() => navigate("/")}>Home</h2>
                     <h2 onClick={() => navigate("/practice")}>Practice</h2>
                     <h2 onClick={() => navigate("/sobre")}>Sobre</h2>
                     { !checarConvidado() && <h2 onClick={() => navigate("/amigos")}>Amigos</h2>}

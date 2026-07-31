@@ -5,6 +5,8 @@ import { useConversaDataUsuario } from "../../hooks/chat/conversa/useConversaDat
 import { usePostagemData } from "../../hooks/postagem/usePostagemData";
 import { useUsuarioLogado } from "../../hooks/usuario/useUsuarioLogado";
 import "./home.css";
+import { useState } from "react";
+import { PostModal } from "../../components/postagem/PostModal";
 
 export default function Home() {
   const { data: postagens } = usePostagemData();
@@ -12,9 +14,12 @@ export default function Home() {
   const { data: conversas, isPending} = useConversaDataUsuario(usuarioLogado?.id);
   const navigate = useNavigate();
   const avatarFallback = usuarioLogado?.nome?.charAt(0)?.toUpperCase() || "U";
-
+  const [isOpen, setIsOpen] = useState(false);
   console.log(conversas);
   
+  const handleModal = () => {
+    setIsOpen(prev => !prev);
+  }
 
   return (
     <div className="home-shell">
@@ -55,8 +60,10 @@ export default function Home() {
 
       <main className="home-feed">
         <div style={{height:30}}>
-
+          <button onClick={handleModal}>Postar</button>
         </div>
+
+        {isOpen && <PostModal onClose={handleModal}/>}
 
         <div className="home-posts-list">
           {postagens?.data?.length ? (
