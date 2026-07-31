@@ -52,5 +52,10 @@ public class ParticipantesConversaService {
         return participantesConversaRepository.findAll();
     }
 
+    public List<ParticipantesConversa> getPorIdUsuario(String idUsuario) {
+        Usuario u = usuarioRepository.findById(idUsuario).orElseThrow(() -> new UsuarioNaoEncontradoException());
+
+        return participantesConversaRepository.findByUsuario(u);
+    }
     
 }

@@ -86,7 +86,7 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
   );
 }
 
-function formatarTempoRelativo(dataISO: string) {
+export function formatarTempoRelativo(dataISO: string) {
   const data = new Date(dataISO);
   const diffMs = Date.now() - data.getTime();
   const diffMin = Math.floor(diffMs / 60000);
