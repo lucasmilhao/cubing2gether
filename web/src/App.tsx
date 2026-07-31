@@ -32,6 +32,7 @@ function App() {
       <Route path='/video/:roomId' Component={Video}/>
       <Route path='/search' Component={SearchModal}/> 
       <Route path='/' Component={Home}/> 
+      <Route path='/postar' Component={PostModal}/> 
     </Routes>
     </>
   )

@@ -24,9 +24,9 @@ public class Scramble {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
+    @Column(name = "scramble", nullable = true)
     private String scramble;
 
-    @Column(name = "solution", nullable = true)
     private String solution;
 
     @Lob
