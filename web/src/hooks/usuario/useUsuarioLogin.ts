@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const API_URL = `http://localhost:8080`;
 
-const fetchdata = async (request : UsuarioLoginRequest) => {
+const fetchdata = async (request: UsuarioLoginRequest) => {
     const response = await axios.post(`${API_URL}/auth/login`, request);
 
     const token = response.data.token;
@@ -23,13 +23,12 @@ export function useUsuarioLogin() {
         mutationFn: fetchdata,
         onSuccess: () => {
             console.log("VAMO BRASISSSSISLSLSIDL");
-            
-            queryClient.invalidateQueries({queryKey : ["usuario-data"]});
+
+            queryClient.invalidateQueries({ queryKey: ["usuario-data"] });
             navigate("/");
         },
         onError: () => {
             console.log("FERROU RAPAZES");
-            
         }
     });
 }
