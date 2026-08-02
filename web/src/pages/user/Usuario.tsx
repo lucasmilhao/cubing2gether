@@ -135,7 +135,7 @@ export function Usuario () {
                 <div className="actions">
 
             <div className="usuario-card">
-                    <img className="usuario-avatar" src={usuario?.picture} alt="Foto Usuario" />
+                    <img className="usuario-avatar" src={image} alt="Foto Usuario" />
                     
                     <div>
                         <h1 className="usuario-name">{nome}</h1>

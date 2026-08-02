@@ -1,5 +1,4 @@
 import axios from "axios";
-import type { UsuarioRequest } from "../../interface/UsuarioRequest";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 

@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { api } from "../../../service/api"
 import type { ConversaResponseProps } from "../../../interface/ConversaResponse";
 

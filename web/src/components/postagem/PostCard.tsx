@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./PostCard.css";
 import type { PostagemProps } from "../../hooks/postagem/usePostagemData";
 import { useNavigate } from "react-router-dom";

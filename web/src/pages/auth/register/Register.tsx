@@ -5,15 +5,12 @@ import type { UsuarioRequest } from "../../../interface/UsuarioRequest";
 import { GoogleLogin } from "@react-oauth/google";
 import { useUsuarioLoginGoogle } from "../../../hooks/usuario/useUsuarioLoginGoogle";
 
-const LOGO_URL =
-  "https://imgs.search.brave.com/E-_iV4OVdepshvCmTFiCaVOgd6wd99Zcws7s7rnkH7Y/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/Z2FsbGVyaWVzLnNt/Y2xvdWQubmV0L3Qv/Z2FsbGVyaWVzL2dm/LTRtMnAtVThaYy0z/ODV2X3d5Y3p5bmlh/LWN1ZGEtei1rb3N0/a2EtcnViaWthLW1s/b2R5LXBvem5hbmlh/ay1qZXN0LXJla29y/ZHppc3RhLXN3aWF0/YS02NjR4NDQyLmpw/Zw";
-
 export function Register() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [nome, setNome] = useState("");
   const [tipo, setTipo] = useState("password");
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<any>({});
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const {mutate : loginGoogle} = useUsuarioLoginGoogle();
   const data = useUsuarioCreate();

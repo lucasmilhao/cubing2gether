@@ -2,7 +2,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "../../../service/api"
 import type { ConversaRequestProps } from "../../../interface/ConversaRequestProps";
 import type { ConversaResponseProps } from "../../../interface/ConversaResponse";
-import type { AxiosPromise } from "axios";
 
 const API_URL = `http://localhost:8080`;
 

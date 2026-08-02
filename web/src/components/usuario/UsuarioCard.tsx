@@ -2,7 +2,6 @@ import { useMemo, type KeyboardEvent, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import type { UsuarioProps } from "../../interface/UsuarioProps";
 import "./usuario-card.css";
-import { useFollowSeguidoresData } from "../../hooks/follow/useFollowSeguidoresData";
 import { useUsuarioLogado } from "../../hooks/usuario/useUsuarioLogado";
 import { useFollowCreate, type FollowRequest } from "../../hooks/follow/useFollowCreate";
 import { useFollowStatus } from "../../hooks/follow/useFollowStatus";
@@ -16,7 +15,6 @@ interface UsuarioCardProps {
 export function UsuarioCard({ usuario, actions, onNavigate }: UsuarioCardProps) {
   const {data : usuarioLogado} = useUsuarioLogado();
   const navigate = useNavigate();
-  const {data : usuarios} = useFollowSeguidoresData(usuarioLogado?.id);
   const {mutate : seguir} = useFollowCreate();
   const {data : followStatus} = useFollowStatus(usuario.id);
   const followInfo = useMemo(() => {

@@ -1,17 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./login.css";
 import { useUsuarioLogin } from "../../../hooks/usuario/useUsuarioLogin";
 import type { UsuarioLoginRequest } from "../../../interface/UsuarioLoginRequest";
-import { useNavigate } from "react-router-dom";
 import { useGuestCreate } from "../../../hooks/usuario/useGuestCreate";
-import { GoogleLogin, GoogleOAuthProvider, useGoogleLogin } from "@react-oauth/google";
-import axios from "axios";
-import { useUsuarioemailData as useUsuarioEmailData } from "../../../hooks/usuario/useUsuarioDataEmail";
-import type { UsuarioProps } from "../../../interface/UsuarioProps";
+import { GoogleLogin } from "@react-oauth/google";
 import { useUsuarioLoginGoogle } from "../../../hooks/usuario/useUsuarioLoginGoogle";
-
-const LOGO_URL =
-  "https://imgs.search.brave.com/E-_iV4OVdepshvCmTFiCaVOgd6wd99Zcws7s7rnkH7Y/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/Z2FsbGVyaWVzLnNt/Y2xvdWQubmV0L3Qv/Z2FsbGVyaWVzL2dm/LTRtMnAtVThaYy0z/ODV2X3d5Y3p5bmlh/LWN1ZGEtei1rb3N0/a2EtcnViaWthLW1s/b2R5LXBvem5hbmlh/ay1qZXN0LXJla29y/ZHppc3RhLXN3aWF0/YS02NjR4NDQyLmpw/Zw";
 
 export function Login() {
   const [email, setEmail] = useState("");
@@ -19,9 +12,8 @@ export function Login() {
   const [tipo, setTipo] = useState("password");
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const { mutate, isPending } = useUsuarioLogin();
-  const {mutate : loginGoogle, isError, error} = useUsuarioLoginGoogle();  
-  const { mutate: convidado, isPending: isCarregando } = useGuestCreate();
-  const {mutate : usuario} = useUsuarioEmailData();
+  const {mutate : loginGoogle} = useUsuarioLoginGoogle();  
+  const { mutate: convidado} = useGuestCreate();
 
 
   const togglePassword = () => {

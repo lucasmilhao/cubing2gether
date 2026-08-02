@@ -1,6 +1,5 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { api } from "../../../service/api"
-import type { MensagemResponse } from "../../../interface/MensagemResponse";
 import type { ConversaResponseProps } from "../../../interface/ConversaResponse";
 
 const API_URL = `http://localhost:8080`;

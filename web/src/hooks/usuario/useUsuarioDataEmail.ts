@@ -1,4 +1,4 @@
-import {useMutation, useQuery} from "@tanstack/react-query";
+import {useMutation} from "@tanstack/react-query";
 import type { UsuarioProps } from "../../interface/UsuarioProps";
 import { api } from "../../service/api";
 
@@ -10,7 +10,7 @@ const fetchdata = async (emailUsuario : string) : Promise<UsuarioProps> => {
     return response.data;
 }
 
-export function useUsuarioemailData() {
+export function useUsuarioEmailData() {
 
     return useMutation({
         mutationFn: fetchdata,
