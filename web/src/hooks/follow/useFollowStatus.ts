@@ -1,15 +1,13 @@
 import {useQuery} from "@tanstack/react-query";
 import { api } from "../../service/api";
 
-const API_URL = `http://localhost:8080`;
-
 interface FollowStatus {
     sigo : boolean,
     meSegue : boolean
 }
 
 const fetchdata = async (idUsuario : string | undefined) : Promise<FollowStatus> => {
-    const response = await api.get(`${API_URL}/follow/status/${idUsuario}`);
+    const response = await api.get(`/follow/status/${idUsuario}`);
 
     return response.data;
 }

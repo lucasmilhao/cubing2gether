@@ -1,10 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "../../service/api";
 
-const API_URL = `http://localhost:8080`;
-
 const fetchdata = async (data : string[]) => {
-    const response = await api.post(`${API_URL}/partida`, {
+    const response = await api.post(`/partida`, {
         idsUsuarios: data
     });
 
