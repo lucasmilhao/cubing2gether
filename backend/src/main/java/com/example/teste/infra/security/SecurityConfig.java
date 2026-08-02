@@ -69,7 +69,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:5173", "https://06d1wsc7-5173.brs.devtunnels.ms","http://10.0.10.111:8081"));
+        configuration.setAllowedOrigins(List.of("http://localhost:5173", "https://cubing2gether-2aen.onrender.com","http://10.0.10.111:8081"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
