@@ -1,12 +1,10 @@
-import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { UsuarioLoginRequest } from "../../interface/UsuarioLoginRequest";
 import { useNavigate } from "react-router-dom";
-
-const API_URL = `http://localhost:8080`;
+import { api } from "../../service/api";
 
 const fetchdata = async (request: UsuarioLoginRequest) => {
-    const response = await axios.post(`${API_URL}/auth/login`, request);
+    const response = await api.post(`/auth/login`, request);
 
     const token = response.data.token;
 

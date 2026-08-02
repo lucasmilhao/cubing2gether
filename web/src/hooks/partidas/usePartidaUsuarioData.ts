@@ -2,10 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import { api } from "../../service/api";
 import type { PartidaUsuarioProps } from "../../interface/PartidaUsuarioProps";
 
-const API_URL = `http://localhost:8080`;
 
 const fetchdata = async (idPartida : string | undefined) : Promise<PartidaUsuarioProps[]> => {
-    const response = await api.get(`${API_URL}/usuario-partida/${idPartida}`);
+    const response = await api.get(`/usuario-partida/${idPartida}`);
     console.log(response.data);
     
 

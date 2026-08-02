@@ -2,8 +2,6 @@ import {useQuery} from "@tanstack/react-query";
 import type { UsuarioProps } from "../../interface/UsuarioProps";
 import { api } from "../../service/api";
 
-const API_URL = `http://localhost:8080`;
-
 export interface FollowProps {
     id : string,
     seguindo : UsuarioProps,
@@ -11,7 +9,7 @@ export interface FollowProps {
 }
 
 const fetchdata = async (idUsuario : string | undefined) : Promise<FollowProps[]> => {
-    const response = await api.get(`${API_URL}/follow/seguindo/${idUsuario}`);
+    const response = await api.get(`/follow/seguindo/${idUsuario}`);
 
     return response.data;
 }

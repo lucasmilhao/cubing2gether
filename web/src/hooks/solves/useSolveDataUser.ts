@@ -2,8 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import type { AxiosPromise } from "axios";
 import { api } from "../../service/api";
 
-const API_URL = `http://localhost:8080`;
-
 interface SolveProps {
     id : number,
     tempo :  number,
@@ -13,7 +11,7 @@ interface SolveProps {
 }
 
 const fetchData = async (userId : string | undefined) : AxiosPromise<SolveProps[]> => {
-    const response = api.get(`${API_URL}/solves/${userId}`);
+    const response = api.get(`/solves/${userId}`);
 
     return response;
 }

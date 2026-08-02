@@ -3,8 +3,6 @@ import { type AxiosPromise } from "axios"
 import type { SolveRequest } from "../../interface/SolveRequest";
 import { api } from "../../service/api";
 
-const API_URL = `http://localhost:8080`;
-
 interface SolveProps {
     tempo : number,
     scramble : string,
@@ -14,7 +12,7 @@ interface SolveProps {
 }
 
 const fetchData = async (data : SolveRequest) : AxiosPromise<SolveProps> => {
-    const response = api.post(`${API_URL}/solves`, data);
+    const response = api.post(`/solves`, data);
 
     return response;
 } 

@@ -4,7 +4,6 @@ import { api } from "../../service/api";
 import type { UsuarioProps } from "../../interface/UsuarioProps";
 import type { PartidaProps } from "../../interface/PartidaProps";
 
-const API_URL = `http://localhost:8080`;
 
 interface SolveProps {
     id : number,
@@ -16,7 +15,7 @@ interface SolveProps {
 }
 
 const fetchData = async (partidaId : string | undefined) : AxiosPromise<SolveProps[]> => {
-    const response = api.get(`${API_URL}/solves/partida/${partidaId}`);
+    const response = api.get(`/solves/partida/${partidaId}`);
 
     return response;
 }

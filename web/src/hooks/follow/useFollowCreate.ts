@@ -1,15 +1,12 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
-const API_URL = `http://localhost:8080`;
-
 export interface FollowRequest {
     idSeguidor : string | undefined,
     idSeguindo : string | undefined
 }
 
 const fetchdata = async (request : FollowRequest) => {
-    const response = await axios.post(`${API_URL}/follow`, request);
+    const response = await axios.post(`/follow`, request);
 
     return response.data;
 }

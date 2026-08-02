@@ -2,11 +2,8 @@ import {useQuery} from "@tanstack/react-query";
 import { api } from "../../service/api";
 import type { FollowProps } from "./useFollowSeguindoData";
 
-const API_URL = `http://localhost:8080`;
-
-
 const fetchdata = async (idUsuario : string | undefined) : Promise<FollowProps[]> => {
-    const response = await api.get(`${API_URL}/follow/seguidores/${idUsuario}`);
+    const response = await api.get(`/follow/seguidores/${idUsuario}`);
 
     return response.data;
 }

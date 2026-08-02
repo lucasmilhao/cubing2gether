@@ -9,9 +9,8 @@ export interface PostagemRequest {
     idScramble? : string
 }
 
-const API_URL = `http://localhost:8080`;
 const fetchData = async (data : PostagemRequest) : AxiosPromise<PostagemProps[]> => {
-    const response = api.post(`${API_URL}/postagem`, data);
+    const response = api.post(`/postagem`, data);
 
     return response;
 } 

@@ -3,11 +3,9 @@ import { api } from "../../../service/api"
 import type { ConversaRequestProps } from "../../../interface/ConversaRequestProps";
 import type { ConversaResponseProps } from "../../../interface/ConversaResponse";
 
-const API_URL = `http://localhost:8080`;
-
 
 const fetchdata = async (data : ConversaRequestProps) : Promise<ConversaResponseProps> => {
-    const response = await api.post(`${API_URL}/conversa/participantes`, data);
+    const response = await api.post(`/conversa/participantes`, data);
 
     return response.data;
 }
