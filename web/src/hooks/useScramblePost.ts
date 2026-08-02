@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { ScrambleProps } from "../interface/ScrambleProps";
 import { api } from "../service/api";
