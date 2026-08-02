@@ -113,10 +113,13 @@ export function Practice() {
     };
 
     const handleTouchEnter = (e: TouchEvent) => {
+      console.log(e);
+      
       handleStart();
     }
 
     const handleTouchEnd = (e: TouchEvent) => {
+      console.log(e);
       handleEnd();
     }
 

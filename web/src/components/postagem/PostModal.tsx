@@ -4,7 +4,6 @@ import { useUsuarioLogado } from "../../hooks/usuario/useUsuarioLogado";
 import type { ScrambleProps } from "../../interface/ScrambleProps";
 import "./PostModal.css";
 import { useScramblePost, type ScrambleRequest } from "../../hooks/useScramblePost";
-import type { PostagemProps } from "../../hooks/postagem/usePostagemData";
 
 export function PostModal({ onClose }: { onClose?: () => void }) {
   const { data: usuario } = useUsuarioLogado();
