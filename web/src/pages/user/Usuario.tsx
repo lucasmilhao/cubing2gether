@@ -61,6 +61,8 @@ export function Usuario () {
             idSeguindo : idUsuario
         }
 
+        console.log(props);
+
         seguir(props,  {
             onSuccess: () => console.log("Sucesso"),
         });
