@@ -60,7 +60,9 @@ export function Usuario () {
             idSeguindo : idUsuario
         }
 
-        seguir(props);
+        seguir(props,  {
+            onError: () => console.log("Errrro");
+        });
     }
     console.log(followInfo);
     const FollowBtn = <button onClick={() => handleSeguir()} className="edit-profile-btn">{followInfo}</button>; 
