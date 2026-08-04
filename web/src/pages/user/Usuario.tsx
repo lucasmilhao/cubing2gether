@@ -61,7 +61,7 @@ export function Usuario () {
         }
 
         seguir(props,  {
-            onError: () => console.log("Errrro");
+            onSuccess: () => console.log("Sucesso");
         });
     }
     console.log(followInfo);
