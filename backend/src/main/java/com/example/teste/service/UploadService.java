@@ -27,7 +27,7 @@ public class UploadService {
 
     public String subirArquivo(MultipartFile file, Usuario user) {
         try {
-            String baseDir = "C:/";
+            String baseDir = ".";
             String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
             String path = baseDir + File.separator + "uploads/" + fileName;
 
@@ -40,7 +40,7 @@ public class UploadService {
             Arquivo arquivo = new Arquivo();
             arquivo.setCaminho(path);
             arquivo.setNome(fileName);
-            user.setPicture("http://localhost:8080/uploads/"+fileName); 
+            user.setPicture("https://cubing2gether.onrender.com/uploads/"+fileName); 
 
             arquivoRepository.save(arquivo);
             usuarioRepository.save(user);
@@ -53,7 +53,7 @@ public class UploadService {
     }
 
     public Resource getImagem(String nome) throws Exception {
-        Path path = Paths.get("C:/uploads/").resolve(nome);
+        Path path = Paths.get("./uploads/").resolve(nome);
         Resource resource = new UrlResource(path.toUri());
         return resource;
     }
