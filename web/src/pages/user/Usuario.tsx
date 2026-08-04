@@ -29,6 +29,7 @@ export function Usuario () {
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const {data : followStatus} = useFollowStatus(idUsuario);
     const [nome, setNome] = useState(usuario?.nome);
+    console.log("FollowStatus: ", followStatus);
     const followInfo = useMemo(() => {
         if (!followStatus) return "Seguir";
 
