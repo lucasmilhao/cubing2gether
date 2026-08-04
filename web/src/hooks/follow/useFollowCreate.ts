@@ -1,12 +1,12 @@
-import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { api } from "../../service/api";
 export interface FollowRequest {
     idSeguidor : string | undefined,
     idSeguindo : string | undefined
 }
 
 const fetchdata = async (request : FollowRequest) => {
-    const response = await axios.post(`/follow`, request);
+    const response = await api.post(`/follow`, request);
 
     return response.data;
 }
