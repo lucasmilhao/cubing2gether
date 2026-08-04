@@ -62,6 +62,7 @@ export function Usuario () {
 
         seguir(props);
     }
+    console.log(followInfo);
     const FollowBtn = <button onClick={() => handleSeguir()} className="edit-profile-btn">{followInfo}</button>; 
 
     const handleModal = () => {
