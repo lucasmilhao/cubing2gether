@@ -21,7 +21,7 @@ export function Usuario () {
     const {data : usuarioLogado, isError : erroUsuario} = useUsuarioLogado();
     const {data : seguindo} = useFollowSeguindoData(idUsuario);
     const {data : seguidores} = useFollowSeguidoresData(idUsuario);
-    const {mutate : seguir} = useFollowCreate();
+    const {mutate : seguir, isPending : carregandoSeguir} = useFollowCreate();
     const navigate = useNavigate();
     const {data : solveUser} = useSolveDataUser(usuario?.id);
     const { theme, toggleTheme } = useTheme();
@@ -64,7 +64,7 @@ export function Usuario () {
             onSuccess: () => console.log("Sucesso"),
         });
     }
-    console.log(followInfo);
+    console.log(carregandoSeguir);
     const FollowBtn = <button onClick={() => handleSeguir()} className="edit-profile-btn">{followInfo}</button>; 
 
     const handleModal = () => {
