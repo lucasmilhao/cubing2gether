@@ -59,8 +59,13 @@ public class FollowService {
     }
 
     public FollowStatusDTO getStatus(Usuario logado, String idUsuario) {
+        System.out.println("ID: " + logado.getId());
+        System.out.println("ID: " + idUsuario);
         Boolean sigo = followRepository.existsBySeguidorIdAndSeguindoId(logado.getId(), idUsuario);
         Boolean meSegue = followRepository.existsBySeguidorIdAndSeguindoId(idUsuario, logado.getId());
+
+        System.out.println("SIGO: " + sigo);
+        System.out.println("ME SEGUE: " + meSegue);
 
         return new FollowStatusDTO(sigo, meSegue);
     }
