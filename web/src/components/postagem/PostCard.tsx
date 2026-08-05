@@ -29,6 +29,11 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
     deletar(postagem.id);
   }
 
+  const copiarLink = () => {
+    navigator.clipboard.writeText("Minha pica")
+    .then(() => window.alert("Copiado com sucesso"))
+  }
+
   useEffect(() => {
     const handleClickFora = (event: MouseEvent) => {
       if (
@@ -150,7 +155,7 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
             {postagem.curtidas}
           </button>
 
-          <button className="action-btn" title="Compartilhar">
+          <button onClick={copiarLink} className="action-btn" title="Compartilhar">
             <ShareIcon />
           </button>
         </footer>

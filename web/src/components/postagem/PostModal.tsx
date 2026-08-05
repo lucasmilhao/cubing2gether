@@ -28,6 +28,18 @@ export function PostModal({ onClose, postagem }: PostModalProps) {
   const [showScramble, setShowScramble] = useState(isEditando ? postagem?.scramble?.scramble?.length > 0 : false);
   const [setupScramble, setSetupScramble] = useState(isEditando ? postagem?.scramble?.scramble : "");
   const [solution, setSolution] = useState(isEditando ? postagem?.scramble?.solution : "");
+  const placeholders = [
+    "O que você resolveu hoje?",
+    "Qual foi seu melhor solve de hoje?",
+    "Compartilhe seu progresso no cubo!",
+    "Qual algoritmo você aprendeu hoje?",
+    "Tem um scramble interessante? Compartilhe!",
+    "No que você está treinando hoje?",
+    "Conte sua experiência com o cubo...",
+    "Qual foi seu maior desafio hoje?",
+    "Mostre sua evolução para a comunidade!",
+    "O que está passando pela sua cabeça?"
+  ];
 
   const TwistyPlayer = "twisty-player" as any;
 
@@ -85,6 +97,19 @@ export function PostModal({ onClose, postagem }: PostModalProps) {
           idScramble: postagem.scramble.id,
           scramble: setupScramble,
           solution
+        }, {
+          onSuccess: (scramble: ScrambleProps) => {
+            const postProps: PostagemEditRequest = {
+              idPostagem: postagem?.id,
+              descricao,
+              idScramble: scramble?.id,
+              idUsuario: usuario?.id
+            }
+
+            console.log(scramble.id);
+
+            editarPost(postProps);
+          }
         })
       }
       else {
@@ -149,7 +174,7 @@ export function PostModal({ onClose, postagem }: PostModalProps) {
           <div className="post-modal-main">
             <textarea
               className="post-textarea"
-              placeholder="O que você resolveu hoje?"
+              placeholder={placeholders[Math.floor(Math.random()* 10)]}
               value={descricao}
               onChange={(e) => setDescricao(e.target.value)}
               rows={3}

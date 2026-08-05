@@ -66,7 +66,7 @@ export function Amigos() {
 
     return (
         <div className="amigo-container">
-            {usuarios?.map((e) => {
+            {usuarios && usuarios.length > 0 ? usuarios.map((e) => {
                 if (e.id !== usuarioLogado?.id) {
                     return (
                         <UsuarioCard
@@ -96,9 +96,8 @@ export function Amigos() {
                             }
                         />
                     );
-                }
-                return null;
-            })}
+                }   
+            }): <p>Usuario ainda sem amigos.</p>}
         </div>
     )
 }

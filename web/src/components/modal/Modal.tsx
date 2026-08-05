@@ -12,7 +12,7 @@ interface ModalProps {
 export function Modal ({closeModal, usuarioLogado} : ModalProps) {
     const [file, setFile] = useState<File | null>(null)
     const [nome, setNome] = useState(usuarioLogado?.nome ?? "")
-    const {mutate : upload, isError, error} = useUploadPost();
+    const {mutate : upload, isError, error, isPending} = useUploadPost();
     const edit = useUsuarioEdit();
 
     let url : string;
@@ -95,7 +95,7 @@ export function Modal ({closeModal, usuarioLogado} : ModalProps) {
                             Cancelar
                         </button>
                         <button type="submit" className="primary-button">
-                            Salvar alterações
+                            {isPending ? "Salvando..." : "Salvar alterações"}
                         </button>
                     </div>
                 </form>
