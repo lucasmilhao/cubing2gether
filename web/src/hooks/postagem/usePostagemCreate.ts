@@ -5,7 +5,7 @@ import type { PostagemProps } from "./usePostagemData";
 
 export interface PostagemRequest {
     descricao : string,
-    idUsuario : string,
+    idUsuario: string,
     idScramble? : string
 }
 

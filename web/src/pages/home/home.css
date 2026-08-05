@@ -20,7 +20,6 @@
   top: 1rem;
   align-self: start;
   max-height: calc(100vh - 2rem);
-  overflow-y: auto;
 }
 
 .home-feed {
@@ -103,7 +102,34 @@
   font-weight: 600;
 }
 
-.home-conversas-list,
+.home-conversas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: calc(100vh - 12rem);
+  overflow-y: auto;
+}
+
+.postar-btn {
+  
+  background-color: var(--accent-color);
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  color: #e6e6e6;
+  box-shadow: var(--shadow-lg);
+  height: 45px;
+  width: 75px;
+  transition-duration: .2s;
+
+  &:hover {
+    transform: scale(1.03);
+    cursor: pointer;
+  }
+}
+
 .home-posts-list {
   display: flex;
   flex-direction: column;

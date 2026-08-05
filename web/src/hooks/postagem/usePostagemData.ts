@@ -9,7 +9,8 @@ export interface PostagemProps {
     descricao : string,
     scramble : ScrambleProps,
     usuario : UsuarioProps,
-    createdAt : string
+    createdAt : string,
+    curtidas : number
 }
 
 const fetchData = async () : AxiosPromise<PostagemProps[]> => {

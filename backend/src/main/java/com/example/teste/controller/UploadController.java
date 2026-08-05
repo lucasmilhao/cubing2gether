@@ -30,10 +30,4 @@ public class UploadController {
 
         return ResponseEntity.ok(path);
     }
-
-    @GetMapping("/{nomeArquivo}")
-    public ResponseEntity<Resource> getImagemUsuario(@PathVariable String nomeArquivo) throws Exception {
-        Resource r = service.getImagem(nomeArquivo);
-        return ResponseEntity.ok(r);
-    }
 }

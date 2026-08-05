@@ -3,17 +3,29 @@ import { usePostagemCreate, type PostagemRequest } from "../../hooks/postagem/us
 import { useUsuarioLogado } from "../../hooks/usuario/useUsuarioLogado";
 import type { ScrambleProps } from "../../interface/ScrambleProps";
 import "./PostModal.css";
-import { useScramblePost, type ScrambleRequest } from "../../hooks/useScramblePost";
+import { useScramblePost, type ScrambleRequest } from "../../hooks/scramble/useScramblePost";
+import type { PostagemProps } from "../../hooks/postagem/usePostagemData";
+import { usePostagemEdit, type PostagemEditRequest } from "../../hooks/postagem/usePostagemEdit";
+import { useScrambleEdit } from "../../hooks/scramble/useScrambleEdit";
 
-export function PostModal({ onClose }: { onClose?: () => void }) {
+export interface PostModalProps {
+  onClose(): void;
+  postagem?: PostagemProps
+}
+
+export function PostModal({ onClose, postagem }: PostModalProps) {
+  const isEditando = !!postagem;
+
   const { data: usuario } = useUsuarioLogado();
   const { mutate: postar, isPending } = usePostagemCreate();
-  const {mutate : scramble} = useScramblePost();
+  const { mutate: editarPost } = usePostagemEdit();
+  const { mutate: editarScramble } = useScrambleEdit();
+  const { mutate: scramble } = useScramblePost();
 
-  const [descricao, setDescricao] = useState("");
-  const [showScramble, setShowScramble] = useState(false);
-  const [setupScramble, setSetupScramble] = useState("");
-  const [solution, setSolution] = useState("");
+  const [descricao, setDescricao] = useState(isEditando ? postagem.descricao : "");
+  const [showScramble, setShowScramble] = useState(isEditando ? postagem?.scramble?.scramble?.length > 0 : false);
+  const [setupScramble, setSetupScramble] = useState(isEditando ? postagem?.scramble?.scramble : "");
+  const [solution, setSolution] = useState(isEditando ? postagem?.scramble?.solution : "");
 
   const TwistyPlayer = "twisty-player" as any;
 
@@ -26,41 +38,91 @@ export function PostModal({ onClose }: { onClose?: () => void }) {
   };
 
   console.log(usuario?.picture);
-  
 
-  const submit = () => {
+  const criarPostagem = () => {
     if (!hasContent || !usuario) return;
 
-    const props : ScrambleRequest = {
-        scramble: setupScramble,
-        solution
+    const props: ScrambleRequest = {
+      scramble: setupScramble,
+      solution
     }
 
-    if(solution.length > 0) {
+    if (solution.length > 0) {
 
       scramble(props, {
-        onSuccess: (scramble : ScrambleProps) => {
-          const postProps : PostagemRequest = {
+        onSuccess: (scramble: ScrambleProps) => {
+          const postProps: PostagemRequest = {
             descricao,
             idScramble: scramble.id,
             idUsuario: usuario?.id
           }
-          
+
           console.log(scramble.id);
-          
+
           postar(postProps);
         }
       })
     }
     else {
-          const postProps : PostagemRequest = {
-            descricao,
-            idUsuario: usuario?.id
-          }
-          
-          postar(postProps);
+      const postProps: PostagemRequest = {
+        descricao,
+        idUsuario: usuario?.id
+      }
+
+      postar(postProps);
 
     }
+  }
+
+  const editarPostagem = () => {
+    if (!hasContent || !usuario) return;
+
+    if (showScramble && solution?.length > 0) {
+      if (postagem?.scramble.scramble) {
+        editarScramble({
+          idScramble: postagem.scramble.id,
+          scramble: setupScramble,
+          solution
+        })
+      }
+      else {
+        const props: ScrambleRequest = {
+          scramble: setupScramble,
+          solution
+        }
+        scramble(props, {
+          onSuccess: (scramble: ScrambleProps) => {
+            const postProps: PostagemEditRequest = {
+              idPostagem: postagem?.id,
+              descricao,
+              idScramble: scramble?.id,
+              idUsuario: usuario?.id
+            }
+
+            console.log(scramble.id);
+
+            editarPost(postProps);
+          }
+        })
+      }
+    }
+    else {
+      const postProps : PostagemEditRequest = {
+              idPostagem: postagem?.id,
+              descricao,
+              idUsuario: usuario?.id
+      }
+
+      editarPost(postProps);
+    }
+
+  }
+
+  const submit = () => {
+    if (!hasContent || !usuario) return;
+
+    isEditando ? editarPostagem() : criarPostagem();
+
   };
 
   return (

@@ -12,7 +12,7 @@
 .post-modal {
   width: 100%;
   max-width: 560px;
-  background: #15181c;
+  background: var(--bg-primary);
   color: #e7e9ea;
   border-radius: 16px;
   display: flex;
@@ -29,7 +29,7 @@
 .icon-btn {
   background: transparent;
   border: none;
-  color: #e7e9ea;
+  color: var(--text-primary);
   font-size: 16px;
   width: 32px;
   height: 32px;
@@ -82,7 +82,7 @@
   border: none;
   outline: none;
   resize: none;
-  color: #e7e9ea;
+  color: var(--text-primary);
   font-size: 18px;
   line-height: 1.4;
   font-family: inherit;

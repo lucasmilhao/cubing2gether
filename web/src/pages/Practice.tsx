@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import './practice.css'
-import { useScramble } from '../hooks/useScramble'
+import { useScramble } from '../hooks/scramble/useScramble'
 import { useSolveMutate } from '../hooks/solves/useSolveMutate'
 import type { SolveRequest } from '../interface/SolveRequest'
 import 'cubing/twisty';

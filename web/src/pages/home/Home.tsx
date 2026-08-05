@@ -59,8 +59,8 @@ export default function Home() {
       </aside>
 
       <main className="home-feed">
-        <div style={{height:30}}>
-          <button onClick={handleModal}>Postar</button>
+        <div style={{display:"flex", justifyContent: "end"}}>
+          <button className="postar-btn" onClick={handleModal}>Postar</button>
         </div>
 
         {isOpen && <PostModal onClose={handleModal}/>}

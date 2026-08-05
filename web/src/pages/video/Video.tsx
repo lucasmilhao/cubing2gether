@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { socket } from "./socket";
 import { usePartidaUsuarioData } from "../../hooks/partidas/usePartidaUsuarioData";
 import { useUsuarioLogado } from "../../hooks/usuario/useUsuarioLogado";
-import { useScramble } from "../../hooks/useScramble";
+import { useScramble } from "../../hooks/scramble/useScramble";
 import { puzzles, segundos } from "../Practice";
 import { useSolveMutate } from "../../hooks/solves/useSolveMutate";
 import type { SolveRequest } from "../../interface/SolveRequest";
