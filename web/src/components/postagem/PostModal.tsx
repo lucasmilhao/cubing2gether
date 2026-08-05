@@ -7,6 +7,7 @@ import { useScramblePost, type ScrambleRequest } from "../../hooks/scramble/useS
 import type { PostagemProps } from "../../hooks/postagem/usePostagemData";
 import { usePostagemEdit, type PostagemEditRequest } from "../../hooks/postagem/usePostagemEdit";
 import { useScrambleEdit } from "../../hooks/scramble/useScrambleEdit";
+import { useScrambleDelete } from "../../hooks/scramble/useScrambleDelete";
 
 export interface PostModalProps {
   onClose(): void;
@@ -19,6 +20,7 @@ export function PostModal({ onClose, postagem }: PostModalProps) {
   const { data: usuario } = useUsuarioLogado();
   const { mutate: postar, isPending } = usePostagemCreate();
   const { mutate: editarPost } = usePostagemEdit();
+  const { mutate: deletarScramble } = useScrambleDelete();
   const { mutate: editarScramble } = useScrambleEdit();
   const { mutate: scramble } = useScramblePost();
 
@@ -78,7 +80,7 @@ export function PostModal({ onClose, postagem }: PostModalProps) {
     if (!hasContent || !usuario) return;
 
     if (showScramble && solution?.length > 0) {
-      if (postagem?.scramble.scramble) {
+      if (postagem?.scramble?.scramble) {
         editarScramble({
           idScramble: postagem.scramble.id,
           scramble: setupScramble,
@@ -107,13 +109,14 @@ export function PostModal({ onClose, postagem }: PostModalProps) {
       }
     }
     else {
-      const postProps : PostagemEditRequest = {
-              idPostagem: postagem?.id,
-              descricao,
-              idUsuario: usuario?.id
+      const postProps: PostagemEditRequest = {
+        idPostagem: postagem?.id,
+        descricao,
+        idUsuario: usuario?.id
       }
 
       editarPost(postProps);
+      deletarScramble(postagem?.scramble.id);
     }
 
   }
