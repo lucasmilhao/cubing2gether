@@ -1,13 +1,17 @@
 package com.example.teste.model;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
@@ -40,7 +44,11 @@ public class Postagem {
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
+    @Column(name = "created_at")
     private Instant createdAt;
+
+    @OneToMany(mappedBy = "postagem", orphanRemoval = true)
+    private List<Curtida> curtidas = new ArrayList<>();
     
     @PrePersist
     public void PrePersist() {

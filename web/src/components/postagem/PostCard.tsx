@@ -1,19 +1,65 @@
 import "./PostCard.css";
 import type { PostagemProps } from "../../hooks/postagem/usePostagemData";
 import { useNavigate } from "react-router-dom";
+import { useUsuarioLogado } from "../../hooks/usuario/useUsuarioLogado";
+import { useCurtidaCreate, type CurtidaRequest } from "../../hooks/curtida/useCurtidaCreate";
+import { useEffect, useRef, useState } from "react";
+import { PostModal } from "./PostModal";
+import { usePostagemDelete } from "../../hooks/postagem/usePostagemDelete";
 
 export function PostCard({ postagem }: { postagem: PostagemProps }) {
+
+  const { data: usuarioLogado } = useUsuarioLogado();
+  const {mutate : deletar} = usePostagemDelete();
+  const curtida = useCurtidaCreate();
+  console.log(postagem.curtidas);
+
+  const [menuAberto, setMenuAberto] = useState(false);
+  const [modalAberto, setModalAberto] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const TwistyPlayer = "twisty-player" as any;
   const navigate = useNavigate();
 
+  const handleModal = () => {
+    setModalAberto(prev => !prev)
+  }
+
+  const remover = () => {
+    deletar(postagem.id);
+  }
+
+  useEffect(() => {
+    const handleClickFora = (event: MouseEvent) => {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node)
+      ) {
+        setMenuAberto(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickFora);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickFora);
+    };
+  }, []);
+
   const toggleCurtir = () => {
+    const props: CurtidaRequest = {
+      idPostagem: postagem.id,
+      idUsuario: usuarioLogado?.id
+    }
+
+    curtida.mutate(props);
   };
 
   const tempoRelativo = formatarTempoRelativo(postagem.createdAt);
 
   return (
     <article className="post-card">
+      {modalAberto && <PostModal onClose={handleModal} postagem={postagem} key={postagem.id}/>}
       <div className="post-card-avatar">
         {postagem.usuario.picture ? (
           <img onClick={() => navigate(`/user/${postagem.usuario.id}`)} src={postagem.usuario.picture} alt={postagem.usuario.nome} />
@@ -24,12 +70,40 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
 
       <div className="post-card-main">
         <header className="post-card-header">
-          <span className="post-card-nome">{postagem.usuario.nome}</span>
-          {postagem.usuario.nome && (
-            <span className="post-card-handle">@{postagem.usuario.email}</span>
-          )}
-          <span className="post-card-dot">·</span>
-          <span className="post-card-tempo">{tempoRelativo}</span>
+          <div className="post-card-user-props">
+            <span className="post-card-nome">{postagem.usuario.nome}</span>
+            {postagem.usuario.nome && (
+              <span className="post-card-handle">@{postagem.usuario.email}</span>
+            )}
+            <span className="post-card-dot">·</span>
+            <span className="post-card-tempo">{tempoRelativo}</span>
+          </div>
+          <div className="post-options" ref={menuRef}>
+            <button onClick={() => setMenuAberto(prev => !prev)} className="action-btn options-btn">
+              <OptionsIcon />
+
+              {menuAberto && (
+                <div className="post-options-menu">
+                  {usuarioLogado?.id === postagem.usuario.id ?
+                    (<>
+                      <button onClick={handleModal}>
+                        Editar
+                      </button>
+
+                      <button onClick={remover}>
+                        Excluir
+                      </button>
+                    </>
+                    )
+                    :
+                    <button onClick={() => console.log("Denunciar")}>
+                      Denunciar
+                    </button>
+                  }
+                </div>
+              )}
+            </button>
+          </div>
         </header>
 
         {postagem.descricao && (
@@ -73,7 +147,7 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
             title="Curtir"
           >
             <HeartIcon filled={false} />
-            {/* {totalCurtidas > 0 ? <span>{totalCurtidas}</span> : null} */}
+            {postagem.curtidas}
           </button>
 
           <button className="action-btn" title="Compartilhar">
@@ -110,6 +184,12 @@ function CommentIcon() {
       />
     </svg>
   );
+}
+
+function OptionsIcon() {
+  return (
+    <svg width="12" height="12" fill="gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512"><path d="M64 144a56 56 0 1 1 0-112 56 56 0 1 1 0 112zm0 224c30.9 0 56 25.1 56 56s-25.1 56-56 56-56-25.1-56-56 25.1-56 56-56zm56-112c0 30.9-25.1 56-56 56s-56-25.1-56-56 25.1-56 56-56 56 25.1 56 56z" /></svg>
+  )
 }
 
 function HeartIcon({ filled }: { filled: boolean }) {

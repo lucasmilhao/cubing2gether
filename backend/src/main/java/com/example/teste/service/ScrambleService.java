@@ -1,5 +1,7 @@
 package com.example.teste.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.worldcubeassociation.tnoodle.scrambles.InvalidScrambleException;
@@ -8,7 +10,9 @@ import org.worldcubeassociation.tnoodle.scrambles.PuzzleRegistry;
 
 import com.example.teste.dto.scramble.ScrambleRequestDTO;
 import com.example.teste.dto.scramble.ScrambleResponseDTO;
+import com.example.teste.model.Postagem;
 import com.example.teste.model.Scramble;
+import com.example.teste.repository.PostagemRepository;
 import com.example.teste.repository.ScrambleRepository;
 
 @Service
@@ -16,6 +20,9 @@ public class ScrambleService {
     
     @Autowired
     private ScrambleRepository scrambleRepository;
+
+    @Autowired
+    private PostagemRepository postagemRepository;
 
     public ScrambleResponseDTO getScramble(String cube) {
         
@@ -67,5 +74,37 @@ public class ScrambleService {
 
 
         return scramble;
+    }
+
+    public Scramble editarScramble(String idScramble, ScrambleRequestDTO request) {
+        Puzzle puzzle = PuzzleRegistry.THREE.getScrambler();
+        Scramble scramble = scrambleRepository.findById(idScramble).orElseThrow(() -> new RuntimeException());
+
+        try {
+            String svg = puzzle.drawScramble(request.scramble(), null).toString();
+            scramble.setScramble(request.scramble());
+            scramble.setSolution(request.solution());
+            scramble.setSvg(svg);
+
+            scrambleRepository.save(scramble);
+
+        } catch (InvalidScrambleException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return scramble;
+    }
+
+    public void removerScramble(String idScramble) {
+        Scramble s = scrambleRepository.findById(idScramble).orElseThrow(() -> new RuntimeException());
+
+        List<Postagem> p = postagemRepository.findByScramble(s);
+        p.stream().forEach(e-> {
+            e.setScramble(null);
+            postagemRepository.save(e);
+        });
+
+        scrambleRepository.delete(s);
     }
 }

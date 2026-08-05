@@ -40,6 +40,12 @@
 
 .post-card-header {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.post-card-user-props {
+  display: flex;
   align-items: baseline;
   gap: 4px;
   flex-wrap: wrap;
@@ -127,6 +133,48 @@
   max-width: 320px;
 }
 
+.post-options {
+  position: relative;
+}
+
+.post-options-menu {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  right: 0;
+
+  min-width: 150px;
+
+  padding: 0.4rem;
+
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+
+  box-shadow: var(--shadow-md);
+
+  z-index: 100;
+}
+
+.post-options-menu button {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+
+  border: none;
+  background: transparent;
+
+  color: var(--text-primary);
+
+  text-align: left;
+  font-size: 0.9rem;
+
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.post-options-menu button:hover {
+  background: var(--bg-tertiary);
+}
+
 .action-btn {
   display: flex;
   align-items: center;
@@ -151,6 +199,12 @@
   color: #f91880;
 }
 
+
 .like-btn-active {
   color: #f91880;
+}
+
+.options-btn:hover {
+  background: #71767b(0, 0, 0, 0.1);
+  color: #71767b;
 }

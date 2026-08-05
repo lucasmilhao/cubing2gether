@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.teste.dto.postagem.PostagemRequestDTO;
 import com.example.teste.exception.UsuarioNaoEncontradoException;
@@ -26,9 +27,6 @@ public class PostagemService {
     @Autowired
     private ScrambleRepository scrambleRepository;
 
-    @Autowired
-    private ScrambleService scrambleService;
-
     public Postagem criarPostagem(PostagemRequestDTO request) {
         Usuario u = usuarioRepository.findById(request.idUsuario()).orElseThrow(() -> new UsuarioNaoEncontradoException());
         Scramble s = null;
@@ -47,6 +45,30 @@ public class PostagemService {
 
     public List<Postagem> getTodasPostagens() {
         return postagemRepository.findAll();
+    }
+
+    @Transactional
+    public Postagem removerPostagem(String idPostagem) {
+        Postagem p = postagemRepository.findById(idPostagem).orElseThrow(() -> new RuntimeException());
+        
+        postagemRepository.delete(p);
+        
+        return p;
+    }
+
+    public Postagem editarPostagem(String idPostagem, PostagemRequestDTO request) {
+        Postagem p = postagemRepository.findById(idPostagem).orElseThrow(() -> new RuntimeException());
+        
+        Scramble s = null;
+        
+        if(request.idScramble() != null) {
+            s = scrambleRepository.findById(request.idScramble()).orElseThrow(() -> new RuntimeException("Scramble nao encontrado"));
+        }
+
+        p.setScramble(s);
+        p.setDescricao(request.descricao());
+
+        return postagemRepository.save(p);
     }
 
 }
