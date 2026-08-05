@@ -36,9 +36,10 @@ export function PostModal({ onClose, postagem }: PostModalProps) {
     "Tem um scramble interessante? Compartilhe!",
     "No que você está treinando hoje?",
     "Conte sua experiência com o cubo...",
+    "Conte sobre você, " + usuario?.nome,
     "Qual foi seu maior desafio hoje?",
     "Mostre sua evolução para a comunidade!",
-    "O que está passando pela sua cabeça?"
+    "O que está passando pela sua cabeça?",
   ];
 
   const TwistyPlayer = "twisty-player" as any;
@@ -174,7 +175,7 @@ export function PostModal({ onClose, postagem }: PostModalProps) {
           <div className="post-modal-main">
             <textarea
               className="post-textarea"
-              placeholder={placeholders[Math.floor(Math.random()* 10)]}
+              placeholder={placeholders[Math.floor(Math.random()* placeholders.length)]}
               value={descricao}
               onChange={(e) => setDescricao(e.target.value)}
               rows={3}
