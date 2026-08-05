@@ -100,7 +100,7 @@ export function Followers() {
                         ) : null}
                     />
                 );
-            }) : <p>Usuario ainda não segue ninguém.</p>}
+            }) : <p>Usuario ainda não é seguido por ninguém.</p>}
         </div>
     )
 }
