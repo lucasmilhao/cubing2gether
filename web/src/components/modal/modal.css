@@ -145,11 +145,11 @@
 
 .primary-button {
     background: var(--accent-color);
-    color: #ffffff;
+    color: var(--accent-text);
 }
 
 .primary-button:hover {
-    background: var(--accent-color-hover, #3f8cff);
+    background: var(--accent-hover);
 }
 
 .ghost-button {
