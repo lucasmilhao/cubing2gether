@@ -33,7 +33,7 @@ public class UsuarioService {
     }
 
     public List<Usuario> getUsuarioPorNome(String nomeUsuario) {
-        return usuarioRepository.findByNomeContaining(nomeUsuario);
+        return usuarioRepository.findByNomeContainingOrEmailContaining(nomeUsuario, nomeUsuario);
     }
 
     public Usuario getUsuarioPorEmail(String emailUsuario) {

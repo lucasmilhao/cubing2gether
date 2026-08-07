@@ -10,7 +10,7 @@ import com.example.teste.model.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, String>{
     Optional<Usuario> findByNome(String nome);
 
-    List<Usuario> findByNomeContaining(String nome);
+    List<Usuario> findByNomeContainingOrEmailContaining(String nome, String email);
 
     Optional<Usuario> findByEmail(String email);
 }

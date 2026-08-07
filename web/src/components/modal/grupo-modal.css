@@ -1,0 +1,111 @@
+.grupo-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.grupo-modal-content {
+  background: var(--bg-secondary);
+  border: 1px solid #2f3336;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 420px;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.grupo-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #2f3336;
+}
+
+.grupo-modal-header h2 {
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.grupo-modal-close {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.grupo-modal-body {
+  overflow-y: auto;
+  padding: 8px 12px;
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.grupo-modal-empty {
+  color: #71767b;
+  text-align: center;
+  padding: 24px 0;
+}
+
+.grupo-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-top: 1px solid #2f3336;
+}
+
+.grupo-modal-count {
+  color: #71767b;
+  font-size: 0.9rem;
+}
+
+.grupo-modal-confirm-btn {
+  background: var(--accent-color);
+  color: var(--accent-text);
+  font-family: "Poppins";
+  border: none;
+  border-radius: 9999px;
+  padding: 8px 18px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.grupo-modal-confirm-btn:disabled {
+  background: var(--accent-disabled);
+  cursor: not-allowed;
+}
+.grupo-modal-nome-wrapper {
+  padding: 4px 20px 16px;
+}
+
+.grupo-modal-nome-input {
+  width: 100%;
+  background: var(--bg-primary);
+  border: 1px solid #2f3336;
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.grupo-modal-nome-input::placeholder {
+  color: #71767b;
+}
+
+.grupo-modal-nome-input:focus {
+  border-color: var(--accent-color);
+}

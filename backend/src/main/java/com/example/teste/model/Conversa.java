@@ -1,6 +1,7 @@
 package com.example.teste.model;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.teste.dto.chat.conversa.ConversaRequestDTO;
@@ -38,7 +39,7 @@ public class Conversa {
     private Instant dataCriado;
 
     @OneToMany(mappedBy = "conversa")
-    private List<ParticipantesConversa> participantes;
+    private List<ParticipantesConversa> participantes = new ArrayList<>();
 
     @PrePersist
     public void prePersist() {

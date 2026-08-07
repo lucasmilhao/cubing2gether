@@ -36,11 +36,7 @@ public class ConversaService {
         return conversa;
     }
 
-    public Conversa criarConversaComParticipantes(ConversaRequestDTO request
-    ) {
-        Optional<Conversa> c = conversaRepository.findConversaByParticipantes(request.idsUsuarios(), (long) request.idsUsuarios().size());
-        
-        if(c.isPresent()) return c.get();
+    public Conversa criarConversaComParticipantes(ConversaRequestDTO request) {
         
         Conversa conversa = new Conversa(request);
         conversaRepository.save(conversa);

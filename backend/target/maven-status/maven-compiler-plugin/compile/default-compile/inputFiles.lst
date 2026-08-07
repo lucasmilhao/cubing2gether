@@ -3,6 +3,7 @@ C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\controller\AuthController.java
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\controller\ConversaController.java
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\controller\CurtidaController.java
+C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\controller\DenunciaController.java
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\controller\FollowController.java
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\controller\MensagemController.java
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\controller\ParticipantesConversaController.java
@@ -23,6 +24,8 @@ C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\dto\chat\participantes\ParticipantesConversaResponseDTO.java
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\dto\curtida\CurtidaRequestDTO.java
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\dto\curtida\CurtidaResponseDTO.java
+C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\dto\denuncia\DenunciaRequestDTO.java
+C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\dto\denuncia\DenunciaResponseDTO.java
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\dto\ErroResponseDTO.java
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\dto\erros\ErroEmailResponseDTO.java
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\dto\erros\ErroNomeResponseDTO.java
@@ -60,6 +63,7 @@ C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\model\Conversa.java
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\model\Credential.java
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\model\Curtida.java
+C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\model\Denuncia.java
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\model\Follow.java
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\model\Jogador.java
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\model\Mensagem.java
@@ -75,6 +79,7 @@ C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\repository\ConversaRepository.java
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\repository\CredentialRepository.java
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\repository\CurtidaRepository.java
+C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\repository\DenunciaRepository.java
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\repository\FollowRepository.java
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\repository\MensagemRepository.java
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\repository\ParticipantesConversaRepository.java
@@ -88,6 +93,7 @@ C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\service\AuthService.java
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\service\ConversaService.java
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\service\CurtidaService.java
+C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\service\DenunciaService.java
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\service\FollowService.java
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\service\GoogleAuthenticationService.java
 C:\Users\Tecnico - TI\Downloads\cubing2gether\backend\src\main\java\com\example\teste\service\LocalAuthService.java
