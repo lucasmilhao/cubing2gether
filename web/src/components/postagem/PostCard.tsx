@@ -6,13 +6,15 @@ import { useCurtidaCreate, type CurtidaRequest } from "../../hooks/curtida/useCu
 import { useEffect, useRef, useState } from "react";
 import { PostModal } from "./PostModal";
 import { usePostagemDelete } from "../../hooks/postagem/usePostagemDelete";
+import { useDenunciaCreate, type DenunciaRequest } from "../../hooks/denuncia/useDenunciaCreate";
 
 export function PostCard({ postagem }: { postagem: PostagemProps }) {
 
   const { data: usuarioLogado } = useUsuarioLogado();
   const {mutate : deletar} = usePostagemDelete();
+  const{mutate : denunciar} = useDenunciaCreate();
+
   const curtida = useCurtidaCreate();
-  console.log(postagem.curtidas);
 
   const [menuAberto, setMenuAberto] = useState(false);
   const [modalAberto, setModalAberto] = useState(false);
@@ -27,6 +29,15 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
 
   const remover = () => {
     deletar(postagem.id);
+  }
+
+  const denuncia = () => {
+    const props : DenunciaRequest = {
+      idPostagem: postagem.id,
+      idUsuario: postagem.usuario.id
+    }
+
+    denunciar(props);
   }
 
   const copiarLink = () => {
@@ -101,7 +112,7 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
                     </>
                     )
                     :
-                    <button onClick={() => console.log("Denunciar")}>
+                    <button onClick={denuncia}>
                       Denunciar
                     </button>
                   }

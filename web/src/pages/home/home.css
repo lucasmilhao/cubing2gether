@@ -118,7 +118,7 @@
   padding: 5px;
   font-family: "Poppins", sans-serif;
   font-weight: 600;
-  color: #e6e6e6;
+  color: var(--accent-text);
   box-shadow: var(--shadow-lg);
   height: 45px;
   width: 75px;

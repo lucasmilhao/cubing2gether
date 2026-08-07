@@ -133,7 +133,7 @@
   align-items: center;
   justify-content: center;
   min-height: 200px;
-  background: #000;
+  background: var(--card-bg);
 }
 
 .scramble-preview twisty-player {
@@ -147,7 +147,7 @@
   flex-direction: column;
   gap: 8px;
   padding: 12px;
-  background: #15181c;
+  background: var(--card-bg);
   border-top: 1px solid #2f3336;
 }
 
@@ -170,7 +170,7 @@
 }
 
 .scramble-input:focus {
-  border-color: #1d9bf0;
+  border-color: var(--accent-color);
 }
 
 .post-modal-footer {
@@ -189,7 +189,7 @@
 .tool-btn {
   background: transparent;
   border: none;
-  color: #1d9bf0;
+  color: var(--accent-color);
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -201,7 +201,7 @@
 }
 
 .tool-btn:hover:not(:disabled) {
-  background: rgba(29, 155, 240, 0.1);
+  background: rgba(75, 90, 100, 0.1);
 }
 
 .tool-btn:disabled {
@@ -214,8 +214,8 @@
 }
 
 .post-submit-btn {
-  background: #1d9bf0;
-  color: #fff;
+  background: var(--accent-color);
+  color: var(--accent-text);
   border: none;
   border-radius: 9999px;
   padding: 8px 20px;
@@ -226,11 +226,11 @@
 }
 
 .post-submit-btn:hover:not(:disabled) {
-  background: #1a8cd8;
+  background: var(--accent-hover);
 }
 
 .post-submit-btn:disabled {
-  background: #0d5a8f;
+  background: var(--accent-disabled);
   opacity: 0.5;
   cursor: not-allowed;
 }

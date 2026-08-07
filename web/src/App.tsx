@@ -12,26 +12,28 @@ import { Followers } from './pages/amigos/Followers'
 import { Following } from './pages/amigos/Following'
 import { PostModal } from './components/postagem/PostModal'
 import Home from './pages/home/Home'
+import MainLayout from './pages/MainLayout'
 
 function App() {
 
 
   return (
     <>
-    <Routes>
-      <Route path='/user/:idUsuario' Component={Usuario}/>
-      <Route path='/followers/:idUsuario' Component={Followers}/> 
-      <Route path='/following/:idUsuario' Component={Following}/> 
-      <Route path='/practice' Component={Practice}/>
-      <Route path='/auth/login' Component={Login}/>
-      <Route path='/auth/register' Component={Register}/>
-      <Route path='/amigos' Component={Amigos}/>
-      <Route path='/chat/:idConversa' Component={Conversa}/>
-      <Route path='/sobre' Component={Sobre}/>
-      <Route path='/video/:roomId' Component={Video}/>
-      <Route path='/' Component={Home}/> 
-      <Route path='/postar' Component={PostModal}/> 
-    </Routes>
+      <Routes>
+        <Route Component={MainLayout}>
+          <Route path='/user/:idUsuario' Component={Usuario} />
+          <Route path='/followers/:idUsuario' Component={Followers} />
+          <Route path='/following/:idUsuario' Component={Following} />
+          <Route path='/practice' Component={Practice} />
+          <Route path='/' Component={Home} />
+          <Route path='/amigos' Component={Amigos} />
+          <Route path='/sobre' Component={Sobre} />
+        </Route>
+        <Route path='/chat/:idConversa' Component={Conversa} />
+        <Route path='/video/:roomId' Component={Video} />
+        <Route path='/auth/login' Component={Login} />
+        <Route path='/auth/register' Component={Register} />
+      </Routes>
     </>
   )
 }

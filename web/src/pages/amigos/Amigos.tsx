@@ -8,6 +8,8 @@ import { useMensagemPost } from "../../hooks/chat/mensagem/useMensagemPost";
 import type { MensagemRequest } from "../../interface/MensagemRequest";
 import { useFollowAmigosData } from "../../hooks/follow/useAmigosData";
 import { UsuarioCard } from "../../components/usuario/UsuarioCard";
+import { useState } from "react";
+import { GrupoModal } from "../../components/modal/GrupoModal";
 
 export function Amigos() {
     const { data: usuarioLogado } = useUsuarioLogado();
@@ -15,9 +17,13 @@ export function Amigos() {
     const conversa = useConversaCreate();
     const partida = usePartidaCreate();
     const enviaMensagem = useMensagemPost();
+    const [isOpen, setIsOpen] = useState(false);
     let idsUsuarios: string[] | undefined = [];
     const navigate = useNavigate();
 
+    const handleClose = () => {
+        setIsOpen(prev => !prev);
+    }
 
     const submitConversa = (nome: string, idsUsuarios: string[])=> {
         const props: ConversaRequestProps = {
@@ -62,10 +68,12 @@ export function Amigos() {
             }
         });
     }
-
-
+    
+    
     return (
         <div className="amigo-container">
+            <button className="grupo-btn" onClick={handleClose}>Criar grupo</button>
+            {isOpen && <GrupoModal onClose={handleClose}/>}
             {usuarios && usuarios.length > 0 ? usuarios.map((e) => {
                 if (e.id !== usuarioLogado?.id) {
                     return (

@@ -4,14 +4,37 @@
     box-sizing: border-box;
 }
 
+
 .amigo-container {
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
     justify-content: center;
     gap: 16px;
     padding: 24px;
     min-height: calc(100vh - 100px);
+
+    .grupo-btn {
+        position: absolute;
+        right: 20px;
+        top: 50px;
+        background-color: var(--accent-color);
+        border: none;
+        border-radius: 5px;
+        padding: 5px;
+        font-family: "Poppins", sans-serif;
+        font-weight: 600;
+        color: var(--accent-text);
+        box-shadow: var(--shadow-lg);
+        height: 45px;
+        transition-duration: .2s;
+
+        &:hover {
+            transform: scale(1.03);
+            cursor: pointer;
+        }
+    }
 }
 
 .amigo-container::-webkit-scrollbar {
@@ -74,7 +97,7 @@
     border-color: #4a90d9;
 }
 
-.informacoes > div {
+.informacoes>div {
     display: flex;
     flex-direction: column;
     gap: 4px;

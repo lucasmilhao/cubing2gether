@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePostagemCreate, type PostagemRequest } from "../../hooks/postagem/usePostagemCreate";
 import { useUsuarioLogado } from "../../hooks/usuario/useUsuarioLogado";
 import type { ScrambleProps } from "../../interface/ScrambleProps";
@@ -41,6 +41,10 @@ export function PostModal({ onClose, postagem }: PostModalProps) {
     "Mostre sua evolução para a comunidade!",
     "O que está passando pela sua cabeça?",
   ];
+
+  const [placeholder] = useState(() => {
+    return placeholders[Math.floor(Math.random()* placeholders.length)];
+  });
 
   const TwistyPlayer = "twisty-player" as any;
 
@@ -175,7 +179,7 @@ export function PostModal({ onClose, postagem }: PostModalProps) {
           <div className="post-modal-main">
             <textarea
               className="post-textarea"
-              placeholder={placeholders[Math.floor(Math.random()* placeholders.length)]}
+              placeholder={placeholder}
               value={descricao}
               onChange={(e) => setDescricao(e.target.value)}
               rows={3}
