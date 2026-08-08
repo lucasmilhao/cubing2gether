@@ -37,7 +37,6 @@ public class ConversaService {
     }
 
     public Conversa criarConversaComParticipantes(ConversaRequestDTO request) {
-        
         Conversa conversa = new Conversa(request);
         conversaRepository.save(conversa);
 
@@ -51,6 +50,9 @@ public class ConversaService {
             ParticipantesConversa pc = new ParticipantesConversa();
             pc.setConversa(conversa);
             pc.setUsuario(u);
+            pc.setIsAdmin(false);
+
+            if(id == request.idsUsuarios().getLast()) pc.setIsAdmin(true);
 
             participantesConversaRepository.save(pc);
         }
