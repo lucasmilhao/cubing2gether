@@ -18,6 +18,7 @@ export function GrupoModal({ onClose }: GrupoModalProps) {
     const { mutate: conversa } = useConversaCreate();
     const navigate = useNavigate();
     const [nomeGrupo, setNomeGrupo] = useState("");
+    const [isErro, setIsErro] = useState(false);
     const [selecionados, setSelecionados] = useState<Map<string, UsuarioProps>>(new Map());
 
     const handleToggleSelect = (usuario: UsuarioProps) => {
@@ -37,6 +38,7 @@ export function GrupoModal({ onClose }: GrupoModalProps) {
     }
 
     const submitConversa = (nome: string, usuarios: UsuarioProps[]) => {
+        setIsErro(nomeGrupo.length < 1);
         let idsUsuarios = usuarios.map(e => e.id);
         if (usuarioLogado) {
             idsUsuarios.push(usuarioLogado?.id);
@@ -91,6 +93,7 @@ export function GrupoModal({ onClose }: GrupoModalProps) {
                                 value={nomeGrupo}
                                 onChange={(e) => setNomeGrupo(e.target.value)}
                             />
+                            {isErro && <span className="grupo-modal-count">O grupo precisa de um nome!</span>}
                         </div>
                     )}
                 </div>

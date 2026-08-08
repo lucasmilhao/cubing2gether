@@ -19,6 +19,8 @@ import com.example.teste.model.Conversa;
 import com.example.teste.model.Usuario;
 import com.example.teste.service.ConversaService;
 
+import jakarta.validation.Valid;
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/conversa")
@@ -28,13 +30,13 @@ public class ConversaController {
     private ConversaService service;
 
     @PostMapping
-    public ResponseEntity<ConversaResponseDTO> criarConversa(@RequestBody ConversaRequestDTO request) {
+    public ResponseEntity<ConversaResponseDTO> criarConversa(@RequestBody @Valid ConversaRequestDTO request) {
         Conversa c = service.criarConversa(request);
         return ResponseEntity.ok(new ConversaResponseDTO(c));
     }
     
     @PostMapping("/participantes")
-    public ResponseEntity<ConversaResponseDTO> criarConversaParticipantes(@RequestBody ConversaRequestDTO request) {
+    public ResponseEntity<ConversaResponseDTO> criarConversaParticipantes(@RequestBody @Valid ConversaRequestDTO request) {
         Conversa c = service.criarConversaComParticipantes(request);
         return ResponseEntity.ok(new ConversaResponseDTO(c));
     }

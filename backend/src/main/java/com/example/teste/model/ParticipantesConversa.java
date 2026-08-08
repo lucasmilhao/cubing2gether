@@ -2,6 +2,7 @@ package com.example.teste.model;
 
 import java.time.Instant;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,6 +35,9 @@ public class ParticipantesConversa {
     @ManyToOne
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
+
+    @Column(name = "is_admin", nullable = false)
+    private Boolean isAdmin = false;
 
     private Instant entrou;
     
