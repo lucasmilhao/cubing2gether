@@ -22,6 +22,7 @@
   --input-bg: #ffffff;
   --scrollbar-track: #f0f0f0;
   --scrollbar-thumb: #d0d0d0;
+  --header-height: 74px;
 }
 
 [data-theme="dark"] {
@@ -46,6 +47,7 @@
   --input-bg: #0f1011;
   --scrollbar-track: #1a2332;
   --scrollbar-thumb: #4b5563;
+  --header-height: 74px;
 }
 
 /* Global dark mode styles */
@@ -56,24 +58,39 @@ body {
 }
 
 /* Apply theme variables to common elements */
-body, .container, .usuario-page, .amigo-container {
+body,
+.container,
+.usuario-page,
+.amigo-container {
   background: var(--bg-primary);
   color: var(--text-primary);
 }
 
 /* Card and container backgrounds */
-.user-card-amigo, .usuario-card, .sidebar, .solves {
+.user-card-amigo,
+.usuario-card,
+.sidebar,
+.solves {
   background: var(--card-bg) !important;
   border-color: var(--border-color) !important;
 }
 
 /* Text colors */
-h1, h2, h3, h4, h5, h6, p, label, td {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+label,
+td {
   color: var(--text-primary);
 }
 
 /*select background */
-select, input {
+select,
+input {
   background: var(--input-bg) !important;
   color: var(--text-primary) !important;
   border-color: var(--border-color) !important;

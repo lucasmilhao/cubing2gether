@@ -5,7 +5,7 @@ export default function MainLayout() {
     return (
         <>
             <Header/>
-                <main>
+                <main style={{paddingTop: "var(--header-height)"}}>
                 <Outlet/>
                 </main>
         </>

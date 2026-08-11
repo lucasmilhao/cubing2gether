@@ -28,55 +28,73 @@ public class AuthController {
     private AuthService service;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> fazerLoginUsuarioLocal(@RequestBody LoginRequestDTO request, HttpServletResponse response) {
+    public ResponseEntity<LoginResponseDTO> fazerLoginUsuarioLocal(@RequestBody LoginRequestDTO request,
+            HttpServletResponse response) {
         LoginResponseDTO result = service.login(TypeProvider.LOCAL, request);
 
         ResponseCookie cookie = ResponseCookie
-        .from("access_token", result.token())
-        .httpOnly(true)
-        .secure(false)
-        .sameSite("Lax")
-        .path("/")
-        .maxAge(60 * 60 * 24)
-        .build();
+                .from("access_token", result.token())
+                .httpOnly(true)
+                .secure(false)
+                .sameSite("Lax")
+                .path("/")
+                .maxAge(60 * 60 * 24)
+                .build();
 
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
-        
+
         return ResponseEntity.ok(result);
     }
-    
+
     @PostMapping("/login/google")
-    public ResponseEntity<LoginResponseDTO> fazerLoginUsuarioGoogle(@RequestBody String request, HttpServletResponse response) {
+    public ResponseEntity<LoginResponseDTO> fazerLoginUsuarioGoogle(@RequestBody String request,
+            HttpServletResponse response) {
         LoginResponseDTO result = service.login(TypeProvider.GOOGLE, request);
-        
+
         ResponseCookie cookie = ResponseCookie
-        .from("access_token", result.token())
-        .httpOnly(true)
-        .secure(false)
-        .sameSite("Lax")
-        .path("/")
-        .maxAge(60 * 60 * 24)
-        .build();
-        
+                .from("access_token", result.token())
+                .httpOnly(true)
+                .secure(false)
+                .sameSite("Lax")
+                .path("/")
+                .maxAge(60 * 60 * 24)
+                .build();
+
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
-        
+
         return ResponseEntity.ok(result);
     }
-    
+
     @PostMapping("/register")
     public ResponseEntity<LoginResponseDTO> registrarUsuario(@RequestBody @Valid UsuarioRequestDTO request) {
         LoginResponseDTO response = service.registrarUsuario(request);
-        
+
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(HttpServletResponse response) {
+
+        ResponseCookie cookie = ResponseCookie
+                .from("access_token", "")
+                .httpOnly(true)
+                .secure(false)
+                .sameSite("Lax")
+                .path("/")
+                .maxAge(0)
+                .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+
+        return ResponseEntity.noContent().build();
+    }
+
     // @PostMapping("/guest")
     // public ResponseEntity<LoginResponseDTO> registrarConvidado() {
-    //     LoginResponseDTO response = service.registrarConvidado();
+    // LoginResponseDTO response = service.registrarConvidado();
 
-    //     return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    // return ResponseEntity.status(HttpStatus.CREATED).body(response);
     // }
-
 
 }

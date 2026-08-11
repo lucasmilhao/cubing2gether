@@ -4,7 +4,6 @@ import './Usuario.css';
 import { useSolveDataUser } from "../../hooks/solves/useSolveDataUser";
 import { segundos } from "../Practice";
 import { useUsuarioLogado } from "../../hooks/usuario/useUsuarioLogado";
-import { useTheme } from "../../context/ThemeContext";
 import { useEffect, useMemo, useState } from "react";
 import { Modal } from "../../components/modal/Modal";
 import Swal from "sweetalert2";
@@ -12,7 +11,6 @@ import { useFollowSeguindoData } from "../../hooks/follow/useFollowSeguindoData"
 import { useFollowSeguidoresData } from "../../hooks/follow/useFollowSeguidoresData";
 import { useFollowCreate, type FollowRequest } from "../../hooks/follow/useFollowCreate";
 import { useFollowStatus } from "../../hooks/follow/useFollowStatus";
-import { SearchModal } from "../../components/search/SearchModal";
 
 
 export function Usuario() {
@@ -25,7 +23,6 @@ export function Usuario() {
     const navigate = useNavigate();
     const { data: solveUser } = useSolveDataUser(usuario?.id);
     const [isOpen, setIsOpen] = useState(false);
-    const [isSearchOpen, setIsSearchOpen] = useState(false);
     const { data: followStatus } = useFollowStatus(idUsuario);
     const [nome, setNome] = useState(usuario?.nome);
     console.log("FollowStatus: ", followStatus);
@@ -107,7 +104,7 @@ export function Usuario() {
                 <div className="actions">
 
                     <div className="usuario-card">
-                        <img className="usuario-avatar" src={image} alt="Foto Usuario" />
+                        <img className="usuario-avatar" src={image} alt="Foto Usuario" onClick={() => window.location.href = image} />
 
                         <div>
                             <h1 className="usuario-name">{nome}</h1>

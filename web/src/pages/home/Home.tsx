@@ -36,6 +36,7 @@ export default function Home() {
           <div>
             <h2>{usuarioLogado?.nome || "Usuário"}</h2>
             <p>{usuarioLogado?.email || "Seu perfil"}</p>
+            <button className="postar-btn" onClick={handleModal}>Postar</button>
           </div>
         </div>
 
@@ -59,9 +60,6 @@ export default function Home() {
       </aside>
 
       <main className="home-feed">
-        <div style={{display:"flex", justifyContent: "end"}}>
-          <button className="postar-btn" onClick={handleModal}>Postar</button>
-        </div>
 
         {isOpen && <PostModal onClose={handleModal}/>}
 

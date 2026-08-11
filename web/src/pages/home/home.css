@@ -4,7 +4,8 @@
   gap: 1.25rem;
   padding: 1.25rem;
   align-items: start;
-  height: calc(100vh - 2rem);
+  min-height: calc(100vh - var(--header-height));
+  height: calc(100vh - var(--header-height));
   overflow: hidden;
 }
 
@@ -19,7 +20,8 @@
   position: sticky;
   top: 1rem;
   align-self: start;
-  max-height: calc(100vh - 2rem);
+  height: calc(100vh - var(--header-height));
+  max-height: calc(100vh - var(--header-height));
 }
 
 .home-feed {
@@ -37,6 +39,10 @@
   background: linear-gradient(135deg, var(--card-bg), var(--bg-tertiary));
   box-shadow: var(--shadow-sm);
   border-radius: 20px;
+}
+
+.home-section {
+  height: calc(100vh - var(--header-height) - 20vh);
 }
 
 .home-profile-card {
@@ -106,12 +112,11 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  max-height: calc(100vh - 12rem);
+  height: 92%;
   overflow-y: auto;
 }
 
 .postar-btn {
-  
   background-color: var(--accent-color);
   border: none;
   border-radius: 5px;
@@ -120,8 +125,8 @@
   font-weight: 600;
   color: var(--accent-text);
   box-shadow: var(--shadow-lg);
-  height: 45px;
-  width: 75px;
+  height: 30px;
+  width: 55px;
   transition-duration: .2s;
 
   &:hover {

@@ -5,10 +5,6 @@ import { api } from "../../service/api";
 const fetchdata = async (request : string | undefined) => {
     const response = await api.post(`/auth/login/google`, request);
 
-    const token = response.data.token;
-
-    localStorage.setItem("authToken", token)
-
     return response.data;
 }
 

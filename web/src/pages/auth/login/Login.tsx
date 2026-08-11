@@ -65,7 +65,7 @@ export function Login() {
             </button>
           </div>
 
-          <GoogleLogin context="signin" useOneTap onSuccess={e => login(e.credential)} onError={() => {}}/>
+          <GoogleLogin context="signin" useOneTap onSuccess={e => {login(e.credential); console.log(e.credential)}} onError={() => {}}/>
           <button type="submit" className="login-btn">
             {isPending ? "Entrando..." : "Entrar"}
           </button>
