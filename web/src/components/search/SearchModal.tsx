@@ -3,6 +3,7 @@ import { useUsuarioNomeData } from "../../hooks/usuario/useUsuarioDataNome";
 import { UsuarioCard } from "../usuario/UsuarioCard";
 import "./search-modal.css";
 import { useNavigate } from "react-router-dom";
+import { useUsuarioLogado } from "../../hooks/usuario/useUsuarioLogado";
 
 interface SearchProps {
 closeModal() : void
@@ -11,6 +12,7 @@ closeModal() : void
 export function SearchModal({closeModal} : SearchProps) {
 const [nome, setNome] = useState("");
 const { data: usuarios, isLoading, isError } = useUsuarioNomeData(nome);
+const {data : usuarioLogado} = useUsuarioLogado();
 const navigate = useNavigate();
 
 const hasQuery = nome.trim().length > 0;
@@ -84,9 +86,10 @@ return (
         </div>
         ) : (
         <div className="search-modal-results-list">
-            {results.map((usuario) => (
-            <UsuarioCard onNavigate={closeModal} key={usuario.id} usuario={usuario} />
-            ))}
+            {results.map((usuario) => {
+                if (usuarioLogado?.id !== usuario.id ) return <UsuarioCard onNavigate={closeModal} key={usuario.id} usuario={usuario} />
+            }
+        )}
         </div>
         )}
     </section>
