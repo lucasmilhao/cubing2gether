@@ -9,7 +9,7 @@
 .login-container {
   display: flex;
   height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: var(--bg-primary);
   font-family: 'Poppins', sans-serif;
 
   .esquerda {
@@ -19,8 +19,8 @@
     justify-content: center;
     align-items: center;
     padding: 40px;
-    background: white;
-    box-shadow: -5px 0 30px rgba(0, 0, 0, 0.08);
+    background: var(--bg-primary);
+    box-shadow: var(--shadow-lg);
 
     form {
       width: 100%;
@@ -30,13 +30,9 @@
     .login-title {
       font-size: 32px;
       font-weight: 700;
-      color: #333;
+      color: var(--text-primary);
       margin-bottom: 40px;
       text-align: center;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
     }
 
     .input-field {
@@ -45,35 +41,25 @@
       margin-bottom: 24px;
       position: relative;
 
-      p {
-        font-family: 'Poppins', sans-serif;
-        font-size: 14px;
-        font-weight: 600;
-        color: #333 !important;
-        margin-bottom: 10px;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
 
       input {
         padding: 14px 16px 14px 16px;
-        border: 2px solid #e0e0e0 !important;
+        border: 2px solid var(--border-color, #e0e0e0) !important;
         border-radius: 10px;
-        color: #333 !important;
+        color: var(--text-primary) !important;
         font-size: 15px;
         font-family: 'Poppins', sans-serif;
         transition: all 0.3s ease;
-        background-color: #fafafa !important;
+        background-color: var(--bg-secondary, #fafafa) !important;
 
         &:focus {
           outline: none;
-          border-color: #667eea !important;
-          background-color: white;
-          box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+          border-color: var(--accent-color) !important;
+          box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
         }
 
         &::placeholder {
-          color: #999;
+          color: var(--text-secondary, #999);
         }
       }
 
@@ -110,71 +96,68 @@
     .login-btn {
       width: 100%;
       padding: 14px 20px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
+      background-color: var(--accent-color);
+      color: var(--accent-text);
       border: none;
       border-radius: 10px;
       font-size: 16px;
       font-weight: 600;
       font-family: 'Poppins', sans-serif;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition-duration: .2s;
       margin-top: 10px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      box-shadow: var(--shadow-lg);
 
       &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        transform: scale(1.03);
       }
 
       &:active {
-        transform: translateY(0px);
+        transform: scale(0.98);
       }
     }
-    
+
     .guest-btn {
       width: 100%;
       padding: 14px 20px;
-      background: linear-gradient(135deg, #eff2ff 0%, #eeddff 100%);
-      color: rgba(0, 0, 0, 0.664);
+      background-color: var(--bg-secondary, #f1f1f1);
+      color: var(--text-primary);
       border: none;
       border-radius: 10px;
       font-size: 16px;
       font-weight: 600;
       font-family: 'Poppins', sans-serif;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition-duration: .2s;
       margin-top: 10px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      box-shadow: var(--shadow-lg);
 
       &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        transform: scale(1.03);
       }
 
       &:active {
-        transform: translateY(0px);
+        transform: scale(0.98);
       }
     }
 
     .signup-link {
       text-align: center;
       margin-top: 20px;
-      color: #666;
+      color: var(--text-secondary, #666);
       font-size: 14px;
 
       a {
-        color: #667eea;
+        color: var(--accent-color);
         text-decoration: none;
         font-weight: 600;
         transition: all 0.2s ease;
 
         &:hover {
-          color: #764ba2;
           text-decoration: underline;
         }
       }
@@ -183,11 +166,29 @@
 
   .direita {
     width: 60%;
-    height: 100%;
+    height: 100vh;
     overflow: hidden;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-secondary, #0f0f0f);
+    padding: 40px 20px;
 
-    transition: transform 0.3s 
+    .worldmap-titulo {
+      font-family: 'Poppins', sans-serif;
+      font-size: 17px;
+      font-weight: lighter;
+      color: var(--text-secondary);
+      text-align: center;
+      margin-bottom: 4px;
+    }
+  }
+
+  .direita > *:not(.worldmap-titulo) {
+    width: 100%;
+    height: 100%;
   }
 }
 
@@ -197,7 +198,6 @@
 
     .esquerda {
       width: 100%;
-      box-shadow: 0 -5px 30px rgba(0, 0, 0, 0.08);
       padding: 30px 20px;
     }
 

@@ -86,7 +86,7 @@ hr {
     display: flex;
     align-items: center;
     gap: 5px;
-    font-weight: b;
+    font-weight: bold;
     svg {
         fill: #ffffff96;
     }

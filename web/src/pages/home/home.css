@@ -125,8 +125,6 @@
   font-weight: 600;
   color: var(--accent-text);
   box-shadow: var(--shadow-lg);
-  height: 30px;
-  width: 55px;
   transition-duration: .2s;
 
   &:hover {
