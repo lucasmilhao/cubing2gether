@@ -14,6 +14,5 @@ export function useConversaDataUsuario(idUsuario : string | undefined) {
     return useQuery({
         queryFn: () => fetchdata(idUsuario),
         queryKey: ["Conversa-data"],
-        refetchInterval: 2000
     });
 }

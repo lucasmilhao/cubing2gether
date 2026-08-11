@@ -15,7 +15,6 @@ export default function Home() {
   const navigate = useNavigate();
   const avatarFallback = usuarioLogado?.nome?.charAt(0)?.toUpperCase() || "U";
   const [isOpen, setIsOpen] = useState(false);
-  console.log(conversas);
   
   const handleModal = () => {
     setIsOpen(prev => !prev);
