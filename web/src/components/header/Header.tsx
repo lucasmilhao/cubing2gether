@@ -2,29 +2,50 @@ import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
 import { useUsuarioLogado } from "../../hooks/usuario/useUsuarioLogado";
 import { SearchModal } from "../search/SearchModal";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import logo from "../../assets/logo.png";
 import "./header.css";
+import { useUsuarioLogout } from "../../hooks/usuario/useUsuarioLogout";
 
 export function Header() {
 
     const { theme, toggleTheme } = useTheme();
     const navigate = useNavigate();
-    const {data : usuarioLogado} = useUsuarioLogado();
+    const { mutate: logout } = useUsuarioLogout();
+    const { data: usuarioLogado } = useUsuarioLogado();
     const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const menuRef = useRef<HTMLDivElement>(null);
 
     const checarConvidado = (): boolean => {
         return usuarioLogado?.isGuest === undefined ? false : usuarioLogado?.isGuest;
     }
 
-    
     function handleSearchModal() {
         setIsSearchOpen(prev => !prev);
     }
 
+    useEffect(() => {
+        const handleClickFora = (event: MouseEvent) => {
+            if (
+                menuRef.current &&
+                !menuRef.current.contains(event.target as Node)
+            ) {
+                setIsMenuOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickFora);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickFora);
+        };
+    }, []);
+
     return (
-        
+
         <header className="user-header">
-            <img src={"logo"} alt="" />
+            <img src={logo} alt="" />
             <div className="user-header-nav">
                 <h2 onClick={() => navigate("/")}>Home</h2>
                 <h2 onClick={() => navigate("/practice")}>Practice</h2>
@@ -43,13 +64,30 @@ export function Header() {
                         </svg>
                     )}
                 </button>
-                <button className="search-button" onClick={handleSearchModal}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="11" cy="11" r="6"></circle>
-                        <path d="m20 20-4.2-4.2"></path>
-                    </svg>
-                    <span>Pesquisar</span>
-                </button>
+                <div className="user-profile-header">
+                    <button className="search-button" onClick={handleSearchModal}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <circle cx="11" cy="11" r="6"></circle>
+                            <path d="m20 20-4.2-4.2"></path>
+                        </svg>
+                        <span>Pesquisar</span>
+                    </button>
+                    <img src={usuarioLogado?.picture} onClick={() => setIsMenuOpen(prev => !prev)} alt="" />
+                    {isMenuOpen && (
+                        <div ref={menuRef} className="user-options-menu">
+                            <button className="profile-actions" onClick={() => { navigate(`/user/${usuarioLogado?.id}`); setIsMenuOpen(false) }}>
+                                Profile
+                            </button>
+                            <hr />
+                            <button className="profile-actions">
+                                Ajuda
+                            </button>
+                            <button onClick={() => logout()} className="profile-actions">
+                                Logout
+                            </button>
+                        </div>
+                    )}
+                </div>
             </div>
             {isSearchOpen && <SearchModal closeModal={handleSearchModal} />}
         </header>

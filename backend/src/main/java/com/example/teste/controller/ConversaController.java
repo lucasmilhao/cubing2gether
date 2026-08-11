@@ -3,6 +3,7 @@ package com.example.teste.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -32,13 +33,13 @@ public class ConversaController {
     @PostMapping
     public ResponseEntity<ConversaResponseDTO> criarConversa(@RequestBody @Valid ConversaRequestDTO request) {
         Conversa c = service.criarConversa(request);
-        return ResponseEntity.ok(new ConversaResponseDTO(c));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ConversaResponseDTO(c));
     }
     
     @PostMapping("/participantes")
     public ResponseEntity<ConversaResponseDTO> criarConversaParticipantes(@RequestBody @Valid ConversaRequestDTO request) {
         Conversa c = service.criarConversaComParticipantes(request);
-        return ResponseEntity.ok(new ConversaResponseDTO(c));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ConversaResponseDTO(c));
     }
 
     @GetMapping

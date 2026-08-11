@@ -33,6 +33,7 @@ public class GoogleAuthenticationService implements AuthenticationProvider<Strin
                 .build();
 
         try {
+            System.out.println("Credential: " + credential);
             GoogleIdToken idToken = verifier.verify(credential);
 
             if(idToken == null) {

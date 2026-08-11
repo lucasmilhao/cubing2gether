@@ -45,7 +45,8 @@ export function Conversa() {
                 <div className="nome-conversa">
                     <h1>{conversa?.nome}</h1>
                     <div style={{display: "flex", gap: 10}} className="participantes">
-                        {conversa && conversa?.participantes?.length > 0 ? conversa.participantes.map(e => <p style={{color: "#bdb6b6b9"}}>{e.nome}</p>) : <p></p>}
+                        {conversa?.participantes?.slice(0, 3).map(e => <p style={{color: "#bdb6b6b9"}}>{e.nome}</p>)}
+                        {(conversa?.participantes?.length && conversa.participantes.length > 3) && <p style={{color: "#bdb6b6b9"}}>e mais {conversa.participantes.length - 3}</p>}
                     </div>
                 </div>
                 <div className="options">

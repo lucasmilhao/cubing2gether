@@ -10,7 +10,6 @@ import { Sobre } from './pages/sobre/Sobre'
 import Video from './pages/video/Video'
 import { Followers } from './pages/amigos/Followers'
 import { Following } from './pages/amigos/Following'
-import { PostModal } from './components/postagem/PostModal'
 import Home from './pages/home/Home'
 import MainLayout from './pages/MainLayout'
 

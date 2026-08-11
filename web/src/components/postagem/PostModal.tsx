@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { usePostagemCreate, type PostagemRequest } from "../../hooks/postagem/usePostagemCreate";
 import { useUsuarioLogado } from "../../hooks/usuario/useUsuarioLogado";
 import type { ScrambleProps } from "../../interface/ScrambleProps";
@@ -43,7 +43,7 @@ export function PostModal({ onClose, postagem }: PostModalProps) {
   ];
 
   const [placeholder] = useState(() => {
-    return placeholders[Math.floor(Math.random()* placeholders.length)];
+    return placeholders[Math.floor(Math.random() * placeholders.length)];
   });
 
   const TwistyPlayer = "twisty-player" as any;
@@ -78,7 +78,9 @@ export function PostModal({ onClose, postagem }: PostModalProps) {
 
           console.log(scramble.id);
 
-          postar(postProps);
+          postar(postProps, {
+            onSuccess: onClose
+          });
         }
       })
     }
@@ -88,7 +90,9 @@ export function PostModal({ onClose, postagem }: PostModalProps) {
         idUsuario: usuario?.id
       }
 
-      postar(postProps);
+      postar(postProps, {
+        onSuccess: onClose
+      });
 
     }
   }
@@ -113,7 +117,9 @@ export function PostModal({ onClose, postagem }: PostModalProps) {
 
             console.log(scramble.id);
 
-            editarPost(postProps);
+            editarPost(postProps, {
+              onSuccess: onClose
+            });
           }
         })
       }
@@ -133,7 +139,9 @@ export function PostModal({ onClose, postagem }: PostModalProps) {
 
             console.log(scramble.id);
 
-            editarPost(postProps);
+            editarPost(postProps, {
+              onSuccess: onClose
+            });
           }
         })
       }
@@ -146,7 +154,9 @@ export function PostModal({ onClose, postagem }: PostModalProps) {
       }
 
       editarPost(postProps);
-      deletarScramble(postagem?.scramble.id);
+      deletarScramble(postagem?.scramble.id, {
+        onSuccess: onClose
+      });
     }
 
   }

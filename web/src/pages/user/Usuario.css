@@ -155,35 +155,6 @@
   }
 }
 
-.search-button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 14px;
-  border: none;
-  border-radius: 999px;
-  background: var(--bg-primary);
-  color: var(--text-secondary);
-  font-weight: 600;
-  font-size: 0.95rem;
-  box-shadow: var(--shadow-md);
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-
-  &:hover {
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-lg);
-  }
-
-  &:active {
-    transform: scale(0.97);
-  }
-
-  svg {
-    flex-shrink: 0;
-  }
-}
 
 .usuario-section {
   padding: 14px;

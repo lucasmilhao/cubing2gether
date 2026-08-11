@@ -41,7 +41,7 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
   }
 
   const copiarLink = () => {
-    navigator.clipboard.writeText("Minha pica")
+    navigator.clipboard.writeText(``)
     .then(() => window.alert("Copiado com sucesso"))
   }
 
