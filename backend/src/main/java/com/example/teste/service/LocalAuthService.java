@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.teste.dto.login.LoginRequestDTO;
 import com.example.teste.dto.usuario.AuthenticatedUserDTO;
+import com.example.teste.exception.SenhaInvalidaException;
 import com.example.teste.exception.UsuarioNaoEncontradoException;
 import com.example.teste.model.AuthenticationProvider;
 import com.example.teste.model.Credential;
@@ -43,7 +44,7 @@ public class LocalAuthService implements AuthenticationProvider<LoginRequestDTO>
         Credential cred = u.getCredentials().stream().filter(e -> e.getProvider() == TypeProvider.LOCAL).toList().get(0);
 
         if(!passwordEncoder.matches(dto.senha(), cred.getPasswordHash()))    {
-            throw new RuntimeException();
+            throw new SenhaInvalidaException("Usuário ou senha inválidos.");
         }
 
         return new AuthenticatedUserDTO(

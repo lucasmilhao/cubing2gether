@@ -153,7 +153,9 @@ export function PostModal({ onClose, postagem }: PostModalProps) {
         idUsuario: usuario?.id
       }
 
-      editarPost(postProps);
+      editarPost(postProps, {
+        onSuccess: onClose
+      });
       deletarScramble(postagem?.scramble.id, {
         onSuccess: onClose
       });
