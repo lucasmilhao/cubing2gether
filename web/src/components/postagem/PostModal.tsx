@@ -280,7 +280,7 @@ export function PostModal({ onClose, postagem }: PostModalProps) {
   );
 }
 
-function CubeIcon() {
+export function CubeIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
       <path
