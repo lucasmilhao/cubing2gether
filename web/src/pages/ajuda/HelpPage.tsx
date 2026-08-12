@@ -19,7 +19,6 @@ import {
 } from "lucide-react";
 import "./HelpPage.css";
 import { Modal } from "../../components/modal/Modal";
-import { useNavigate } from "react-router-dom";
 import { useUsuarioLogado } from "../../hooks/usuario/useUsuarioLogado";
 
 const FACE_COLORS: Record<string, string> = {
@@ -245,7 +244,6 @@ export default function HelpPage() {
   const [openFaq, setOpenFaq] = useState<number | string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const {data : usuarioLogado} = useUsuarioLogado();
-  const navigate = useNavigate();
 
 
   const handleAction = (action: string) => {
