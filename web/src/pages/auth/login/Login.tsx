@@ -10,12 +10,13 @@ import { useUsuarioLoginGoogle } from "../../../hooks/usuario/useUsuarioLoginGoo
 import WorldMap from "../../../components/ui/world-map";
 
 export function Login() {
+  const [erro, setErro] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [tipo, setTipo] = useState("password");
   const [mostrarSenha, setMostrarSenha] = useState(false);
 
-  const { mutate, isPending } = useUsuarioLogin();
+  const { mutate, isPending, error } = useUsuarioLogin();
   const { mutate: loginGoogle } = useUsuarioLoginGoogle();
   const { mutate: convidado } = useGuestCreate();
 
@@ -38,7 +39,11 @@ export function Login() {
       senha,
     };
 
-    mutate(data);
+    mutate(data, {
+      onError: (err: any) => {
+        setErro(err.response.data.mensagem);
+      }
+    });
   };
 
   return (
@@ -46,7 +51,6 @@ export function Login() {
       <div className="esquerda">
         <form onSubmit={submit}>
           <h1 className="login-title">cubing2gether</h1>
-
           <div className="input-field">
             <p>Email:</p>
 
@@ -68,6 +72,8 @@ export function Login() {
               placeholder="Digite sua senha"
             />
 
+            {erro?.length > 0 && <p>{erro}</p>}
+            
             <button
               type="button"
               onClick={togglePassword}
