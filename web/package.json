@@ -20,6 +20,7 @@
     "clsx": "^2.1.1",
     "cors": "^2.8.6",
     "cubing": "^0.63.3",
+    "d3": "^7.9.0",
     "dotted-map": "^3.1.0",
     "express": "^5.2.1",
     "lucide-react": "^1.31.0",
@@ -41,6 +42,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@types/d3": "^7.4.3",
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",

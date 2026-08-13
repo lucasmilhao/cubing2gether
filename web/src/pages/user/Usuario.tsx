@@ -11,6 +11,7 @@ import { useFollowSeguindoData } from "../../hooks/follow/useFollowSeguindoData"
 import { useFollowSeguidoresData } from "../../hooks/follow/useFollowSeguidoresData";
 import { useFollowCreate, type FollowRequest } from "../../hooks/follow/useFollowCreate";
 import { useFollowStatus } from "../../hooks/follow/useFollowStatus";
+import { SolveChart } from "../../components/chart/SolveChart";
 
 
 export function Usuario() {
@@ -139,28 +140,12 @@ export function Usuario() {
                         </div>
                     </section>
                 </div>
-                {show && <h2>Histórico gráfico:</h2>}
-
-                <div className="graphic-solve" style={{ width: "100%" }}>
-                    {solves?.map(e => {
-
-                        const hue = (e.id * 360) / solves.length;
-
-                        return (
-                            <div
-                                key={e.id}
-                                style={{
-                                    backgroundColor: `hsl(${hue}, 70%, 50%)`,
-                                    height: `${e.tempo / 100}px`,
-                                    flex: 1,
-                                    color: `rgb(${segundos(e.tempo)} ${e.id} 32)`
-                                }}
-                            >
-                                <p style={{ color: "white" }}>{segundos(e.tempo)}s</p>
-                            </div>
-                        )
-                    })}
-                </div>
+                {show && (
+                    <>
+                        {<SolveChart solves={solves ?? []}/>}
+                    </>
+                )
+                }
             </div>
         </div>
     )

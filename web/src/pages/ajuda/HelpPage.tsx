@@ -20,6 +20,7 @@ import {
 import "./HelpPage.css";
 import { Modal } from "../../components/modal/Modal";
 import { useUsuarioLogado } from "../../hooks/usuario/useUsuarioLogado";
+import { useUsuarioLogout } from "../../hooks/usuario/useUsuarioLogout";
 
 const FACE_COLORS: Record<string, string> = {
   R: "#e63946",
@@ -56,7 +57,7 @@ const CATEGORIES: Category[] = [
       { q: "Como altero minha foto de perfil?", a: "Toque na sua foto atual em Editar perfil e escolha uma nova imagem da galeria." },
       { q: "Como altero o tema da aplicação?", a: "Em Configurações → Aparência, escolha entre tema claro, escuro ou automático (segue o sistema)." },
       { q: "Como excluo minha conta?", a: "Em Configurações → Conta → Excluir conta. Essa ação é permanente e remove suas postagens e dados." },
-      { q: "Como saio da minha conta?", a: 'Toque no seu avatar no menu lateral e selecione "Sair".' },
+      { q: "Como saio da minha conta?", a: 'Toque no seu avatar no menu lateral e selecione "Logout".' },
     ],
   },
   {
@@ -65,7 +66,7 @@ const CATEGORIES: Category[] = [
     label: "Postagens",
     faqs: [
       { q: "Como criar uma postagem?", a: 'Toque em "Nova postagem", escreva o que deseja compartilhar, adicione um scramble se quiser e toque em Publicar.' },
-      { q: "Como adicionar um scramble à postagem?", a: "No editor de postagem, toque no ícone de cubo para gerar ou colar um scramble. Ele aparece como um cubo 3D interativo abaixo do texto." },
+      { q: "Como adicionar um scramble à postagem?", a: "No editor de postagem, toque no ícone de cubo para escrever ou colar um scramble. Ele aparece como um cubo 3D interativo abaixo do texto." },
       { q: "Como editar ou excluir uma postagem?", a: "Toque nos três pontos no canto da postagem e escolha Editar ou Excluir. Apenas o autor pode fazer isso." },
       { q: "Como curtir uma postagem?", a: "Toque no ícone de coração abaixo da postagem. Toque novamente para descurtir." },
       { q: "Como comentar?", a: "Toque no ícone de comentário, escreva sua resposta e toque em Enviar." },
@@ -81,8 +82,8 @@ const CATEGORIES: Category[] = [
       { q: "O que são OLL, PLL e F2L?", a: "São etapas do método CFOP: F2L monta os dois primeiros andares, OLL orienta a última camada e PLL permuta as peças da última camada para finalizar o cubo." },
       { q: "Como interpretar uma sequência de movimentos?", a: "Cada letra representa o giro de uma face. Leia da esquerda para a direita, aplicando um movimento por vez sobre o cubo." },
       { q: "Notação do cubo (R, R', R2)", a: "A letra indica a face girada. O apóstrofo (') inverte o sentido (anti-horário) e o número 2 indica meia volta (180°)." },
-      { q: "Como visualizar o scramble", a: "Toque no cubo 3D em qualquer postagem para girar, dar zoom e conferir o estado embaralhado antes de tentar resolver." },
-      { q: "Como registrar uma solução", a: 'Após resolver, toque em "Registrar tempo" na postagem para salvar seu tempo e método vinculado àquele scramble.' },
+      { q: "Como visualizar o scramble", a: "Toque no cubo 3D em qualquer postagem ou em 'Practice' para girar, dar zoom e conferir o estado embaralhado antes de tentar resolver." },
+      { q: "Como registrar uma solução", a: 'Vá para a aba "Practice" e segure "espaço" para iniciar o timer e pressione qualquer tecla para parar o timer, registrando uma solução.' },
     ],
   },
   {
@@ -243,6 +244,7 @@ export default function HelpPage() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<number | string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const {mutate : logout} = useUsuarioLogout();
   const {data : usuarioLogado} = useUsuarioLogado();
 
 
@@ -268,7 +270,7 @@ export default function HelpPage() {
         break;
 
       case "logout":
-        // ...
+        logout();
         break;
     }
   };
