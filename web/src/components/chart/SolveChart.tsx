@@ -11,13 +11,19 @@ interface SolveChartProps {
     solves: Solve[];
 }
 
+type ChartData = {
+    index: number;
+    id: number;
+    tempo: number;
+};
+
 export function SolveChart({ solves }: SolveChartProps) {
     const svgRef = useRef<SVGSVGElement | null>(null);
 
     useEffect(() => {
         if (!svgRef.current || !solves.length) return;
 
-        const svg = d3.select(svgRef.current);
+        const svg = d3.select<SVGSVGElement, unknown>(svgRef.current);
 
         svg.selectAll("*").remove();
 
@@ -43,7 +49,7 @@ export function SolveChart({ solves }: SolveChartProps) {
             .attr("height", height)
             .attr("viewBox", `0 0 ${width} ${height}`);
 
-        const data = solves.map((solve, index) => ({
+        const data: ChartData[] = solves.map((solve, index) => ({
             index: index + 1,
             id: solve.id,
             tempo: solve.tempo / 1000,
@@ -69,7 +75,7 @@ export function SolveChart({ solves }: SolveChartProps) {
             .range([chartHeight, 0]);
 
         const chart = svg
-            .append("g")
+            .append<SVGGElement>("g")
             .attr(
                 "transform",
                 `translate(${margin.left},${margin.top})`
@@ -79,7 +85,7 @@ export function SolveChart({ solves }: SolveChartProps) {
          * GRID HORIZONTAL
          */
         chart
-            .append("g")
+            .append<SVGGElement>("g")
             .attr("class", "chart-grid")
             .call(
                 d3
@@ -93,7 +99,7 @@ export function SolveChart({ solves }: SolveChartProps) {
          * EIXO X
          */
         chart
-            .append("g")
+            .append<SVGGElement>("g")
             .attr("class", "chart-axis chart-axis-x")
             .attr("transform", `translate(0,${chartHeight})`)
             .call(
@@ -107,7 +113,7 @@ export function SolveChart({ solves }: SolveChartProps) {
          * EIXO Y
          */
         chart
-            .append("g")
+            .append<SVGGElement>("g")
             .attr("class", "chart-axis")
             .call(
                 d3
@@ -120,7 +126,7 @@ export function SolveChart({ solves }: SolveChartProps) {
          * LABEL DO EIXO X
          */
         chart
-            .append("text")
+            .append<SVGTextElement>("text")
             .attr("class", "chart-label")
             .attr("x", chartWidth / 2)
             .attr("y", chartHeight + 42)
@@ -131,7 +137,7 @@ export function SolveChart({ solves }: SolveChartProps) {
          * LABEL DO EIXO Y
          */
         chart
-            .append("text")
+            .append<SVGTextElement>("text")
             .attr("class", "chart-label")
             .attr("transform", "rotate(-90)")
             .attr("x", -chartHeight / 2)
@@ -143,13 +149,13 @@ export function SolveChart({ solves }: SolveChartProps) {
          * LINHA
          */
         const line = d3
-            .line<typeof data[number]>()
+            .line<ChartData>()
             .x(d => x(d.index))
             .y(d => y(d.tempo))
             .curve(d3.curveMonotoneX);
 
         chart
-            .append("path")
+            .append<SVGPathElement>("path")
             .datum(data)
             .attr("class", "solve-line")
             .attr("d", line);
@@ -158,14 +164,14 @@ export function SolveChart({ solves }: SolveChartProps) {
          * ÁREA ABAIXO DA LINHA
          */
         const area = d3
-            .area<typeof data[number]>()
+            .area<ChartData>()
             .x(d => x(d.index))
             .y0(chartHeight)
             .y1(d => y(d.tempo))
             .curve(d3.curveMonotoneX);
 
         chart
-            .append("path")
+            .append<SVGPathElement>("path")
             .datum(data)
             .attr("class", "solve-area")
             .attr("d", area);
@@ -175,7 +181,7 @@ export function SolveChart({ solves }: SolveChartProps) {
          */
         const tooltip = d3
             .select(container)
-            .append("div")
+            .append<HTMLDivElement>("div")
             .attr("class", "solve-tooltip")
             .style("opacity", 0);
 
@@ -183,10 +189,10 @@ export function SolveChart({ solves }: SolveChartProps) {
          * PONTOS
          */
         chart
-            .selectAll(".solve-point")
+            .selectAll<SVGCircleElement, ChartData>(".solve-point")
             .data(data)
             .enter()
-            .append("circle")
+            .append<SVGCircleElement>("circle")
             .attr("class", "solve-point")
             .attr("cx", d => x(d.index))
             .attr("cy", d => y(d.tempo))
@@ -224,7 +230,8 @@ export function SolveChart({ solves }: SolveChartProps) {
         const resizeObserver = new ResizeObserver(() => {
             if (!svgRef.current) return;
 
-            const newWidth = svgRef.current.parentElement?.clientWidth;
+            const newWidth =
+                svgRef.current.parentElement?.clientWidth;
 
             if (!newWidth) return;
 
@@ -241,7 +248,7 @@ export function SolveChart({ solves }: SolveChartProps) {
             x.range([0, newChartWidth]);
 
             chart
-                .select(".chart-grid")
+                .select<SVGGElement>(".chart-grid")
                 .call(
                     d3
                         .axisLeft(y)
@@ -251,7 +258,7 @@ export function SolveChart({ solves }: SolveChartProps) {
                 );
 
             chart
-                .select(".chart-axis-x")
+                .select<SVGGElement>(".chart-axis-x")
                 .call(
                     d3
                         .axisBottom(x)
@@ -260,15 +267,15 @@ export function SolveChart({ solves }: SolveChartProps) {
                 );
 
             chart
-                .select(".solve-line")
+                .select<SVGPathElement, ChartData[]>(".solve-line")
                 .attr("d", line);
 
             chart
-                .select(".solve-area")
+                .select<SVGPathElement, ChartData[]>(".solve-area")
                 .attr("d", area);
 
             chart
-                .selectAll(".solve-point")
+                .selectAll<SVGCircleElement, ChartData>(".solve-point")
                 .attr("cx", d => x(d.index));
         });
 
