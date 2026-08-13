@@ -13,6 +13,7 @@ import { Following } from './pages/amigos/Following'
 import Home from './pages/home/Home'
 import MainLayout from './pages/MainLayout'
 import HelpPage from './pages/ajuda/HelpPage'
+import NotFoundPage from './pages/erro/NotFoundPage'
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
           <Route path='/amigos' Component={Amigos} />
           <Route path='/sobre' Component={Sobre} />
           <Route path='/ajuda' Component={HelpPage} />
+          <Route path='/*' Component={NotFoundPage} />
         </Route>
         <Route path='/chat/:idConversa' Component={Conversa} />
         <Route path='/video/:roomId' Component={Video} />

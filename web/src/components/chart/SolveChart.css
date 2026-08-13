@@ -1,0 +1,98 @@
+.solve-chart-container {
+    position: relative;
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px 0;
+    overflow: visible;
+}
+
+.solve-chart-container svg {
+    display: block;
+    width: 100%;
+    height: 350px;
+    overflow: visible;
+}
+
+.chart-grid line {
+    stroke: var(--border-color, #2f3336);
+    stroke-opacity: 0.35;
+    stroke-dasharray: 4 4;
+}
+
+.chart-grid path {
+    display: none;
+}
+
+.chart-axis path,
+.chart-axis line {
+    stroke: var(--border-color, #2f3336);
+}
+
+.chart-axis text {
+    fill: var(--text-secondary, #71767b);
+    font-size: 11px;
+}
+
+.chart-label {
+    fill: var(--text-secondary, #71767b);
+    font-size: 12px;
+}
+
+.solve-line {
+    fill: none;
+    stroke: var(--accent-color, #1d9bf0);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.solve-area {
+    fill: var(--accent-color, #1d9bf0);
+    opacity: 0.08;
+}
+
+.solve-point {
+    fill: var(--accent-color, #1d9bf0);
+    stroke: var(--bg-primary, #000);
+    stroke-width: 2;
+    cursor: pointer;
+    transition: r 0.15s ease;
+}
+
+.solve-tooltip {
+    position: absolute;
+    z-index: 10;
+    pointer-events: none;
+
+    padding: 8px 12px;
+
+    border-radius: 8px;
+
+    background: var(--bg-secondary, #181818);
+    border: 1px solid var(--border-color, #2f3336);
+
+    color: var(--text-primary, #e7e9ea);
+
+    font-size: 12px;
+    line-height: 1.5;
+
+    white-space: nowrap;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+
+    transition: opacity 0.15s ease;
+}
+
+@media (max-width: 600px) {
+    .solve-chart-container svg {
+        height: 280px;
+    }
+
+    .chart-axis text {
+        font-size: 9px;
+    }
+
+    .chart-label {
+        font-size: 10px;
+    }
+}
