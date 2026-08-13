@@ -55,7 +55,7 @@ export function Header() {
             <div className="user-header-actions">
                 <div className="user-profile-header">
                     <button onClick={toggleTheme} title={theme === 'light' ? 'Modo escuro' : 'Modo claro'} style={{ background: "transparent", border: "none", cursor: "pointer" }}>
-                        <ToggleSwitch/>
+                        <ToggleSwitch />
                     </button>
                     <button className="search-button" onClick={handleSearchModal}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -64,21 +64,23 @@ export function Header() {
                         </svg>
                         <span>Pesquisar</span>
                     </button>
-                    <img src={usuarioLogado?.picture} onClick={() => setIsMenuOpen(prev => !prev)} alt="" />
-                    {isMenuOpen && (
-                        <div ref={menuRef} className="user-options-menu">
-                            <button className="profile-actions" onClick={() => { navigate(`/user/${usuarioLogado?.id}`); setIsMenuOpen(false) }}>
-                                Profile
-                            </button>
-                            <hr />
-                            <button onClick={() => navigate("/ajuda")} className="profile-actions">
-                                Ajuda
-                            </button>
-                            <button onClick={() => logout()} className="profile-actions">
-                                Logout
-                            </button>
-                        </div>
-                    )}
+                    <div ref={menuRef}>
+                        <img src={usuarioLogado?.picture} onClick={() => setIsMenuOpen(prev => !prev)} alt="" />
+                        {isMenuOpen && (
+                            <div className="user-options-menu">
+                                <button className="profile-actions" onClick={() => { navigate(`/user/${usuarioLogado?.id}`); setIsMenuOpen(false) }}>
+                                    Profile
+                                </button>
+                                <hr />
+                                <button onClick={() => { navigate("/ajuda"); setIsMenuOpen(false) }} className="profile-actions">
+                                    Ajuda
+                                </button>
+                                <button onClick={() => logout()} className="profile-actions">
+                                    Logout
+                                </button>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
             {isSearchOpen && <SearchModal closeModal={handleSearchModal} />}
