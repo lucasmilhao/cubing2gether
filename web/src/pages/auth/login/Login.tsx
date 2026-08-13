@@ -16,7 +16,7 @@ export function Login() {
   const [tipo, setTipo] = useState("password");
   const [mostrarSenha, setMostrarSenha] = useState(false);
 
-  const { mutate, isPending, error } = useUsuarioLogin();
+  const { mutate, isPending} = useUsuarioLogin();
   const { mutate: loginGoogle } = useUsuarioLoginGoogle();
   const { mutate: convidado } = useGuestCreate();
 
