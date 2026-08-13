@@ -1,4 +1,4 @@
-import { HelpCircle, Home, InfoIcon } from "lucide-react";
+import { Home, InfoIcon } from "lucide-react";
 import "./NotFoundPage.css";
 import { useNavigate } from "react-router-dom";
 
