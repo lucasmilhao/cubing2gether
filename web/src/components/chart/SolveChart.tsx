@@ -229,24 +229,24 @@ export function SolveChart({ solves }: SolveChartProps) {
          */
         const resizeObserver = new ResizeObserver(() => {
             if (!svgRef.current) return;
-
+        
             const newWidth =
                 svgRef.current.parentElement?.clientWidth;
-
+        
             if (!newWidth) return;
-
+        
             svg
                 .attr("width", newWidth)
                 .attr(
                     "viewBox",
                     `0 0 ${newWidth} ${height}`
                 );
-
+        
             const newChartWidth =
                 newWidth - margin.left - margin.right;
-
+        
             x.range([0, newChartWidth]);
-
+        
             chart
                 .select<SVGGElement>(".chart-grid")
                 .call(
@@ -256,7 +256,7 @@ export function SolveChart({ solves }: SolveChartProps) {
                         .tickSize(-newChartWidth)
                         .tickFormat(() => "")
                 );
-
+        
             chart
                 .select<SVGGElement>(".chart-axis-x")
                 .call(
@@ -265,15 +265,17 @@ export function SolveChart({ solves }: SolveChartProps) {
                         .ticks(Math.min(data.length, 10))
                         .tickFormat(d => `${d}`)
                 );
-
+        
             chart
-                .select<SVGPathElement, ChartData[]>(".solve-line")
+                .select<SVGPathElement>(".solve-line")
+                .datum(data)
                 .attr("d", line);
-
+        
             chart
-                .select<SVGPathElement, ChartData[]>(".solve-area")
+                .select<SVGPathElement>(".solve-area")
+                .datum(data)
                 .attr("d", area);
-
+        
             chart
                 .selectAll<SVGCircleElement, ChartData>(".solve-point")
                 .attr("cx", d => x(d.index));
