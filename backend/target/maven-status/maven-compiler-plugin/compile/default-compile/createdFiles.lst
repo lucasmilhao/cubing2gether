@@ -116,5 +116,6 @@ com\example\teste\controller\ScramblesController.class
 com\example\teste\model\PartidaUsuario.class
 com\example\teste\infra\security\SecurityFilter.class
 com\example\teste\repository\PostagemRepository.class
+com\example\teste\config\OpenAPIConfig.class
 com\example\teste\dto\postagem\PostagemResponseDTO.class
 com\example\teste\dto\denuncia\DenunciaRequestDTO.class
