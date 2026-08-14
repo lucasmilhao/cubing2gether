@@ -14,6 +14,7 @@ import Home from './pages/home/Home'
 import MainLayout from './pages/MainLayout'
 import HelpPage from './pages/ajuda/HelpPage'
 import NotFoundPage from './pages/erro/NotFoundPage'
+import { RedefinirSenha } from './pages/redefinir-senha/RedefinirSenha'
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
           <Route path='/ajuda' Component={HelpPage} />
           <Route path='/*' Component={NotFoundPage} />
         </Route>
+        <Route path='/redefinir-senha' Component={RedefinirSenha} />
         <Route path='/chat/:idConversa' Component={Conversa} />
         <Route path='/video/:roomId' Component={Video} />
         <Route path='/auth/login' Component={Login} />

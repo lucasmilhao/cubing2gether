@@ -5,11 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.teste.dto.partida.PartidaUsuarioRequestDTO;
 import com.example.teste.model.Partida;
 import com.example.teste.model.PartidaUsuario;
 import com.example.teste.model.Solve;
-import com.example.teste.repository.PartidaRepository;
 import com.example.teste.repository.PartidaUsuarioRepository;
 import com.example.teste.repository.SolveRepository;
 
@@ -18,9 +16,6 @@ public class PartidaUsuarioService {
     
     @Autowired
     private PartidaUsuarioRepository partidaUsuarioRepository;
-
-    @Autowired
-    private PartidaRepository partidaRepository;
 
     @Autowired
     private SolveRepository solveRepository;

@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.example.teste.model.AuthenticationProvider;
-import com.example.teste.model.TypeProvider;
+import com.example.teste.type.TypeProvider;
 
 @Service
 public class AuthenticationProviderFactory {

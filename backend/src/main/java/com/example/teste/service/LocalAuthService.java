@@ -1,8 +1,5 @@
 package com.example.teste.service;
 
-import java.util.List;
-
-import org.apache.hc.client5.http.auth.InvalidCredentialsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,10 +10,9 @@ import com.example.teste.exception.SenhaInvalidaException;
 import com.example.teste.exception.UsuarioNaoEncontradoException;
 import com.example.teste.model.AuthenticationProvider;
 import com.example.teste.model.Credential;
-import com.example.teste.model.TypeProvider;
 import com.example.teste.model.Usuario;
-import com.example.teste.repository.CredentialRepository;
 import com.example.teste.repository.UsuarioRepository;
+import com.example.teste.type.TypeProvider;
 
 import lombok.AllArgsConstructor;
 
@@ -29,9 +25,6 @@ public class LocalAuthService implements AuthenticationProvider<LoginRequestDTO>
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-
-    @Autowired
-    private CredentialRepository credentialRepository;
 
     @Override
     public TypeProvider getProvider() {

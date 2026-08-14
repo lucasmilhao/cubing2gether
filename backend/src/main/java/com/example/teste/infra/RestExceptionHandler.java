@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.example.teste.dto.ErroResponseDTO;
 import com.example.teste.exception.SenhaInvalidaException;
 import com.example.teste.exception.UsuarioExistenteException;
 import com.example.teste.exception.UsuarioNaoEncontradoException;
@@ -26,8 +25,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(SenhaInvalidaException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    private ResponseEntity<ErroResponseDTO> senhaBadRequest(SenhaInvalidaException e) {
-        return ResponseEntity.badRequest().body(new ErroResponseDTO(e.getMessage(), HttpStatus.BAD_REQUEST.toString()));
+    private ResponseEntity<ApiError> senhaBadRequest(SenhaInvalidaException e) {
+        return buildResponseEntity(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
     @ExceptionHandler(UsuarioExistenteException.class)
@@ -36,8 +35,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
     
     @ExceptionHandler(UsuarioNaoEncontradoException.class)
-    private ResponseEntity<ErroResponseDTO> usuarioNaoEncontrado(UsuarioNaoEncontradoException e) {
-        return ResponseEntity.badRequest().body(new ErroResponseDTO(e.getMessage(), HttpStatus.BAD_REQUEST.toString()));
+    private ResponseEntity<ApiError> usuarioNaoEncontrado(UsuarioNaoEncontradoException e) {
+        return buildResponseEntity(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
 
