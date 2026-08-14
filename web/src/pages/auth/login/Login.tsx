@@ -41,7 +41,7 @@ export function Login() {
 
     mutate(data, {
       onError: (err: any) => {
-        setErro(err.response.data.mensagem);
+        setErro(err.response.data.message);
       }
     });
   };

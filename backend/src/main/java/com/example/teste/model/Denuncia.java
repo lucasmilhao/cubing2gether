@@ -1,9 +1,6 @@
 package com.example.teste.model;
 
 import java.time.Instant;
-import java.util.List;
-
-import com.example.teste.dto.denuncia.DenunciaRequestDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

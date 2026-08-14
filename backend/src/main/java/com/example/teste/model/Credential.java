@@ -1,5 +1,7 @@
 package com.example.teste.model;
 
+import com.example.teste.type.TypeProvider;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

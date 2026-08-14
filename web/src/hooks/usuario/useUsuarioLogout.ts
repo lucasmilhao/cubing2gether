@@ -16,6 +16,7 @@ export function useUsuarioLogout() {
         mutationFn: fetchdata,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["usuario-data"] });
+            
             navigate("/auth/login");
         },
         onError: () => {

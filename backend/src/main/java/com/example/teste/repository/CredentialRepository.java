@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.teste.model.Credential;
-import com.example.teste.model.TypeProvider;
+import com.example.teste.type.TypeProvider;
 
 public interface CredentialRepository extends JpaRepository<Credential, String> {
     

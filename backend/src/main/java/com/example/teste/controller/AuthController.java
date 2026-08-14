@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.teste.dto.login.LoginRequestDTO;
 import com.example.teste.dto.login.LoginResponseDTO;
+import com.example.teste.dto.usuario.RedefinirSenhaRequestDTO;
 import com.example.teste.dto.usuario.UsuarioRequestDTO;
-import com.example.teste.model.TypeProvider;
+import com.example.teste.dto.usuario.UsuarioResponseDTO;
 import com.example.teste.service.AuthService;
+import com.example.teste.type.TypeProvider;
 import com.google.common.net.HttpHeaders;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -71,6 +73,20 @@ public class AuthController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
+    }
+
+    @PostMapping("/recuperar-senha")
+    public ResponseEntity<Void> rcuperarSenha(@RequestBody UsuarioResponseDTO request) {
+        service.solicitarRedefinicao(request.email());
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/redefinir-senha")
+    public ResponseEntity<Void> redefinirSenha(@RequestBody RedefinirSenhaRequestDTO request) {
+        service.redefinirSenha(request);
+
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/logout")

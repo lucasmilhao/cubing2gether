@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 
 import com.example.teste.exception.UsuarioNaoEncontradoException;
-import com.example.teste.model.TypeProvider;
 import com.example.teste.model.Usuario;
 import com.example.teste.repository.UsuarioRepository;
+import com.example.teste.type.TypeProvider;
 
 @Component
 public class CustomUserDetailsService implements UserDetailsService {

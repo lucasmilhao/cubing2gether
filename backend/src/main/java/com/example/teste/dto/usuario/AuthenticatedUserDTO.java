@@ -1,6 +1,6 @@
 package com.example.teste.dto.usuario;
 
-import com.example.teste.model.TypeProvider;
+import com.example.teste.type.TypeProvider;
 
 public record AuthenticatedUserDTO (
     TypeProvider provider,

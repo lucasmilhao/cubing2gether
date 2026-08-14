@@ -1,0 +1,175 @@
+.redefinir-senha-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: var(--bg-primary, #000000);
+}
+
+.redefinir-senha-card {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    background: var(--bg-secondary, #16181c);
+    border: 1px solid var(--border-color, #2f3336);
+    border-radius: 16px;
+    padding: 40px 32px 32px;
+    overflow: hidden;
+}
+
+/* nod sutil ao cubo: uma faixa com as 6 cores clássicas no topo do card */
+.redefinir-senha-card__accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(
+        90deg,
+        #f2f2f2 0%, #f2f2f2 16.66%,
+        #ffd500 16.66%, #ffd500 33.33%,
+        #009e60 33.33%, #009e60 50%,
+        #0051ba 50%, #0051ba 66.66%,
+        #ff5800 66.66%, #ff5800 83.33%,
+        #c41e3a 83.33%, #c41e3a 100%
+    );
+}
+
+.redefinir-senha-card__title {
+    color: var(--text-primary, #e7e9ea);
+    font-size: 22px;
+    font-weight: 700;
+    margin: 8px 0 4px;
+}
+
+.redefinir-senha-card__subtitle {
+    color: var(--text-secondary, #71767b);
+    font-size: 14px;
+    margin: 0 0 24px;
+}
+
+.redefinir-senha-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.redefinir-senha-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.redefinir-senha-field label {
+    color: var(--text-secondary, #71767b);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.redefinir-senha-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.redefinir-senha-field input {
+    width: 100%;
+    background: var(--bg-elevated, #1e2126);
+    border: 1px solid var(--border-color, #2f3336);
+    border-radius: 8px;
+    color: var(--text-primary, #e7e9ea);
+    font-size: 15px;
+    padding: 12px 14px;
+    padding-right: 76px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.redefinir-senha-field input:focus {
+    outline: none;
+    border-color: var(--accent-color, #1d9bf0);
+    box-shadow: 0 0 0 3px rgba(29, 155, 240, 0.15);
+}
+
+.redefinir-senha-field input.input--alerta {
+    border-color: var(--error-color, #f4212e);
+}
+
+.redefinir-senha-field input.input--alerta:focus {
+    box-shadow: 0 0 0 3px rgba(244, 33, 46, 0.15);
+}
+
+.redefinir-senha-field input::placeholder {
+    color: var(--text-secondary, #71767b);
+}
+
+.redefinir-senha-toggle {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    color: var(--accent-color, #1d9bf0);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 4px 6px;
+}
+
+.redefinir-senha-toggle:hover {
+    text-decoration: underline;
+}
+
+.redefinir-senha-hint {
+    font-size: 12px;
+}
+
+.redefinir-senha-hint--alerta {
+    color: var(--error-color, #f4212e);
+}
+
+.redefinir-senha-alert {
+    font-size: 13px;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin: 4px 0 0;
+}
+
+.redefinir-senha-alert--erro {
+    color: var(--error-color, #f4212e);
+    background: rgba(244, 33, 46, 0.1);
+    border: 1px solid rgba(244, 33, 46, 0.3);
+}
+
+.redefinir-senha-alert--sucesso {
+    color: var(--success-color, #00ba7c);
+    background: rgba(0, 186, 124, 0.1);
+    border: 1px solid rgba(0, 186, 124, 0.3);
+}
+
+.redefinir-senha-submit {
+    margin-top: 6px;
+    background: var(--accent-color);
+    color: var(--accent-text);
+    border: none;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 12px;
+    cursor: pointer;
+    transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.redefinir-senha-submit:hover:not(:disabled) {
+    background: var(--accent-hover);
+}
+
+.redefinir-senha-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+@media (max-width: 480px) {
+    .redefinir-senha-card {
+        padding: 32px 20px 24px;
+    }
+}

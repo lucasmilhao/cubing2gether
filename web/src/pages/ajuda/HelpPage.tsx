@@ -21,6 +21,7 @@ import "./HelpPage.css";
 import { Modal } from "../../components/modal/Modal";
 import { useUsuarioLogado } from "../../hooks/usuario/useUsuarioLogado";
 import { useUsuarioLogout } from "../../hooks/usuario/useUsuarioLogout";
+import { useSolicitarRedefinicaoSenha } from "../../hooks/usuario/useSolicitarRedefinicaoSenha";
 
 const FACE_COLORS: Record<string, string> = {
   R: "#e63946",
@@ -245,6 +246,7 @@ export default function HelpPage() {
   const [openFaq, setOpenFaq] = useState<number | string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const {mutate : logout} = useUsuarioLogout();
+  const {mutate : recuperarSenha, isPending} = useSolicitarRedefinicaoSenha();
   const {data : usuarioLogado} = useUsuarioLogado();
 
 
@@ -255,6 +257,7 @@ export default function HelpPage() {
         break;
 
       case "change-password":
+        recuperarSenha(usuarioLogado)
         break;
 
       case "change-email":
@@ -262,7 +265,9 @@ export default function HelpPage() {
         break;
 
       case "recover-password":
-        // ...
+        recuperarSenha(usuarioLogado, {
+          onSuccess: () => alert(`Enviamos um email para ${usuarioLogado?.email} com instruções de como redefinir sua senha.`)
+        });
         break;
 
       case "delete-account":
@@ -307,6 +312,7 @@ export default function HelpPage() {
     setOpenFaq(null);
     setQuery("");
   };
+
 
   return (
     <div className="help-page">
