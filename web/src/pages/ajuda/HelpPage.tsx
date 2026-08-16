@@ -257,7 +257,9 @@ export default function HelpPage() {
         break;
 
       case "change-password":
-        recuperarSenha(usuarioLogado)
+        recuperarSenha(usuarioLogado, {
+          onSuccess: () => alert(`Enviamos um email para ${usuarioLogado?.email} com instruções de como redefinir sua senha.`)
+        });
         break;
 
       case "change-email":
