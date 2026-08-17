@@ -52,7 +52,7 @@ export function RedefinirSenha() {
             {
                 onSuccess: () => {
                     setSucesso("Senha redefinida com sucesso! Redirecionando para o login...");
-                    setTimeout(() => navigate("/login"), 2000);
+                    setTimeout(() => navigate("/auth/login"), 2000);
                 },
                 onError: (error: any) => {
                     setErro(
