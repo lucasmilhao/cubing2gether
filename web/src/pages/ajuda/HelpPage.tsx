@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Search,
   ChevronLeft,
@@ -16,6 +16,7 @@ import {
   LogOut,
   Pencil,
   Square,
+  LoaderCircle,
 } from "lucide-react";
 import "./HelpPage.css";
 import { Modal } from "../../components/modal/Modal";
@@ -245,20 +246,50 @@ export default function HelpPage() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<number | string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const {mutate : logout} = useUsuarioLogout();
-  const {mutate : recuperarSenha, isPending} = useSolicitarRedefinicaoSenha();
-  const {data : usuarioLogado} = useUsuarioLogado();
+  const { mutate: logout } = useUsuarioLogout();
+  const { mutate: recuperarSenha, isPending } = useSolicitarRedefinicaoSenha();
+  const { data: usuarioLogado } = useUsuarioLogado();
+  const [loadingMessage, setLoadingMessage] = useState("Enviando...")
+
+  useEffect(() => {
+    if (!isPending) {
+      setLoadingMessage("Enviando...");
+      return;
+    }
+
+    const timeout1 = setTimeout(() => {
+      setLoadingMessage("Trabalhando nisso...");
+    }, 3000);
+
+    const timeout2 = setTimeout(() => {
+      setLoadingMessage("Quase lá...");
+    }, 7000);
+
+    const timeout3 = setTimeout(() => {
+      setLoadingMessage("Ainda está demorando um pouco...");
+    }, 12000);
+
+    return () => {
+      clearTimeout(timeout1);
+      clearTimeout(timeout2);
+      clearTimeout(timeout3);
+    };
+  }, [isPending]);
 
 
   const handleAction = (action: string) => {
     switch (action) {
       case "edit-profile":
-        setIsModalOpen(true); 
+        setIsModalOpen(true);
         break;
 
       case "change-password":
         recuperarSenha(usuarioLogado, {
-          onSuccess: () => alert(`Enviamos um email para ${usuarioLogado?.email} com instruções de como redefinir sua senha.`)
+          onSuccess: () => alert(`Enviamos um email para ${usuarioLogado?.email} com instruções de como redefinir sua senha.`),
+          onError: (err: any) => {
+            console.log(err.response.data);
+
+          }
         });
         break;
 
@@ -318,8 +349,16 @@ export default function HelpPage() {
 
   return (
     <div className="help-page">
+      {isPending && (
+        <div className="help-page__loading-overlay">
+          <div className="help-page__loading-content">
+            <LoaderCircle size={32} className="help-page__loading-spinner" />
+            <span>{loadingMessage}</span>
+          </div>
+        </div>
+      )}
       <header className="help-page__header">
-        {isModalOpen && <Modal usuarioLogado={usuarioLogado} closeModal={() => setIsModalOpen(prev => !prev)}/>}
+        {isModalOpen && <Modal usuarioLogado={usuarioLogado} closeModal={() => setIsModalOpen(prev => !prev)} />}
         {activeCategory && (
           <button
             className="help-page__back-button"

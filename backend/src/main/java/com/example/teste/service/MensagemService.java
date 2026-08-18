@@ -56,10 +56,10 @@ public class MensagemService {
         return mensagem;
     }
 
-    public List<Mensagem> getMensagensConversa(String idConversa) { 
+    public List<Mensagem> getMensagensConversa(String idConversa, Usuario usuarioLogado) { 
         List<Mensagem> listaMensagens = mensagemRepository.findByConversaIdConversaOrderByMandado(idConversa);
         listaMensagens.stream().forEach(e -> {
-            e.setIsVisto(true);
+            if(!e.getSender().getId().equals(usuarioLogado.getId())) e.setIsVisto(true);
             mensagemRepository.save(e);
         });
 

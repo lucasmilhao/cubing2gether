@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { PostModal } from "./PostModal";
 import { usePostagemDelete } from "../../hooks/postagem/usePostagemDelete";
 import { useDenunciaCreate, type DenunciaRequest } from "../../hooks/denuncia/useDenunciaCreate";
+import { CommentModal } from "../comentario/ComentarioModal";
 
 export function PostCard({ postagem }: { postagem: PostagemProps }) {
 
@@ -18,6 +19,7 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
 
   const [menuAberto, setMenuAberto] = useState(false);
   const [modalAberto, setModalAberto] = useState(false);
+  const [comentarioAberto, setComentarioAberto] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const TwistyPlayer = "twisty-player" as any;
@@ -25,6 +27,10 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
 
   const handleModal = () => {
     setModalAberto(prev => !prev)
+  }
+
+  const handleComentarioModal = () => {
+    setComentarioAberto(prev => !prev);
   }
 
   const remover = () => {
@@ -75,6 +81,7 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
 
   return (
     <article className="post-card">
+      {comentarioAberto && <CommentModal idPostagem={postagem.id} idUsuario={usuarioLogado?.id} comentarios={postagem.comentarios} onClose={handleComentarioModal}/>}
       {modalAberto && <PostModal onClose={handleModal} postagem={postagem} key={postagem.id}/>}
       <div className="post-card-avatar">
         {postagem.usuario.picture ? (
@@ -152,9 +159,8 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
         )}
 
         <footer className="post-card-actions">
-          <button className="action-btn" title="Comentar">
-            <CommentIcon />
-            {/* {postagem.comentarios ? <span>{postagem.comentarios}</span> : null} */}
+          <button className="action-btn" onClick={() => setComentarioAberto(prev => !prev)} title="Comentar">
+            <CommentIcon /> {postagem.comentarios.length}
           </button>
 
           <button

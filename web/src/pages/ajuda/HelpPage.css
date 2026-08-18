@@ -7,14 +7,72 @@
   box-sizing: border-box;
   background: var(--bg-primary, #000000);
   font-family: inherit;
-  color: var(--text-primary, #e7e9ea);
+  color: var(--text-primary);
 }
+.help-page {
+  position: relative;
+}
+
+.help-page__loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px);
+
+  cursor: wait;
+}
+
+.help-page__loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+
+  padding: 24px 32px;
+  border-radius: 12px;
+  color: var(--text-primary);
+}
+
+.help-page__loading-spinner {
+  animation: help-page-spin 1s linear infinite;
+}
+
+@keyframes help-page-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 
 .help-page__header {
   display: flex;
   align-items: center;
   gap: 12px;
   margin-bottom: 20px;
+}
+
+.account-action__spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .help-page__title {

@@ -1,8 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
-import type { AxiosPromise } from "axios";
 import { api } from "../../service/api";
 import type { UsuarioProps } from "../../interface/UsuarioProps";
 import type { ScrambleProps } from "../../interface/ScrambleProps";
+
+export interface ComentarioProps {
+    id : string,
+    usuario : UsuarioProps,
+    postagem : PostagemProps,
+    conteudo : string,
+    createdAt : string,
+}
 
 export interface PostagemProps {
     id : string,
@@ -10,13 +17,14 @@ export interface PostagemProps {
     scramble : ScrambleProps,
     usuario : UsuarioProps,
     createdAt : string,
-    curtidas : number
+    curtidas : number,
+    comentarios : ComentarioProps[]
 }
 
-const fetchData = async () : AxiosPromise<PostagemProps[]> => {
-    const response = api.get(`/postagem`);
+const fetchData = async () : Promise<PostagemProps[]> => {
+    const response = await api.get<PostagemProps[]>(`/postagem`);
 
-    return response;
+    return response.data;
 }
 
 export function usePostagemData() {

@@ -1,12 +1,22 @@
 .mensagem-container {
     display: flex;
     flex-direction: column;
-    padding: 16px 20px;
-    background: var(--bg-tertiary);
-    border-radius: 16px;
+
+    width: fit-content;
     max-width: 75%;
+
+    padding: 14px 16px 8px;
+
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+
     align-self: flex-start;
+
     animation: fadeIn 0.3s ease;
+
     box-shadow: var(--shadow-lg);
 }
 
@@ -15,65 +25,214 @@
         opacity: 0;
         transform: translateY(10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
+
+/* =========================================================
+   MENSAGEM DO USUÁRIO LOGADO
+   ========================================================= */
+
 .mensagem-container.own-message {
     align-self: flex-end;
-    background: linear-gradient(135deg, #5b95d8 0%, #4a7bc7 100%);
+
+    background: var(--accent-color);
+    color: var(--accent-text);
+
+    border-color: transparent;
 }
 
-.mensagem-container.own-message .user-info h3,
-.mensagem-container.own-message .mensagem-texto,
-.mensagem-container.own-message .info {
-    color: #fff;
-}
 
-.mensagem-container.own-message .info {
-    opacity: 0.8;
-}
+/* =========================================================
+   USUÁRIO
+   ========================================================= */
 
 .user-msg {
     display: flex;
     align-items: center;
-    gap: 12px;
+
+    gap: 10px;
     margin-bottom: 8px;
 }
 
 .user-msg img {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
+
+    flex-shrink: 0;
+
     border-radius: 50%;
+
     object-fit: cover;
-    border: 2px solid rgba(255, 255, 255, 0.2);
+
+    border: 2px solid var(--border-color);
+
+    cursor: pointer;
 }
 
 .user-info {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+
+    gap: 1px;
 }
 
 .user-info h3 {
     margin: 0;
-    font-size: 0.95rem;
+
+    font-size: 0.9rem;
     font-weight: 600;
+
     color: var(--text-primary);
 }
 
 .info {
-    font-size: 0.75rem;
-    color: var(--text-secondary);
     margin: 0;
+
+    font-size: 0.7rem;
+
+    color: var(--text-secondary);
 }
+
+
+/* =========================================================
+   TEXTO
+   ========================================================= */
 
 .mensagem-texto {
     margin: 0;
-    font-size: 1rem;
-    line-height: 1.5;
+
+    font-size: 0.95rem;
+    line-height: 1.45;
+
     color: var(--text-primary);
+
     word-wrap: break-word;
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   MENSAGEM DO USUÁRIO LOGADO
+   ========================================================= */
+
+.mensagem-container.own-message .user-info h3,
+.mensagem-container.own-message .mensagem-texto {
+    color: var(--accent-text);
+}
+
+.mensagem-container.own-message .info {
+    color: var(--accent-text);
+    opacity: 0.7;
+}
+
+
+/* =========================================================
+   RODAPÉ DA MENSAGEM
+   ========================================================= */
+
+.mensagem-footer {
+    display: flex;
+
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 4px;
+
+    min-height: 18px;
+
+    margin-top: 4px;
+}
+
+.mensagem-hora {
+    font-size: 0.65rem;
+
+    color: var(--text-secondary);
+
+    white-space: nowrap;
+}
+
+.own-message .mensagem-hora {
+    color: var(--accent-text);
+    opacity: 0.7;
+}
+
+
+/* =========================================================
+   STATUS — CHECK DO WHATSAPP
+   ========================================================= */
+
+.mensagem-status {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 18px;
+    height: 18px;
+
+    color: var(--text-secondary);
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.mensagem-status.visto {
+    color: var(--accent-text);
+}
+
+.mensagem-status.enviado {
+    color: var(--accent-text);
+    opacity: 0.65;
+}
+
+.check-icon {
+    width: 17px;
+    height: 17px;
+
+    display: block;
+}
+
+
+/* =========================================================
+   HOVER
+   ========================================================= */
+
+.mensagem-container:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.mensagem-container.own-message:hover {
+    filter: brightness(1.03);
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+    .mensagem-container {
+        max-width: 85%;
+
+        padding: 12px 14px 7px;
+    }
+
+    .user-msg img {
+        width: 32px;
+        height: 32px;
+    }
+
+    .user-info h3 {
+        font-size: 0.85rem;
+    }
+
+    .mensagem-texto {
+        font-size: 0.9rem;
+    }
 }
