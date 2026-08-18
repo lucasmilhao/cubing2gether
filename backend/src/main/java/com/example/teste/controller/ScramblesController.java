@@ -18,12 +18,8 @@ import com.example.teste.dto.scramble.ScrambleResponseDTO;
 import com.example.teste.model.Scramble;
 import com.example.teste.service.ScrambleService;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
-@Tag(name = "Scrambles", description = "Gerenciamento dos scrambles utilizados no cubo mágico.")
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/scrambles")
@@ -32,8 +28,6 @@ public class ScramblesController {
     @Autowired
     private ScrambleService service;
 
-    @Operation(summary = "Obter scramble", description = "Retorna um scramble para o tipo de cubo informado.")
-    @ApiResponse(responseCode = "200", description = "Scramble encontrado")
     @GetMapping("/{cube}")
     public ResponseEntity<ScrambleResponseDTO> getScramble(@PathVariable String cube) {
         ScrambleResponseDTO scramble = service.getScramble(cube);

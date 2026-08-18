@@ -63,8 +63,8 @@ export default function Home() {
         {isOpen && <PostModal onClose={handleModal}/>}
 
         <div className="home-posts-list">
-          {postagens?.data?.length ? (
-            postagens.data.map((postagem) => <PostCard key={postagem.id} postagem={postagem} />)
+          {postagens?.length ? (
+            postagens.map((postagem) => <PostCard key={postagem.id} postagem={postagem} />)
           ) : (
             <div className="home-empty-state">Ainda não há publicações para mostrar.</div>
           )}

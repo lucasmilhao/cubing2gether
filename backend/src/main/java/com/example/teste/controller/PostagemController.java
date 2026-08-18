@@ -18,13 +18,8 @@ import com.example.teste.dto.postagem.PostagemResponseDTO;
 import com.example.teste.model.Postagem;
 import com.example.teste.service.PostagemService;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
-@Tag(name = "Postagens", description = "Operações relacionadas às postagens da comunidade.")
 @RestController
 @RequestMapping("/postagem")
 public class PostagemController {
@@ -32,8 +27,6 @@ public class PostagemController {
     @Autowired
     private PostagemService service;
 
-    @Operation(summary = "Listar postagens", description = "Retorna todas as postagens cadastradas.")
-    @ApiResponse(responseCode = "200", description = "Lista de postagens retornada com sucesso")
     @GetMapping
     public ResponseEntity<List<PostagemResponseDTO>> getTodas() {
         List<PostagemResponseDTO> lista = service.getTodasPostagens().stream()
@@ -43,11 +36,7 @@ public class PostagemController {
         return ResponseEntity.ok(lista);
     }
 
-    @Operation(summary = "Criar postagem", description = "Cria uma nova postagem para a comunidade.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Postagem criada com sucesso"),
-            @ApiResponse(responseCode = "400", description = "Dados da postagem inválidos")
-    })
+    
     @PostMapping
     public ResponseEntity<PostagemResponseDTO> criarPostagem(@RequestBody @Valid PostagemRequestDTO request) {
         Postagem p = service.criarPostagem(request);
@@ -55,8 +44,7 @@ public class PostagemController {
         return ResponseEntity.ok(new PostagemResponseDTO(p));
     }
 
-    @Operation(summary = "Excluir postagem", description = "Remove uma postagem existente.")
-    @ApiResponse(responseCode = "204", description = "Postagem removida com sucesso")
+    
     @DeleteMapping("{idPostagem}")
     public ResponseEntity<PostagemResponseDTO> deletarPostagem(@PathVariable String idPostagem) {
         service.removerPostagem(idPostagem);
@@ -64,11 +52,7 @@ public class PostagemController {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "Editar postagem", description = "Atualiza os dados de uma postagem existente.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Postagem atualizada com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Postagem não encontrada")
-    })
+    
     @PutMapping("{idPostagem}")
     public ResponseEntity<PostagemResponseDTO> editarPostagem(@PathVariable String idPostagem,
             @RequestBody @Valid PostagemRequestDTO request) {

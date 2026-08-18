@@ -21,13 +21,9 @@ import com.example.teste.model.Usuario;
 import com.example.teste.repository.UsuarioRepository;
 import com.example.teste.service.UsuarioService;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
-@Tag(name = "Usuários", description = "Operações relacionadas aos usuários da plataforma.")
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/usuarios")
@@ -70,12 +66,7 @@ public class UsuarioController {
 
         return ResponseEntity.ok(new UsuarioResponseDTO(u));
     }
-
-    @Operation(summary = "Obter usuário autenticado", description = "Retorna os dados do usuário atualmente autenticado.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Usuário encontrado"),
-            @ApiResponse(responseCode = "401", description = "Usuário não autenticado")
-    })
+    
     @GetMapping("/me")
     public ResponseEntity<UsuarioResponseDTO> getMe(
             @AuthenticationPrincipal Usuario user) {

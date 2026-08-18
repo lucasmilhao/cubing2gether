@@ -7,6 +7,7 @@ com\example\teste\service\GoogleAuthenticationService.class
 com\example\teste\dto\curtida\CurtidaRequestDTO.class
 com\example\teste\repository\ScrambleRepository.class
 com\example\teste\controller\PostagemController.class
+com\example\teste\dto\comentario\ComentarioRequestDTO.class
 com\example\teste\dto\notificacao\NotificacaoResponseDTO.class
 com\example\teste\service\UsuarioService.class
 com\example\teste\dto\solve\SolveRequestDTO.class
@@ -21,6 +22,7 @@ com\example\teste\model\Postagem.class
 com\example\teste\service\NotificacaoService.class
 com\example\teste\dto\usuario\AuthenticatedUserDTO.class
 com\example\teste\infra\security\TokenService.class
+com\example\teste\model\Comentario.class
 com\example\teste\service\ParticipantesConversaService.class
 com\example\teste\infra\security\CustomUserDetailsService.class
 com\example\teste\type\TypeProvider.class
@@ -31,6 +33,7 @@ com\example\teste\type\TypeNotificacao.class
 com\example\teste\infra\RestExceptionHandler.class
 com\example\teste\model\Usuario.class
 com\example\teste\service\PartidaService.class
+com\example\teste\service\ComentarioService.class
 com\example\teste\dto\partida\PartidaRequestDTO.class
 com\example\teste\dto\partida\PartidaResponseDTO.class
 com\example\teste\service\PartidaUsuarioService.class
@@ -52,6 +55,7 @@ com\example\teste\repository\CredentialRepository.class
 com\example\teste\dto\scramble\ScrambleRequestDTO.class
 com\example\teste\controller\MensagemController.class
 com\example\teste\dto\notificacao\NotificacaoRequestDTO.class
+com\example\teste\repository\ComentarioRepository.class
 com\example\teste\dto\follow\FollowStatusDTO.class
 com\example\teste\service\CurtidaService.class
 com\example\teste\dto\chat\conversa\ConversaResponseDTO.class
@@ -104,6 +108,7 @@ com\example\teste\service\EmailService.class
 com\example\teste\controller\DenunciaController.class
 com\example\teste\repository\MensagemRepository.class
 com\example\teste\infra\security\ApiError.class
+com\example\teste\controller\ComentarioController.class
 com\example\teste\dto\login\LoginRequestDTO.class
 com\example\teste\repository\TokenRedefinicaoSenhaRepository.class
 com\example\teste\controller\PartidaUsuarioController.class
@@ -116,6 +121,6 @@ com\example\teste\controller\ScramblesController.class
 com\example\teste\model\PartidaUsuario.class
 com\example\teste\infra\security\SecurityFilter.class
 com\example\teste\repository\PostagemRepository.class
-com\example\teste\config\OpenAPIConfig.class
 com\example\teste\dto\postagem\PostagemResponseDTO.class
+com\example\teste\dto\comentario\ComentarioResponseDTO.class
 com\example\teste\dto\denuncia\DenunciaRequestDTO.class

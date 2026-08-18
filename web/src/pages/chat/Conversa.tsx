@@ -7,6 +7,7 @@ import { useState, useRef, useEffect } from "react";
 import { Mensagem } from "../../components/mensagem/Mensagem";
 import "./conversa.css";
 import { useConversaData } from "../../hooks/chat/conversa/useConversaData";
+import { ArrowLeft } from "lucide-react";
 
 export function Conversa() {
     const { idConversa } = useParams();
@@ -42,6 +43,9 @@ export function Conversa() {
     return (
         <div className="conversa-container">
             <header className="conversa-header">
+            <button className="back-button" onClick={() => window.history.back()}>
+                <ArrowLeft/>
+            </button>
                 <div className="nome-conversa">
                     <h1>{conversa?.nome}</h1>
                     <div style={{display: "flex", gap: 10}} className="participantes">

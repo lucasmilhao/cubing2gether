@@ -49,6 +49,9 @@ public class Postagem {
 
     @OneToMany(mappedBy = "postagem", orphanRemoval = true)
     private List<Curtida> curtidas = new ArrayList<>();
+
+    @OneToMany(mappedBy = "postagem", orphanRemoval = true)
+    private List<Comentario> comentarios = new ArrayList<>();
     
     @PrePersist
     public void PrePersist() {

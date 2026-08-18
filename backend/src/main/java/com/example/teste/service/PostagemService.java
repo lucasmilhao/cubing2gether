@@ -71,4 +71,8 @@ public class PostagemService {
         return postagemRepository.save(p);
     }
 
+    public Postagem getPostagemId(String idPostagem) {
+        return postagemRepository.findById(idPostagem).orElseThrow(() -> new RuntimeException("Postagem não encontrada"));
+    }
+
 }

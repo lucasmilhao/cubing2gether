@@ -44,9 +44,9 @@
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.worldcubeassociation.tnoodle</groupId>
-            <artifactId>lib-scrambles</artifactId>
-            <version>0.19.2</version>
+            <groupId>org.worldcubeassociation</groupId>
+            <artifactId>tnoodle</artifactId>
+            <version>1.2.3</version>
         </dependency>
         <dependency>
             <groupId>com.google.api-client</groupId>
@@ -92,12 +92,12 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- <dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
-        </dependency> -->
+        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -130,11 +130,7 @@
             <version>0.11.5</version>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>3.0.3</version> <!-- Versão compatível com Spring Boot 4 -->
-        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
