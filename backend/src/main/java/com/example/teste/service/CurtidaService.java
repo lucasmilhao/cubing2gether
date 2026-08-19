@@ -6,13 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.teste.dto.curtida.CurtidaRequestDTO;
-import com.example.teste.exception.UsuarioNaoEncontradoException;
 import com.example.teste.model.Curtida;
 import com.example.teste.model.Postagem;
 import com.example.teste.model.Usuario;
 import com.example.teste.repository.CurtidaRepository;
-import com.example.teste.repository.PostagemRepository;
-import com.example.teste.repository.UsuarioRepository;
 
 @Service
 public class CurtidaService {
@@ -21,17 +18,17 @@ public class CurtidaService {
     private CurtidaRepository curtidaRepository;
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UsuarioService usuarioService;
 
     @Autowired
-    private PostagemRepository postagemRepository;
+    private PostagemService postagemService;
 
     public Curtida criarCurtida(CurtidaRequestDTO request) {
-        Usuario u = usuarioRepository.findById(request.idUsuario()).orElseThrow(() -> new UsuarioNaoEncontradoException());
-        Postagem p = postagemRepository.findById(request.idPostagem()).orElseThrow(() -> new RuntimeException());
+        Usuario u = usuarioService.getUsuarioId(request.idUsuario());
+        Postagem p = postagemService.getPostagemId(request.idPostagem());
 
         Optional<Curtida> c = curtidaRepository.findByUsuarioAndPostagem(u, p);
-
+        
         if(c.isPresent()) {
             curtidaRepository.delete(c.get());
             return c.get();
@@ -44,4 +41,10 @@ public class CurtidaService {
         return curtidaRepository.save(curtida);
     }
 
+    public Boolean isPostagemCurtida(Usuario usuario, String idPostagem) {
+        Postagem postagem = postagemService.getPostagemId(idPostagem);
+        Optional<Curtida> c = curtidaRepository.findByUsuarioAndPostagem(usuario, postagem);
+
+        return c.isPresent();
+    }
 }
