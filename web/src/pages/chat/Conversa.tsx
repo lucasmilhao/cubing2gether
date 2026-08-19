@@ -43,7 +43,7 @@ export function Conversa() {
     return (
         <div className="conversa-container">
             <header className="conversa-header">
-            <button className="back-button" onClick={() => window.history.back()}>
+            <button className="back-button-chat" onClick={() => window.history.back()}>
                 <ArrowLeft/>
             </button>
                 <div className="nome-conversa">

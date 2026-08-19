@@ -20,7 +20,7 @@
     box-shadow: var(--shadow-lg);
 }
 
-.back-button {
+.back-button-chat {
     width: 40px;
     height: 40px;
 
@@ -49,12 +49,12 @@
         transform 0.15s ease;
 }
 
-.back-button:hover {
+.back-button-chat:hover {
     background: var(--bg-tertiary);
     color: var(--accent-color);
 }
 
-.back-button:active {
+.back-button-chat:active {
     transform: scale(0.9);
 }
 
