@@ -8,6 +8,7 @@ import { PostModal } from "./PostModal";
 import { usePostagemDelete } from "../../hooks/postagem/usePostagemDelete";
 import { useDenunciaCreate, type DenunciaRequest } from "../../hooks/denuncia/useDenunciaCreate";
 import { CommentModal } from "../comentario/ComentarioModal";
+import { useIsCurtido } from "../../hooks/curtida/useIsCurtida";
 
 export function PostCard({ postagem }: { postagem: PostagemProps }) {
 
@@ -16,6 +17,7 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
   const { mutate: denunciar } = useDenunciaCreate();
 
   const curtida = useCurtidaCreate();
+  const { data: isCurtido } = useIsCurtido(postagem.id);
 
   const [menuAberto, setMenuAberto] = useState(false);
   const [shareAberto, setShareAberto] = useState(false);
@@ -23,6 +25,20 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
   const [comentarioAberto, setComentarioAberto] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const shareRef = useRef<HTMLDivElement>(null);
+
+  const [destacado, setDestacado] = useState(false);
+
+  useEffect(() => {
+    if (window.location.hash === `#post-${postagem.id}`) {
+      setDestacado(true);
+
+      const timer = setTimeout(() => {
+        setDestacado(false);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [postagem.id]);
 
   const TwistyPlayer = "twisty-player" as any;
   const navigate = useNavigate();
@@ -49,9 +65,11 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
   }
 
   const copiarLink = () => {
-    navigator.clipboard.writeText(`http://localhost:5173/postagem/${postagem.id}`)
+
+    const link = `${window.location.origin}/user/${postagem.usuario.id}#post-${postagem.id}`;
+    navigator.clipboard.writeText(link)
       .then(() => window.alert("Copiado com sucesso"))
-      setShareAberto(false);
+    setShareAberto(false);
   }
 
   useEffect(() => {
@@ -91,7 +109,8 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
   const tempoRelativo = formatarTempoRelativo(postagem.createdAt);
 
   return (
-    <article className="post-card">
+    <article id={`post-${postagem.id}`}
+      className={`post-card ${destacado ? "post-card-destacado" : ""}`}>
       {comentarioAberto && <CommentModal idPostagem={postagem.id} idUsuario={usuarioLogado?.id} comentarios={postagem.comentarios} onClose={handleComentarioModal} />}
       {modalAberto && <PostModal onClose={handleModal} postagem={postagem} key={postagem.id} />}
       <div className="post-card-avatar">
@@ -175,7 +194,7 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
           </button>
 
           <button
-            className={`action-btn like-btn ${false /*curtido : boolean*/ ? "like-btn-active" : ""}`}
+            className={`action-btn like-btn ${isCurtido /*curtido : boolean*/ ? "like-btn-active" : ""}`}
             onClick={toggleCurtir}
             title="Curtir"
           >

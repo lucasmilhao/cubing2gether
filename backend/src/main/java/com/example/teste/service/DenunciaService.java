@@ -11,13 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.teste.dto.denuncia.DenunciaRequestDTO;
-import com.example.teste.exception.UsuarioNaoEncontradoException;
 import com.example.teste.model.Denuncia;
 import com.example.teste.model.Postagem;
 import com.example.teste.model.Usuario;
 import com.example.teste.repository.DenunciaRepository;
-import com.example.teste.repository.PostagemRepository;
-import com.example.teste.repository.UsuarioRepository;
 
 @Service
 public class DenunciaService {
@@ -26,17 +23,17 @@ public class DenunciaService {
     private DenunciaRepository denunciaRepository;
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UsuarioService usuarioService;
 
     @Autowired
-    private PostagemRepository postagemRepository;
+    private PostagemService postagemService;
 
     public Denuncia criarDenuncia(DenunciaRequestDTO request) {
         System.out.println("CHEGOU ATE AQUI");
-        Usuario u = usuarioRepository.findById(request.idUsuario()).orElseThrow(() -> new UsuarioNaoEncontradoException());
+        Usuario u = usuarioService.getUsuarioId(request.idUsuario());
 
         if(request.idPostagem() != null) {
-            Postagem p = postagemRepository.findById(request.idPostagem()).orElseThrow(() -> new RuntimeException());
+            Postagem p = postagemService.getPostagemId(request.idPostagem());
     
             Optional<Denuncia> denuncia = denunciaRepository.findByPostagemAndUsuario(p, u);
             

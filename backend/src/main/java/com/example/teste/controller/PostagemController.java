@@ -36,6 +36,14 @@ public class PostagemController {
         return ResponseEntity.ok(lista);
     }
 
+    @GetMapping("/{idUsuario}")
+    public ResponseEntity<List<PostagemResponseDTO>> getPostagemUsuario(@PathVariable String idUsuario) {
+        List<PostagemResponseDTO> lista = service.getPostagemPorUsuario(idUsuario).stream()
+        .map(PostagemResponseDTO::new)
+        .toList();
+        
+        return ResponseEntity.ok(lista);
+    }
     
     @PostMapping
     public ResponseEntity<PostagemResponseDTO> criarPostagem(@RequestBody @Valid PostagemRequestDTO request) {

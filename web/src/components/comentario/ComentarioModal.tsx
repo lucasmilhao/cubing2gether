@@ -3,6 +3,7 @@ import type { ComentarioProps } from "../../hooks/postagem/usePostagemData";
 import "./ComentarioModal.css";
 import { formatarTempoRelativo } from "../postagem/PostCard";
 import { useComentarioPost, type ComentarioRequest } from "../../hooks/postagem/useComentarioPost";
+import { BalloonIcon } from "lucide-react";
 
 interface CommentModalProps {
     comentarios: ComentarioProps[];
@@ -84,7 +85,7 @@ export function CommentModal({
                     {comentarios.length === 0 ? (
                         <div className="comment-modal__empty">
                             <div className="comment-modal__empty-icon">
-                                💬
+                                <BalloonIcon/>
                             </div>
 
                             <h3>Nenhum comentário ainda</h3>

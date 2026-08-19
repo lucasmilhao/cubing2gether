@@ -5,12 +5,12 @@
   border-bottom: 1px solid #2f3336;
   background: var(--bg-primary);
   color: #e7e9ea;
-  cursor: pointer;
+  min-width: 750px;
   transition: background 0.15s ease;
 }
 
 .post-card:hover {
-  background: var(--bg-primary );
+  background: var(--bg-tertiary);
 }
 
 .post-card-avatar img,
@@ -124,6 +124,7 @@
   font-family: "SFMono-Regular", Consolas, monospace;
   word-break: break-word;
 }
+
 .share-container {
   position: relative;
 }
@@ -164,6 +165,10 @@
   z-index: 100;
 }
 
+img {
+  cursor: pointer;
+}
+
 .post-options-menu button {
   width: 100%;
   padding: 0.6rem 0.75rem;
@@ -198,6 +203,11 @@
   transition: background 0.15s ease, color 0.15s ease;
 }
 
+.post-card-destacado {
+  border-radius: 8px;
+  background-color: var(--bg-secondary);
+}
+
 .action-btn:hover {
   background: rgba(29, 155, 240, 0.1);
   color: #1d9bf0;
@@ -205,12 +215,12 @@
 
 .like-btn:hover {
   background: rgba(249, 24, 128, 0.1);
-  color: #f91880;
+  color: #f9183d;
 }
 
 
 .like-btn-active {
-  color: #f91880;
+  color: #f9183da4;
 }
 
 .options-btn:hover {

@@ -7,13 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.teste.dto.postagem.PostagemRequestDTO;
-import com.example.teste.exception.UsuarioNaoEncontradoException;
 import com.example.teste.model.Postagem;
 import com.example.teste.model.Scramble;
 import com.example.teste.model.Usuario;
 import com.example.teste.repository.PostagemRepository;
 import com.example.teste.repository.ScrambleRepository;
-import com.example.teste.repository.UsuarioRepository;
 
 @Service
 public class PostagemService {
@@ -22,13 +20,13 @@ public class PostagemService {
     private PostagemRepository postagemRepository;
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UsuarioService usuarioService;
 
     @Autowired
     private ScrambleRepository scrambleRepository;
 
     public Postagem criarPostagem(PostagemRequestDTO request) {
-        Usuario u = usuarioRepository.findById(request.idUsuario()).orElseThrow(() -> new UsuarioNaoEncontradoException());
+        Usuario u = usuarioService.getUsuarioId(request.idUsuario());
         Scramble s = null;
 
         if(request.idScramble() != null) {
@@ -45,6 +43,12 @@ public class PostagemService {
 
     public List<Postagem> getTodasPostagens() {
         return postagemRepository.findAll();
+    }
+
+    public List<Postagem> getPostagemPorUsuario(String idUsuario) {
+        Usuario u = usuarioService.getUsuarioId(idUsuario);
+
+        return postagemRepository.findByUsuario(u);
     }
 
     @Transactional
