@@ -124,8 +124,17 @@
   font-family: "SFMono-Regular", Consolas, monospace;
   word-break: break-word;
 }
+.share-container {
+  position: relative;
+}
+
+.share-menu {
+  top: calc(100% + 0.4rem);
+  left: 10px;
+}
 
 .post-card-actions {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 24px;

@@ -12,15 +12,17 @@ import { CommentModal } from "../comentario/ComentarioModal";
 export function PostCard({ postagem }: { postagem: PostagemProps }) {
 
   const { data: usuarioLogado } = useUsuarioLogado();
-  const {mutate : deletar} = usePostagemDelete();
-  const{mutate : denunciar} = useDenunciaCreate();
+  const { mutate: deletar } = usePostagemDelete();
+  const { mutate: denunciar } = useDenunciaCreate();
 
   const curtida = useCurtidaCreate();
 
   const [menuAberto, setMenuAberto] = useState(false);
+  const [shareAberto, setShareAberto] = useState(false);
   const [modalAberto, setModalAberto] = useState(false);
   const [comentarioAberto, setComentarioAberto] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const shareRef = useRef<HTMLDivElement>(null);
 
   const TwistyPlayer = "twisty-player" as any;
   const navigate = useNavigate();
@@ -38,7 +40,7 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
   }
 
   const denuncia = () => {
-    const props : DenunciaRequest = {
+    const props: DenunciaRequest = {
       idPostagem: postagem.id,
       idUsuario: postagem.usuario.id
     }
@@ -47,8 +49,9 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
   }
 
   const copiarLink = () => {
-    navigator.clipboard.writeText(``)
-    .then(() => window.alert("Copiado com sucesso"))
+    navigator.clipboard.writeText(`http://localhost:5173/postagem/${postagem.id}`)
+      .then(() => window.alert("Copiado com sucesso"))
+      setShareAberto(false);
   }
 
   useEffect(() => {
@@ -58,6 +61,14 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
         !menuRef.current.contains(event.target as Node)
       ) {
         setMenuAberto(false);
+      }
+
+
+      if (
+        shareRef.current &&
+        !shareRef.current.contains(event.target as Node)
+      ) {
+        setShareAberto(false);
       }
     };
 
@@ -81,8 +92,8 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
 
   return (
     <article className="post-card">
-      {comentarioAberto && <CommentModal idPostagem={postagem.id} idUsuario={usuarioLogado?.id} comentarios={postagem.comentarios} onClose={handleComentarioModal}/>}
-      {modalAberto && <PostModal onClose={handleModal} postagem={postagem} key={postagem.id}/>}
+      {comentarioAberto && <CommentModal idPostagem={postagem.id} idUsuario={usuarioLogado?.id} comentarios={postagem.comentarios} onClose={handleComentarioModal} />}
+      {modalAberto && <PostModal onClose={handleModal} postagem={postagem} key={postagem.id} />}
       <div className="post-card-avatar">
         {postagem.usuario.picture ? (
           <img onClick={() => navigate(`/user/${postagem.usuario.id}`)} src={postagem.usuario.picture} alt={postagem.usuario.nome} />
@@ -104,28 +115,28 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
           <div className="post-options" ref={menuRef}>
             <button onClick={() => setMenuAberto(prev => !prev)} className="action-btn options-btn">
               <OptionsIcon />
-
-              {menuAberto && (
-                <div className="post-options-menu">
-                  {usuarioLogado?.id === postagem.usuario.id ?
-                    (<>
-                      <button onClick={handleModal}>
-                        Editar
-                      </button>
-
-                      <button onClick={remover}>
-                        Excluir
-                      </button>
-                    </>
-                    )
-                    :
-                    <button onClick={denuncia}>
-                      Denunciar
-                    </button>
-                  }
-                </div>
-              )}
             </button>
+
+            {menuAberto && (
+              <div className="post-options-menu">
+                {usuarioLogado?.id === postagem.usuario.id ?
+                  (<>
+                    <button onClick={handleModal}>
+                      Editar
+                    </button>
+
+                    <button onClick={remover}>
+                      Excluir
+                    </button>
+                  </>
+                  )
+                  :
+                  <button onClick={denuncia}>
+                    Denunciar
+                  </button>
+                }
+              </div>
+            )}
           </div>
         </header>
 
@@ -172,9 +183,19 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
             {postagem.curtidas}
           </button>
 
-          <button onClick={copiarLink} className="action-btn" title="Compartilhar">
-            <ShareIcon />
-          </button>
+          <div className="share-container" ref={shareRef}>
+            <button onClick={() => setShareAberto(prev => !prev)} className="action-btn" title="Compartilhar">
+              <ShareIcon />
+            </button>
+
+            {shareAberto && (
+              <div className="post-options-menu share-menu">
+                <button onClick={copiarLink}>
+                  Copiar link
+                </button>
+              </div>
+            )}
+          </div>
         </footer>
       </div>
     </article>
