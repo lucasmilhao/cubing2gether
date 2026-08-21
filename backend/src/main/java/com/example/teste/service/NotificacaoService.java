@@ -1,5 +1,6 @@
 package com.example.teste.service;
 
+import java.time.Instant;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import com.example.teste.repository.UsuarioRepository;
 
 @Service
 public class NotificacaoService {
-    
+
     @Autowired
     private NotificacaoRepository notificacaoRepository;
 
@@ -23,8 +24,26 @@ public class NotificacaoService {
 
     public Notificacao criarNotificacao(NotificacaoRequestDTO request) {
 
-        Usuario usuario = usuarioRepository.findById(request.usuarioId()).orElseThrow(() -> new UsuarioNaoEncontradoException());
-        Usuario remetente = usuarioRepository.findById(request.remetenteId()).orElseThrow(() -> new UsuarioNaoEncontradoException());
+        List<Notificacao> notificacaoExistente = notificacaoRepository
+                .findByUsuarioIdAndReferenciaIdAndTipoAndIsLidaFalse(
+                        request.usuarioId(),
+                        request.referenciaId(),
+                        request.tipo());
+
+        if (!notificacaoExistente.isEmpty()) {
+
+            Notificacao notificacao = notificacaoExistente.getFirst();
+
+            notificacao.setMensagem(request.mensagem());
+            notificacao.setCreatedAt(Instant.now());
+
+            return notificacaoRepository.save(notificacao);
+        }
+
+        Usuario usuario = usuarioRepository.findById(request.usuarioId())
+                .orElseThrow(() -> new UsuarioNaoEncontradoException());
+        Usuario remetente = usuarioRepository.findById(request.remetenteId())
+                .orElseThrow(() -> new UsuarioNaoEncontradoException());
 
         Notificacao n = new Notificacao();
         n.setUsuario(usuario);
@@ -36,8 +55,30 @@ public class NotificacaoService {
         return notificacaoRepository.save(n);
     }
 
+    public Notificacao criarNotificacao(Notificacao notificacao) {
+
+        if (notificacao.getUsuario().getId()
+                .equals(notificacao.getRemetente().getId())) {
+            return null;
+        }
+
+        return notificacaoRepository.save(notificacao);
+    }
+
     public List<Notificacao> getNotificacaoUsuario(Usuario u) {
-        return notificacaoRepository.findByUsuario(u);
+        List<Notificacao> lista = notificacaoRepository.findByUsuarioOrderByCreatedAt(u);
+        return lista;
+    }
+
+    public Notificacao getNotificacaoId(String idNotificacao) {
+        return notificacaoRepository.findById(idNotificacao)
+                .orElseThrow(() -> new RuntimeException("Notificação não encontrada"));
+    }
+
+    public void setNotificacaoLida(String idNotificacao) {
+        Notificacao n = getNotificacaoId(idNotificacao);
+        n.setIsLida(true);
+        notificacaoRepository.save(n);
     }
 
 }
