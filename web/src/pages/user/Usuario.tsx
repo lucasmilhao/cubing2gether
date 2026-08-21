@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useUsuarioDataId } from "../../hooks/usuario/useUsuarioDataId"
 import './Usuario.css';
 import { useSolveDataUser } from "../../hooks/solves/useSolveDataUser";
@@ -17,6 +17,7 @@ import { usePostagemUsuario } from "../../hooks/postagem/usePostagemUsuario";
 
 
 export function Usuario() {
+    const location = useLocation();
     const { idUsuario } = useParams();
     const { data: usuario, isLoading, isError, error } = useUsuarioDataId(idUsuario);
     const { data: usuarioLogado, isError: erroUsuario } = useUsuarioLogado();
@@ -83,10 +84,9 @@ export function Usuario() {
 
 
     useEffect(() => {
-        if (!window.location.hash) return;
+        if (!location.hash) return;
 
-        const postId = window.location.hash.substring(1);
-
+        const postId = location.hash.substring(1);
         const elemento = document.getElementById(postId);
 
         if (elemento) {
@@ -95,7 +95,7 @@ export function Usuario() {
                 block: "center"
             });
         }
-    }, [postagens]);
+    }, [location.hash, postagens]);
 
     useEffect(() => {
         if (!usuario?.picture || !usuario?.nome) return;

@@ -1,6 +1,6 @@
 import "./PostCard.css";
 import type { PostagemProps } from "../../hooks/postagem/usePostagemData";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useUsuarioLogado } from "../../hooks/usuario/useUsuarioLogado";
 import { useCurtidaCreate, type CurtidaRequest } from "../../hooks/curtida/useCurtidaCreate";
 import { useEffect, useRef, useState } from "react";
@@ -12,12 +12,15 @@ import { useIsCurtido } from "../../hooks/curtida/useIsCurtida";
 
 export function PostCard({ postagem }: { postagem: PostagemProps }) {
 
+  const location = useLocation();
   const { data: usuarioLogado } = useUsuarioLogado();
   const { mutate: deletar } = usePostagemDelete();
   const { mutate: denunciar } = useDenunciaCreate();
 
   const curtida = useCurtidaCreate();
   const { data: isCurtido } = useIsCurtido(postagem.id);
+
+  const [searchParams] = useSearchParams();
 
   const [menuAberto, setMenuAberto] = useState(false);
   const [shareAberto, setShareAberto] = useState(false);
@@ -27,18 +30,33 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
   const shareRef = useRef<HTMLDivElement>(null);
 
   const [destacado, setDestacado] = useState(false);
+  const comentarioUrl = searchParams.get("comentarios") === "true";
 
   useEffect(() => {
-    if (window.location.hash === `#post-${postagem.id}`) {
-      setDestacado(true);
+    const postIdNaUrl = location.hash.startsWith("#post-")
+      ? location.hash.replace("#post-", "")
+      : null;
 
-      const timer = setTimeout(() => {
-        setDestacado(false);
-      }, 3000);
-
-      return () => clearTimeout(timer);
+    if (postIdNaUrl !== postagem.id) {
+      return;
     }
-  }, [postagem.id]);
+
+    setDestacado(true);
+
+    if (comentarioUrl) {
+      setComentarioAberto(true);
+    }
+
+    const timer = setTimeout(() => {
+      setDestacado(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [
+    location.hash,
+    comentarioUrl,
+    postagem.id
+  ]);
 
   const TwistyPlayer = "twisty-player" as any;
   const navigate = useNavigate();

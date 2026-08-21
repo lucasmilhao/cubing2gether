@@ -9,7 +9,7 @@
 
   padding: 20px;
 
-  background: rgba(0, 0, 0, 0.65);
+  background: var(--overlay-bg, rgba(0, 0, 0, 0.65));
 
   animation: comment-overlay-in 0.18s ease;
 }
@@ -139,7 +139,7 @@
   border-radius: 10px;
 }
 
-/* COMMENT */
+/* COMMENT ITEM */
 
 .comment-item {
   display: flex;
@@ -149,8 +149,8 @@
 }
 
 .esquerda {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .comment-item__avatar {
@@ -209,7 +209,7 @@
   overflow-wrap: anywhere;
 }
 
-/* EMPTY */
+/* EMPTY (compartilhado com o modal de notificações) */
 
 .comment-modal__empty {
   flex: 1;
@@ -249,22 +249,8 @@
   font-weight: 700;
 }
 
+.comment-modal__empty p,
 .esquerda p {
-  margin: 0;
-
-  max-width: 280px;
-
-  color: var(--text-secondary);
-
-  font-size: 13px;
-  line-height: 1.4;
-}
-/* 
-hr {
-    background-color: var(--text-secondary)
-} */
-
-.comment-modal__empty p {
   margin: 0;
 
   max-width: 280px;
@@ -341,7 +327,6 @@ hr {
   from {
     opacity: 0;
   }
-
   to {
     opacity: 1;
   }
@@ -352,7 +337,6 @@ hr {
     opacity: 0;
     transform: translateY(10px) scale(0.98);
   }
-
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -385,7 +369,6 @@ hr {
     from {
       transform: translateY(100%);
     }
-
     to {
       transform: translateY(0);
     }

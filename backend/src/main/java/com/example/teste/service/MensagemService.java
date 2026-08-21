@@ -18,7 +18,7 @@ import com.example.teste.type.TypeNotificacao;
 
 @Service
 public class MensagemService {
-    
+
     @Autowired
     private MensagemRepository mensagemRepository;
 
@@ -33,8 +33,10 @@ public class MensagemService {
 
     public Mensagem criarMensagem(MensagemRequestDTO request) {
 
-        Conversa c = conversaRepository.findById(request.idConversa()).orElseThrow(() -> new RuntimeException("Conversa não encontrada."));
-        Usuario u = usuarioRepository.findById(request.idSender()).orElseThrow(() -> new UsuarioNaoEncontradoException());
+        Conversa c = conversaRepository.findById(request.idConversa())
+                .orElseThrow(() -> new RuntimeException("Conversa não encontrada."));
+        Usuario u = usuarioRepository.findById(request.idSender())
+                .orElseThrow(() -> new UsuarioNaoEncontradoException());
 
         Mensagem mensagem = new Mensagem();
         mensagem.setConversa(c);
@@ -42,13 +44,15 @@ public class MensagemService {
         mensagem.setTexto(request.texto());
 
         c.getParticipantes().stream().forEach(e -> {
-            
-            notificacaoService.criarNotificacao(new NotificacaoRequestDTO(
-                e.getUsuario().getId(), 
-                u.getId(), 
-                TypeNotificacao.MENSAGEM,
-                request.texto(), 
-                e.getId()));
+            if (!e.getUsuario().getId().equals(u.getId())) {
+
+                notificacaoService.criarNotificacao(new NotificacaoRequestDTO(
+                        e.getUsuario().getId(),
+                        u.getId(),
+                        TypeNotificacao.MENSAGEM,
+                        request.texto(),
+                        c.getIdConversa()));
+            }
         });
 
         mensagemRepository.save(mensagem);
@@ -56,10 +60,11 @@ public class MensagemService {
         return mensagem;
     }
 
-    public List<Mensagem> getMensagensConversa(String idConversa, Usuario usuarioLogado) { 
+    public List<Mensagem> getMensagensConversa(String idConversa, Usuario usuarioLogado) {
         List<Mensagem> listaMensagens = mensagemRepository.findByConversaIdConversaOrderByMandado(idConversa);
         listaMensagens.stream().forEach(e -> {
-            if(!e.getSender().getId().equals(usuarioLogado.getId())) e.setIsVisto(true);
+            if (!e.getSender().getId().equals(usuarioLogado.getId()))
+                e.setIsVisto(true);
             mensagemRepository.save(e);
         });
 
