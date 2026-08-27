@@ -16,6 +16,8 @@ import com.example.teste.repository.MensagemRepository;
 import com.example.teste.repository.UsuarioRepository;
 import com.example.teste.type.TypeNotificacao;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class MensagemService {
 
@@ -69,6 +71,11 @@ public class MensagemService {
         });
 
         return listaMensagens;
+    }
+
+    @Transactional
+    public void removerMensagemConversa(Conversa c) {
+        mensagemRepository.deleteByConversa(c);
     }
 
 }

@@ -45,7 +45,8 @@ public class ParticipantesConversaService {
         participantesConversaRepository.delete(pc);
         
         c.getParticipantes().remove(pc);
-        
+        conversaService.editarConversa(c);
+
         if(c.getParticipantes().size() < 3) {
             conversaService.deletarConversa(c);
         }
