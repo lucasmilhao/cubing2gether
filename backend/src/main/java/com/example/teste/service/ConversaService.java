@@ -36,6 +36,10 @@ public class ConversaService {
         return conversa;
     }
 
+    public void deletarConversa(Conversa c) {
+        conversaRepository.delete(c);
+    }
+
     public Conversa criarConversaComParticipantes(ConversaRequestDTO request) {
         if (request.idsUsuarios().size() < 3) {
             Optional<Conversa> c = conversaRepository.findConversaByParticipantes(request.idsUsuarios(), (long) request.idsUsuarios().size());
@@ -75,7 +79,6 @@ public class ConversaService {
 
     public Conversa getConversaPorId(String idConversa) {
         Conversa c = conversaRepository.findById(idConversa).orElseThrow(() -> new RuntimeException("Conversa nao encontrada"));
-
         return c;
     }
 }

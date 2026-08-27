@@ -38,7 +38,7 @@ public class Conversa {
     @Column(name = "data_criado")
     private Instant dataCriado;
 
-    @OneToMany(mappedBy = "conversa")
+    @OneToMany(mappedBy = "conversa", orphanRemoval = true)
     private List<ParticipantesConversa> participantes = new ArrayList<>();
 
     @PrePersist

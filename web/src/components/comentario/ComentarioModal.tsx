@@ -4,6 +4,7 @@ import "./ComentarioModal.css";
 import { formatarTempoRelativo } from "../postagem/PostCard";
 import { useComentarioPost, type ComentarioRequest } from "../../hooks/postagem/useComentarioPost";
 import { BalloonIcon } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface CommentModalProps {
     comentarios: ComentarioProps[];
@@ -20,6 +21,7 @@ export function CommentModal({
 }: CommentModalProps) {
     const [comentario, setComentario] = useState("");
     const { mutate: criarComentario } = useComentarioPost();
+    const navigate = useNavigate();
 
     const handleSubmit = () => {
         const props: ComentarioRequest = {
@@ -106,6 +108,7 @@ export function CommentModal({
                                                 <img
                                                     src={comentario.usuario.picture}
                                                     alt={comentario.usuario.nome}
+                                                    onClick={() => navigate(`/user/${comentario.usuario.id}`)}
                                                 />
                                             ) : (
                                                 <span>
