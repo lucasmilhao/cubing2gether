@@ -25,6 +25,9 @@ public class ConversaService {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
+    private MensagemService mensagemService;
+
+    @Autowired
     private ParticipantesConversaRepository participantesConversaRepository;
     
     public Conversa criarConversa(ConversaRequestDTO request) {
@@ -37,7 +40,12 @@ public class ConversaService {
     }
 
     public void deletarConversa(Conversa c) {
+        mensagemService.removerMensagemConversa(c);
         conversaRepository.delete(c);
+    }
+
+    public void editarConversa(Conversa c) {
+        conversaRepository.save(c);
     }
 
     public Conversa criarConversaComParticipantes(ConversaRequestDTO request) {
