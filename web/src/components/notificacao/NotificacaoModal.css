@@ -158,8 +158,6 @@
   display: inline-flex;
   align-items: center;
   gap: 3px;
-
-  color: var(--color-success, #afa84c);
 }
 
 /* Bolinha de não lida */

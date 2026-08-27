@@ -27,8 +27,8 @@ io.on("connection", (socket) => {
 
     socket.onAny((event, ...args) => {
         console.log(event, args);
-        
-    }) 
+
+    })
 
     socket.on("join-room", ({ roomId, userId }) => {
         const room = getRoom(roomId);
@@ -83,19 +83,32 @@ io.on("connection", (socket) => {
         }
     });
 
+    socket.on("timer-pronto", ({ roomId, userId, pronto }) => {
+        socket.to(roomId).emit("timer-pronto", { userId, pronto });
+    });
+
+    socket.on("timer-start", ({ roomId, userId }) => {
+        const startTime = Date.now();
+        socket.to(roomId).emit("timer-start", { userId, startTime });
+    });
+
+    socket.on("timer-stop", ({ roomId, userId, tempo }) => {
+        socket.to(roomId).emit("timer-stop", { userId, tempo });
+    });
+
     socket.on("solve-done", ({ roomId, userId }) => {
         console.log("SOLVE CONCLUIDA");
-        
+
         const room = getRoom(roomId);
         room.finished.add(userId);
 
         socket.to(roomId).emit("opponent-finished", { userId });
 
         const totalJogadores = room.users.size;
-        
+
         if (totalJogadores >= 2 && room.finished.size >= totalJogadores) {
             console.log("Rodada terminada");
-            
+
             room.finished.clear();
             room.scramble = null;
             io.to(roomId).emit("round-complete");

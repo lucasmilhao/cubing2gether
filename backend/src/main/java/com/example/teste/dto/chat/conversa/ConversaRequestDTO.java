@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Size;
 public record ConversaRequestDTO(
     @NotBlank
     @NotNull
-    @Size(max = 32, min=1)
+    @Size(max = 50, min=1)
     String nome,
     List<String> idsUsuarios
 ) {

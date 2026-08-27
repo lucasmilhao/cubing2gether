@@ -13,4 +13,5 @@ public interface ParticipantesConversaRepository extends JpaRepository<Participa
 
     List<ParticipantesConversa> findByConversa(Conversa conversa);
     List<ParticipantesConversa> findByUsuario(Usuario usuario);
+    ParticipantesConversa findByUsuarioAndConversa(Usuario usuario, Conversa conversa);
 }
