@@ -4,15 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.teste.dto.chat.conversa.ConversaResponseDTO;
-import com.example.teste.dto.chat.participantes.ParticipantesConversaRequestDTO;
 import com.example.teste.dto.chat.participantes.ParticipantesConversaResponseDTO;
 import com.example.teste.service.ParticipantesConversaService;
 
@@ -37,12 +34,6 @@ public class ParticipantesConversaController {
         .stream().map(ParticipantesConversaResponseDTO::new).toList();
 
         return ResponseEntity.ok(lista);
-    }
-
-    @DeleteMapping
-    public ResponseEntity<Void> removerParticipante(@RequestBody ParticipantesConversaRequestDTO request) {
-        service.removerParticipante(request.idConversa(), request.idUsuario());
-        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/usuario/{idUsuario}")

@@ -9,6 +9,7 @@ import com.example.teste.dto.chat.participantes.ParticipantesConversaRequestDTO;
 import com.example.teste.model.Conversa;
 import com.example.teste.model.ParticipantesConversa;
 import com.example.teste.model.Usuario;
+import com.example.teste.repository.ConversaRepository;
 import com.example.teste.repository.ParticipantesConversaRepository;
 
 @Service
@@ -18,7 +19,7 @@ public class ParticipantesConversaService {
     private ParticipantesConversaRepository participantesConversaRepository;
 
     @Autowired
-    private ConversaService conversaService;
+    private ConversaRepository conversaRepository;
 
     @Autowired
     private UsuarioService usuarioService;
@@ -27,7 +28,7 @@ public class ParticipantesConversaService {
 
         Usuario u = usuarioService.getUsuarioId(request.idUsuario());
 
-        Conversa c = conversaService.getConversaPorId(request.idConversa());
+        Conversa c = conversaRepository.findById(request.idConversa()).orElseThrow(() -> new RuntimeException("Conversa não encontrada"));
         
         if(participantesConversaRepository.existsByUsuarioAndConversa(u, c)) throw new RuntimeException("Usuario já está na conversa.");
 
@@ -37,23 +38,9 @@ public class ParticipantesConversaService {
 
         return participantesConversaRepository.save(pc);
     }
-
-    public void removerParticipante(String idConversa, String idUsuario) {
-        Usuario u = usuarioService.getUsuarioId(idUsuario);
-        Conversa c = conversaService.getConversaPorId(idConversa);
-        ParticipantesConversa pc = participantesConversaRepository.findByUsuarioAndConversa(u, c);
-        participantesConversaRepository.delete(pc);
-        
-        c.getParticipantes().remove(pc);
-        conversaService.editarConversa(c);
-
-        if(c.getParticipantes().size() < 3) {
-            conversaService.deletarConversa(c);
-        }
-    }
-
+    
     public List<ParticipantesConversa> getTodosPorConversa(String idConversa) {
-        Conversa c = conversaService.getConversaPorId(idConversa);
+        Conversa c = conversaRepository.findById(idConversa).orElseThrow(() -> new RuntimeException("Conversa não encontrada"));
         List<ParticipantesConversa> lista = participantesConversaRepository.findByConversa(c);
 
         return lista;

@@ -9,9 +9,8 @@ import com.example.teste.model.ParticipantesConversa;
 import com.example.teste.model.Usuario;
 
 public interface ParticipantesConversaRepository extends JpaRepository<ParticipantesConversa, String>{
-    boolean existsByUsuarioAndConversa(Usuario usuario, Conversa conversa);
-
     List<ParticipantesConversa> findByConversa(Conversa conversa);
     List<ParticipantesConversa> findByUsuario(Usuario usuario);
     ParticipantesConversa findByUsuarioAndConversa(Usuario usuario, Conversa conversa);
+    Boolean existsByUsuarioAndConversa(Usuario usuario, Conversa conversa);
 }
