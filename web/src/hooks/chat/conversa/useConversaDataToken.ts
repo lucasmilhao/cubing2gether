@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../../../service/api"
-import type { ConversaResponseProps } from "../../../interface/ConversaResponse";
+import type { ConviteProps } from "./useConviteCreate";
 
-const fetchdata = async (token : string | undefined) : Promise<ConversaResponseProps> => {
+const fetchdata = async (token : string | undefined) : Promise<ConviteProps> => {
     const response = await api.get(`/conversa/token/${token}`);
     console.log(response.data);
     

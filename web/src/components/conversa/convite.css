@@ -28,8 +28,6 @@
     color: var(--text-primary, #e7e9ea);
 }
 
-/* Faixa com as 6 cores clássicas do cubo */
-
 .convite-card__accent {
     position: absolute;
     top: 0;
@@ -216,7 +214,7 @@
 
 .convite-button--secondary {
     color: var(--text-primary, #e7e9ea);
-    background: var(--bg-elevated, #1e2126);
+    background: var(--bg-tertiary);
     border: 1px solid var(--border-color, #2f3336);
 }
 

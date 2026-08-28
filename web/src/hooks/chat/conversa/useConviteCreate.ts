@@ -1,10 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "../../../service/api"
+import type { ConversaResponseProps } from "../../../interface/ConversaResponse";
 
 export interface ConviteProps {
     token : string;
     expiraEm : string;
-    link : string
+    link : string;
+    conversa : ConversaResponseProps
 }
 
 const fetchdata = async (idConversa : string) : Promise<ConviteProps> => {

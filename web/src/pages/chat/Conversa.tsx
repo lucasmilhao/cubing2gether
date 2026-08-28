@@ -15,7 +15,6 @@ import { useParticipantesConversa } from "../../hooks/chat/conversa/useParticipa
 import { useConversaEdit } from "../../hooks/chat/conversa/useConversaEdit";
 import type { ConversaResponseProps } from "../../interface/ConversaResponse";
 import { useConviteCreate } from "../../hooks/chat/conversa/useConviteCreate";
-import { useConviteAccept } from "../../hooks/chat/conversa/useConviteAccept";
 
 export function Conversa() {
     const { idConversa } = useParams();
@@ -24,7 +23,6 @@ export function Conversa() {
     const { mutate: removerParticipante } = useRemoverParticipante();
     const { data: dataParticipantes } = useParticipantesConversa(idConversa);
     const { mutate: criarConvite } = useConviteCreate();
-    const { mutate: aceitarConvite } = useConviteAccept();
     const enviaMensagem = useMensagemPost();
     const { data: usuarioLogado } = useUsuarioLogado();
     const { mutate: editarConversa } = useConversaEdit();
@@ -37,7 +35,11 @@ export function Conversa() {
     const qtdParticipantes = conversa?.participantes?.length ?? 0;
     const user = conversa?.participantes?.at(0)?.id === usuarioLogado?.id ? conversa?.participantes?.at(1) : conversa?.participantes?.at(0)
     const nomeConversa = qtdParticipantes > 2 ? conversa?.nome : user?.nome;
-    const isAdmin = true;
+    
+    const isAdmin = dataParticipantes?.find(e => e.usuario.id === usuarioLogado?.id)?.isAdmin;
+
+    console.log(isAdmin);
+    
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -125,7 +127,21 @@ export function Conversa() {
                     <button className="back-button-chat" onClick={() => window.history.back()}>
                         <ArrowLeft />
                     </button>
-                    <img style={{ width: 45, height: 45, borderRadius: "50%", objectFit: 'cover' }} src={user?.picture} alt="" />
+                    {qtdParticipantes > 2 ? 
+                        <div className="convite-members__avatars">
+                            {conversa?.participantes?.slice(0, 3).map(
+                                (participante, index) => (
+                                    <img
+                                        key={index}
+                                        src={
+                                            participante.picture ||
+                                            "/default-profile.png"
+                                        }
+                                        alt=""
+                                    />
+                                )
+                            )}
+                        </div> : <img style={{ width: 45, height: 45, borderRadius: "50%", objectFit: 'cover' }} src={user?.picture} alt="" />}
                     <div className="nome-conversa">
                         <h1>{nomeConversa}</h1>
                         <div style={{ display: "flex", gap: 10 }} className="participantes">
