@@ -95,7 +95,7 @@ public class ConversaService {
             pc.setUsuario(u);
             pc.setIsAdmin(false);
 
-            if (id == request.idsUsuarios().getLast())
+            if (id.equals(request.idsUsuarios().getLast()))
                 pc.setIsAdmin(true);
 
             participantesConversaRepository.save(pc);
@@ -173,10 +173,10 @@ public class ConversaService {
         return conversa;
     }
 
-    public Conversa getConversaPorConvite(String token) {
+    public ConviteConversa getConversaPorConvite(String token) {
         ConviteConversa convite = conviteRepository.findByToken(token).orElseThrow(() -> new RuntimeException());
 
-        return convite.getConversa();
+        return convite;
     }
 
     public void removerParticipante(String idConversa, String idUsuario) {

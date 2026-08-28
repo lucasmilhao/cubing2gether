@@ -71,21 +71,21 @@ public class ConversaController {
 
         String link = "http://localhost:5173/conversa/convite/" + convite.getToken();
 
-        return ResponseEntity.ok(new ConviteResponseDTO(convite.getToken(), link, convite.getExpiraEm()));
+        return ResponseEntity.ok(new ConviteResponseDTO(convite.getToken(), link, convite.getExpiraEm(), new ConversaResponseDTO(convite.getConversa())));
     }
-
+    
     @PutMapping("/{idConversa}")
     public ResponseEntity<ConversaResponseDTO> editarConversa(@PathVariable String idConversa, @RequestBody ConversaRequestDTO request) {
         Conversa c = service.editarConversa(idConversa, request);
-
+        
         return ResponseEntity.ok(new ConversaResponseDTO(c));
     }
     
     @GetMapping("/token/{token}")
-    public ResponseEntity<ConversaResponseDTO> getConversaPorConvite(@PathVariable String token) {
-        Conversa c = service.getConversaPorConvite(token);
+    public ResponseEntity<ConviteResponseDTO> getConversaPorConvite(@PathVariable String token) {
+        ConviteConversa convite = service.getConversaPorConvite(token);
         
-        return ResponseEntity.ok(new ConversaResponseDTO(c));
+        return ResponseEntity.ok(new ConviteResponseDTO(convite.getToken(), "", convite.getExpiraEm(), new ConversaResponseDTO(convite.getConversa())));
     }
 
     @DeleteMapping

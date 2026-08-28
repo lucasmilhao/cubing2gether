@@ -1,19 +1,30 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useConviteAccept } from "../../hooks/chat/conversa/useConviteAccept";
 import { useEffect, useState } from "react";
-import type { ConversaResponseProps } from "../../interface/ConversaResponse";
 
 import "./convite.css";
 import { useConversaDataToken } from "../../hooks/chat/conversa/useConversaDataToken";
+import { useUsuarioLogado } from "../../hooks/usuario/useUsuarioLogado";
 
 export function Convite() {
     const { token } = useParams();
     const navigate = useNavigate();
-    const {data : grupo} = useConversaDataToken(token);
+    const {data : convite} = useConversaDataToken(token);
+    const grupo = convite?.conversa;
+    const {data : usuarioLogado} = useUsuarioLogado();
+
+    console.log("Expira em: ", new Date(convite?.expiraEm ?? "").toLocaleTimeString("pt-BR", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+    }));
 
     const { mutate: aceitarConvite, isPending } = useConviteAccept();
-
     const [erro, setErro] = useState(false);
+
+    
+    useEffect(() => {
+        if(grupo?.participantes?.find(e => e.id === usuarioLogado?.id)) setErro(true);
+    }, [grupo])
 
     const aceitar = () => {
         
@@ -85,6 +96,7 @@ export function Convite() {
         <div className="convite-page">
 
             <div className="convite-card">
+            <div className="convite-card__accent"></div>
 
                 {/* Avatar do grupo */}
                 <div
