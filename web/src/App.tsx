@@ -15,6 +15,7 @@ import MainLayout from './pages/MainLayout'
 import HelpPage from './pages/ajuda/HelpPage'
 import NotFoundPage from './pages/erro/NotFoundPage'
 import { RedefinirSenha } from './pages/redefinir-senha/RedefinirSenha'
+import { Convite } from './components/conversa/Convite'
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
           <Route path='/amigos' Component={Amigos} />
           <Route path='/sobre' Component={Sobre} />
           <Route path='/ajuda' Component={HelpPage} />
+          <Route path='/conversa/convite/:token' Component={Convite}/>
           <Route path='/*' Component={NotFoundPage} />
         </Route>
         <Route path='/redefinir-senha' Component={RedefinirSenha} />

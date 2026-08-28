@@ -11,25 +11,46 @@ import { ArrowLeft } from "lucide-react";
 import { OptionsIcon } from "../../components/postagem/PostCard";
 import { useRemoverParticipante, type ParticipantesRequest } from "../../hooks/chat/conversa/useRemoverParticipante";
 import Swal from "sweetalert2";
+import { useParticipantesConversa } from "../../hooks/chat/conversa/useParticipantesConversa";
+import { useConversaEdit } from "../../hooks/chat/conversa/useConversaEdit";
+import type { ConversaResponseProps } from "../../interface/ConversaResponse";
+import { useConviteCreate } from "../../hooks/chat/conversa/useConviteCreate";
+import { useConviteAccept } from "../../hooks/chat/conversa/useConviteAccept";
 
 export function Conversa() {
     const { idConversa } = useParams();
     const { data: mensagens } = useMensagemData(idConversa);
     const { data: conversa } = useConversaData(idConversa);
     const { mutate: removerParticipante } = useRemoverParticipante();
+    const { data: dataParticipantes } = useParticipantesConversa(idConversa);
+    const { mutate: criarConvite } = useConviteCreate();
+    const { mutate: aceitarConvite } = useConviteAccept();
     const enviaMensagem = useMensagemPost();
     const { data: usuarioLogado } = useUsuarioLogado();
+    const { mutate: editarConversa } = useConversaEdit();
     const [texto, setTexto] = useState("");
     const menuRef = useRef<HTMLDivElement>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const [isOptionOpen, setOptionOpen] = useState(false);
     const navigate = useNavigate();
 
+    const qtdParticipantes = conversa?.participantes?.length ?? 0;
     const user = conversa?.participantes?.at(0)?.id === usuarioLogado?.id ? conversa?.participantes?.at(1) : conversa?.participantes?.at(0)
-    const nomeConversa = (conversa?.participantes?.length ?? 0) > 2 ? conversa?.nome : user?.nome;
+    const nomeConversa = qtdParticipantes > 2 ? conversa?.nome : user?.nome;
+    const isAdmin = true;
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+
+    const editar = () => {
+        const props: ConversaResponseProps = {
+            idConversa,
+            nome: conversa?.nome,
+            isPublico: !conversa?.isPublico
+        }
+
+        editarConversa(props);
     }
 
     useEffect(() => {
@@ -119,8 +140,26 @@ export function Conversa() {
                     </button>
                     {isOptionOpen && (
                         <div className="post-options-menu">
+                            {isAdmin && (
+                                <>
+                                    <button>
+                                        Adicionar participante
+                                    </button>
+                                    <button onClick={editar}>
+                                        {conversa?.isPublico ? "Tornar privado" : "Tornar público"}
+                                    </button>
+                                </>
+                            )
+                            }
+                            {conversa?.isPublico && <button onClick={() => criarConvite(idConversa ?? "", {
+                                onSuccess: (response: any) => {
+                                    navigator.clipboard.writeText(response.link)
+                                        .then(() => window.alert("Copiado com sucesso"))
+
+                                }
+                            })}>Compartilhar grupo</button>}
                             <button onClick={remover} style={{ color: "#ff5b5bc2" }}>
-                                Sair do grupo
+                                {qtdParticipantes > 2 ? "Sair do grupo" : "Remover conversa"}
                             </button>
                         </div>
                     )}
