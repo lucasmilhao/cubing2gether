@@ -8,7 +8,6 @@ import { useSolveDelete } from '../hooks/solves/useSolveDelete'
 import Swal from 'sweetalert2'
 import { useUsuarioLogado } from '../hooks/usuario/useUsuarioLogado'
 import { useSolveDataUser } from '../hooks/solves/useSolveDataUser'
-import { useNavigate } from 'react-router-dom'
 
 
 export const segundos = (milis: number): string => {
@@ -26,15 +25,9 @@ export function Practice() {
   const { refetch } = useScramble(`${puzzle}`);
   const [scramble, setScramble] = useState("");
   const postSolve = useSolveMutate();
-  const { data: usuarioLogado, isError } = useUsuarioLogado();
+  const { data: usuarioLogado} = useUsuarioLogado();
   const { data: solves } = useSolveDataUser(usuarioLogado?.id);
   const [seconds, setSeconds] = useState("00.00");
-
-  useEffect(() => {
-    if(isError) navigate("/auth/login")
-  }, [isError])
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     gerarScramble();

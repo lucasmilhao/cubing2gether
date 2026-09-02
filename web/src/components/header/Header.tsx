@@ -78,7 +78,7 @@ export function Header() {
                         <span>Pesquisar</span>
                     </button>
                     <div ref={menuRef}>
-                        {usuarioLogado ? <img src={usuarioLogado?.picture} onClick={() => setIsMenuOpen(prev => !prev)} alt="" /> : <div style={{ display: "flex" }}><button className="login-btn-header" onClick={() => navigate("/auth/login")}>Fazer login</button>
+                        {usuarioLogado ? <img src={usuarioLogado?.picture} onClick={() => setIsMenuOpen(prev => !prev)} alt="" /> : <div style={{ display: "flex", alignItems: 'center', gap: 10 }}> <p style={{margin: 0, cursor: 'pointer', color: "var(--accent-color)", textDecoration: 'underline'}} onClick={() => navigate("/auth/login")}>Entrar</p> <button className="login-btn-header" onClick={() => navigate("/auth/register")}>Cadastrar-se</button>
                         </div>}
                         {isMenuOpen && (
                             <div className="user-options-menu">
