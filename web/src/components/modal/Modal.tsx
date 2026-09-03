@@ -13,6 +13,7 @@ export function Modal ({closeModal, usuarioLogado} : ModalProps) {
     const [file, setFile] = useState<File | null>(null)
     const [nome, setNome] = useState(usuarioLogado?.nome ?? "")
     const {mutate : upload, isError, error, isPending} = useUploadPost();
+    const [erro, setErro] = useState("");
     const edit = useUsuarioEdit();
 
     let url : string;
@@ -40,6 +41,9 @@ export function Modal ({closeModal, usuarioLogado} : ModalProps) {
                     }, {
                         onSuccess: closeModal
                     });
+                },
+                onError: (err: any) => {
+                    console.log(err.response.data);
                 }
             });
         } else {

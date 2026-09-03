@@ -8,28 +8,34 @@ import org.springframework.stereotype.Service;
 
 import com.example.teste.dto.follow.FollowRequestDTO;
 import com.example.teste.dto.follow.FollowStatusDTO;
+import com.example.teste.dto.notificacao.NotificacaoRequestDTO;
 import com.example.teste.exception.UsuarioNaoEncontradoException;
 import com.example.teste.model.Follow;
+import com.example.teste.model.Notificacao;
 import com.example.teste.model.Usuario;
 import com.example.teste.repository.FollowRepository;
 import com.example.teste.repository.UsuarioRepository;
+import com.example.teste.type.TypeNotificacao;
 
 @Service
 public class FollowService {
-    
+
     @Autowired
     private FollowRepository followRepository;
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UsuarioService usuarioService;
+
+    @Autowired
+    private NotificacaoService notificacaoService;
 
     public Follow criarFollow(FollowRequestDTO request) {
-        Usuario uSeguidor = usuarioRepository.findById(request.idSeguidor()).orElseThrow(() -> new UsuarioNaoEncontradoException());
-        Usuario uSeguindo = usuarioRepository.findById(request.idSeguindo()).orElseThrow(() -> new UsuarioNaoEncontradoException());
+        Usuario uSeguidor = usuarioService.getUsuarioId(request.idSeguidor());
+        Usuario uSeguindo = usuarioService.getUsuarioId(request.idSeguindo());
 
         Optional<Follow> follow = followRepository.findBySeguidorAndSeguindo(uSeguidor, uSeguindo);
 
-        if(follow.isPresent()) {
+        if (follow.isPresent()) {
             followRepository.delete(follow.get());
             return follow.get();
         }
@@ -38,20 +44,26 @@ public class FollowService {
         f.setSeguidor(uSeguidor);
         f.setSeguindo(uSeguindo);
 
+        notificacaoService.criarNotificacao(new NotificacaoRequestDTO(
+                uSeguindo.getId(),
+                uSeguidor.getId(),
+                TypeNotificacao.SEGUIDOR,
+                uSeguidor.getNome() + " começou a seguir você.",
+                uSeguidor.getId()));
 
         return followRepository.save(f);
     }
 
     public List<Follow> getSeguindo(String idUsuario) {
-        Usuario u = usuarioRepository.findById(idUsuario).orElseThrow(() -> new UsuarioNaoEncontradoException());
+        Usuario u = usuarioService.getUsuarioId(idUsuario);
 
         List<Follow> lista = followRepository.findBySeguidor(u);
 
         return lista;
     }
-    
+
     public List<Follow> getSeguidores(String idUsuario) {
-        Usuario u = usuarioRepository.findById(idUsuario).orElseThrow(() -> new UsuarioNaoEncontradoException());
+        Usuario u = usuarioService.getUsuarioId(idUsuario);
 
         List<Follow> lista = followRepository.findBySeguindo(u);
 
@@ -70,7 +82,7 @@ public class FollowService {
         return new FollowStatusDTO(sigo, meSegue);
     }
 
-    public Follow deletarFollow(Follow f){
+    public Follow deletarFollow(Follow f) {
         followRepository.delete(f);
 
         return f;

@@ -8,7 +8,6 @@ import { useSolveDelete } from '../hooks/solves/useSolveDelete'
 import Swal from 'sweetalert2'
 import { useUsuarioLogado } from '../hooks/usuario/useUsuarioLogado'
 import { useSolveDataUser } from '../hooks/solves/useSolveDataUser'
-import { useNavigate } from 'react-router-dom'
 
 
 export const segundos = (milis: number): string => {
@@ -18,7 +17,7 @@ export const segundos = (milis: number): string => {
   const finalTime = `${seconds}.${milisecs}`;
   return finalTime;
 }
-export const puzzles = ['2x2x2', '3x3x3', '4x4x4', '5x5x5', '6x6x6', '7x7x7', 'square1', 'megaminx', 'clock', 'skewb', 'pyraminx', 'FM'];
+export const puzzles = ['2x2x2', '3x3x3', '4x4x4', '5x5x5', '6x6x6', '7x7x7', 'square1', 'megaminx', 'clock', 'skewb', 'pyraminx'];
 
 export function Practice() {
   const [puzzle, setPuzzle] = useState(puzzles[1]);
@@ -26,15 +25,9 @@ export function Practice() {
   const { refetch } = useScramble(`${puzzle}`);
   const [scramble, setScramble] = useState("");
   const postSolve = useSolveMutate();
-  const { data: usuarioLogado, isError } = useUsuarioLogado();
+  const { data: usuarioLogado} = useUsuarioLogado();
   const { data: solves } = useSolveDataUser(usuarioLogado?.id);
   const [seconds, setSeconds] = useState("00.00");
-
-  useEffect(() => {
-    if(isError) navigate("/auth/login")
-  }, [isError])
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     gerarScramble();

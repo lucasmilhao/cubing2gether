@@ -23,6 +23,7 @@ import com.example.teste.service.UsuarioService;
 
 import jakarta.validation.Valid;
 
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/usuarios")
@@ -35,11 +36,11 @@ public class UsuarioController {
 
     @GetMapping
     public ResponseEntity<List<UsuarioResponseDTO>> getAll() {
-        
+
         List<UsuarioResponseDTO> listaUsuarios = repository.findAll()
-        .stream()
-        .map(UsuarioResponseDTO::new)
-        .toList();
+                .stream()
+                .map(UsuarioResponseDTO::new)
+                .toList();
 
         return ResponseEntity.ok(listaUsuarios);
     }
@@ -53,22 +54,25 @@ public class UsuarioController {
     @GetMapping("/nome/{nomeUsuario}")
     public ResponseEntity<List<UsuarioResponseDTO>> getUsuarioPorNome(@PathVariable String nomeUsuario) {
         List<UsuarioResponseDTO> lista = service.getUsuarioPorNome(nomeUsuario).stream()
-            .map(UsuarioResponseDTO::new)
-            .toList();
+                .map(UsuarioResponseDTO::new)
+                .toList();
 
         return ResponseEntity.ok(lista);
     }
-    
+
     @GetMapping("/email/{emailUsuario}")
     public ResponseEntity<UsuarioResponseDTO> getUsuarioPorEmail(@PathVariable String emailUsuario) {
         Usuario u = service.getUsuarioPorEmail(emailUsuario);
 
         return ResponseEntity.ok(new UsuarioResponseDTO(u));
     }
-
+    
     @GetMapping("/me")
-    public ResponseEntity<UsuarioResponseDTO> getMe(@AuthenticationPrincipal Usuario user) {
-        return ResponseEntity.ok(new UsuarioResponseDTO(user));
+    public ResponseEntity<UsuarioResponseDTO> getMe(
+            @AuthenticationPrincipal Usuario user) {
+
+        return ResponseEntity.ok(
+                new UsuarioResponseDTO(user));
     }
 
     @PostMapping

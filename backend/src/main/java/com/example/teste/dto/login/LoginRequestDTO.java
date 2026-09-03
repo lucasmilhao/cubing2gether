@@ -5,14 +5,16 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public record LoginRequestDTO(
-    
-    @Email(message="Insira um email válido")
-    @NotBlank(message="Preencha o campo de email.")
-    String email, 
-    
-    @NotBlank(message="Preencha o campo de senha.")
-    @Size(min=8, message="Senha muito curta.")
-    String senha
+        
+        @Email(message = "Insira um email válido")
+        @NotBlank(message = "Preencha o campo de email.")
+        String email,
+
+        @NotBlank(message = "Preencha o campo de senha.")
+        @Size(
+                min = 8,
+                message = "Senha muito curta."
+        )
+        String senha
 ) {
-    
 }

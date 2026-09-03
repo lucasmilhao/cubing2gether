@@ -6,13 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.teste.dto.chat.participantes.ParticipantesConversaRequestDTO;
-import com.example.teste.exception.UsuarioNaoEncontradoException;
 import com.example.teste.model.Conversa;
 import com.example.teste.model.ParticipantesConversa;
 import com.example.teste.model.Usuario;
 import com.example.teste.repository.ConversaRepository;
 import com.example.teste.repository.ParticipantesConversaRepository;
-import com.example.teste.repository.UsuarioRepository;
 
 @Service
 public class ParticipantesConversaService {
@@ -24,13 +22,13 @@ public class ParticipantesConversaService {
     private ConversaRepository conversaRepository;
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UsuarioService usuarioService;
 
     public ParticipantesConversa adicionarParticipante(ParticipantesConversaRequestDTO request) {
 
-        Usuario u = usuarioRepository.findById(request.idUsuario()).orElseThrow(() -> new UsuarioNaoEncontradoException());
+        Usuario u = usuarioService.getUsuarioId(request.idUsuario());
 
-        Conversa c = conversaRepository.findById(request.idConversa()).orElseThrow(() -> new RuntimeException());
+        Conversa c = conversaRepository.findById(request.idConversa()).orElseThrow(() -> new RuntimeException("Conversa não encontrada"));
         
         if(participantesConversaRepository.existsByUsuarioAndConversa(u, c)) throw new RuntimeException("Usuario já está na conversa.");
 
@@ -40,10 +38,10 @@ public class ParticipantesConversaService {
 
         return participantesConversaRepository.save(pc);
     }
-
+    
     public List<ParticipantesConversa> getTodosPorConversa(String idConversa) {
-        Conversa conversa = conversaRepository.findById(idConversa).orElseThrow(() -> new RuntimeException());
-        List<ParticipantesConversa> lista = participantesConversaRepository.findByConversa(conversa);
+        Conversa c = conversaRepository.findById(idConversa).orElseThrow(() -> new RuntimeException("Conversa não encontrada"));
+        List<ParticipantesConversa> lista = participantesConversaRepository.findByConversa(c);
 
         return lista;
     }
@@ -53,7 +51,7 @@ public class ParticipantesConversaService {
     }
 
     public List<ParticipantesConversa> getPorIdUsuario(String idUsuario) {
-        Usuario u = usuarioRepository.findById(idUsuario).orElseThrow(() -> new UsuarioNaoEncontradoException());
+        Usuario u = usuarioService.getUsuarioId(idUsuario);
 
         return participantesConversaRepository.findByUsuario(u);
     }

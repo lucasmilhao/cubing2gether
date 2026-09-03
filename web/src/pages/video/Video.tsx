@@ -22,10 +22,16 @@ export default function Video() {
     const [connected, setConnected] = useState(false);
     const { refetch } = useScramble(puzzles[1]);
     const solve = useSolveMutate();
-    const {data : solvesPartida} = useSolveDataPartida(roomId);
+    const { data: solvesPartida } = useSolveDataPartida(roomId);
     const [scramble, setScramble] = useState("");
     const scrambleSentRef = useRef(false);
     const partidaUsuario = usePartidaUsuarioEdit();
+
+    const [opponentPronto, setOpponentPronto] = useState(false);
+    const [opponentRunning, setOpponentRunning] = useState(false);
+    const [opponentSeconds, setOpponentSeconds] = useState("00.00");
+    const opponentStartTime = useRef(0);
+    const opponentTimerRef = useRef<number | null>(null);
 
     //variaveis para timer
     let penalty: any = null;
@@ -51,14 +57,20 @@ export default function Video() {
             startTime.current = Date.now();
             timer.current = setInterval(Update, 16);
             setIsRunning(true);
-        }
-        else {
+            socket.emit("timer-start", {
+                roomId,
+                userId: usuarioLogado?.id,
+            });
+        } else {
             stop();
         }
     }
 
-    console.log(scramble);
-    
+
+    function updateOpponentTimer() {
+        setOpponentSeconds(segundos(Date.now() - opponentStartTime.current));
+    }
+
 
     const submit = () => {
         const request: SolveRequest = {
@@ -66,52 +78,55 @@ export default function Video() {
             scramble,
             penalty,
             userId: usuarioLogado?.id,
-            partidaId : roomId
+            partidaId: roomId
         }
 
         solve.mutate(request);
 
-        
+
         partidaUsuario.mutate({
             idUsuario: usuarioLogado?.id,
             idPartida: roomId
         }, {
             onSuccess: (data) => {
                 console.log("Média: ", segundos(data.media));
-                
+
             }
         });
     }
 
 
     function stop() {
-        socket.emit("solve-done", {roomId : roomId, userId : usuarioLogado?.id})
+        socket.emit("solve-done", { roomId, userId: usuarioLogado?.id });
+        socket.emit("timer-stop", {
+            roomId,
+            userId: usuarioLogado?.id,
+            tempo: tempoCorrido.current
+        });
         submit();
         if (timer.current) clearInterval(timer.current);
         setIsRunning(false);
         setIsPronto(false);
         setAguardandoOponente(true);
     }
-
     const handleStart = () => {
-        console.log(aguardandoOponente);
-        
-        if(aguardandoOponente) return;
-        console.log("Começando start");
-        
+        if (aguardandoOponente) return;
 
         if (isRunning) {
             stop();
         } else {
             setIsPronto(true);
+            socket.emit("timer-pronto", { roomId, userId: usuarioLogado?.id, pronto: true });
         }
     }
 
     const handleEnd = () => {
         if (isPronto) {
+            socket.emit("timer-pronto", { roomId, userId: usuarioLogado?.id, pronto: false });
             start();
         }
     }
+
     useEffect(() => {
 
         const keyHandlerUp = (e: KeyboardEvent) => {
@@ -138,7 +153,8 @@ export default function Video() {
             window.removeEventListener("keyup", keyHandlerUp);
         };
 
-    }, [isPronto, isRunning, aguardandoOponente])
+    }, [isPronto, isRunning, aguardandoOponente]);
+
 
     useEffect(() => {
         if (!roomId || !usuarioLogado?.id) return;
@@ -150,7 +166,7 @@ export default function Video() {
 
         const setupLocalMedia = async () => {
             console.log("Setando os bagui aqui");
-            
+
             const stream = await navigator.mediaDevices.getUserMedia({
                 video: true,
                 audio: true
@@ -184,13 +200,13 @@ export default function Video() {
         };
 
         const handleRoundComplete = () => {
-            console.log("O round foi completado!");
-            
             scrambleSentRef.current = false;
             setAguardandoOponente(false);
-            console.log(aguardandoOponente);
-            
             setScramble("");
+            setSeconds("00.00");
+            setOpponentSeconds("00.00");
+            setOpponentPronto(false);
+            setOpponentRunning(false);
             void broadcastScramble();
         }
 
@@ -264,6 +280,23 @@ export default function Video() {
                 });
             }
         };
+        const handleOpponentPronto = ({ pronto }: { pronto: boolean }) => {
+            setOpponentPronto(pronto);
+        };
+
+        const handleOpponentStart = ({ startTime: oStart }: { startTime: number }) => {
+            opponentStartTime.current = oStart;
+            setOpponentRunning(true);
+            opponentTimerRef.current = setInterval(updateOpponentTimer, 16);
+        };
+
+        const handleOpponentStop = ({ tempo }: { tempo: number }) => {
+            if (opponentTimerRef.current) clearInterval(opponentTimerRef.current);
+            setOpponentRunning(false);
+            setOpponentPronto(false);
+            setOpponentSeconds(segundos(tempo));
+        };
+
 
         socket.on("created", () => {
             console.log("Criou sala");
@@ -271,18 +304,21 @@ export default function Video() {
         });
         socket.on("joined", handleJoinRoom);
         socket.on("offer", handleOffer);
+        socket.on("timer-pronto", handleOpponentPronto);
+        socket.on("timer-start", handleOpponentStart);
+        socket.on("timer-stop", handleOpponentStop);
         socket.on("answer", handleAnswer);
         socket.on("ice-candidate", handleIce);
         socket.on("scramble", handleScrambleRoom);
         socket.on("user-disconnected", handleUserDisconnected);
         socket.on("round-complete", handleRoundComplete)
-        
+
         const init = async () => {
             await setupLocalMedia();
-            socket.emit("join-room", {roomId, userId : usuarioLogado.id});
+            socket.emit("join-room", { roomId, userId: usuarioLogado.id });
         };
         init();
-        
+
         return () => {
             socket.off("created");
             socket.off("joined", handleJoinRoom);
@@ -292,6 +328,10 @@ export default function Video() {
             socket.off("ice-candidate", handleIce);
             socket.off("user-disconnected", handleUserDisconnected);
             socket.off("round-complete", handleRoundComplete)
+            socket.off("timer-pronto", handleOpponentPronto);
+            socket.off("timer-start", handleOpponentStart);
+            socket.off("timer-stop", handleOpponentStop);
+            if (opponentTimerRef.current) clearInterval(opponentTimerRef.current);
 
             if (peerConnection.current) {
                 peerConnection.current.close();
@@ -314,8 +354,7 @@ export default function Video() {
     return (
         <div className="video-page">
             <div className="video-header">
-                <div className="scramble-pill">{scramble || "Aguardando scramble..."}</div>
-                <div className="video-actions">
+                <div className="scramble-pill">{scramble || "Aguardando scramble..."} <div className="video-actions"></div>
                 </div>
             </div>
 
@@ -324,32 +363,22 @@ export default function Video() {
                     <div className="video-panel">
                         <video ref={localVideoRef} autoPlay playsInline muted />
                         <div className="video-label">{usuarioLogado?.nome || "Você"}</div>
+                        <div className={`mini-timer ${isPronto ? "timer-ready" : isRunning ? "timer-running" : "timer-idle"}`}>
+                            {seconds}
+                        </div>
                     </div>
                     <div className="video-panel">
                         <video ref={remoteVideoRef} autoPlay playsInline muted={isMuted} />
-                        <div className="video-label">{opponentName}
-
-                        <button className="video-action-button" onClick={() => setIsMuted((prev) => !prev)}>
-                            {isMuted ? "Desmutar" : "Mutar"}
-                        </button>
+                        <div className="video-label">
+                            {opponentName}
+                            <button className="video-action-button" onClick={() => setIsMuted((prev) => !prev)}>
+                                {isMuted ? "Desmutar" : "Mutar"}
+                            </button>
+                        </div>
+                        <div className={`mini-timer ${opponentPronto ? "timer-ready" : opponentRunning ? "timer-running" : "timer-idle"}`}>
+                            {opponentSeconds}
                         </div>
                     </div>
-                </div>
-
-                <div className="video-overlay">
-                    <h1 className={`timer ${isPronto ? "timer-running" : "timer-idle"}`}>
-                        {seconds}
-                    </h1>
-                    
-                    <TwistyPlayer
-                        puzzle="3x3x3"
-                        control-panel='none'
-                        viewer-link='none'
-                        experimental-setup-alg={scramble}
-                        background='none'
-                        visualization="2D"
-                        className="cube"
-                    ></TwistyPlayer>
                 </div>
             </div>
 
@@ -369,4 +398,3 @@ export default function Video() {
         </div>
     );
 }
-    

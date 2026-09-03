@@ -6,6 +6,9 @@ import { useEffect, useRef, useState } from "react";
 import logo from "../../assets/logo.png";
 import "./header.css";
 import { useUsuarioLogout } from "../../hooks/usuario/useUsuarioLogout";
+import { BellIcon } from "lucide-react";
+import { NotificacaoModal } from "../notificacao/NotificacaoModal";
+import { useNotificacaoData } from "../../hooks/notificacao/useNotificacaoData";
 
 export function Header() {
 
@@ -13,9 +16,13 @@ export function Header() {
     const navigate = useNavigate();
     const { mutate: logout } = useUsuarioLogout();
     const { data: usuarioLogado } = useUsuarioLogado();
+    const { data: notificacoes } = useNotificacaoData();
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isNotificacaoOpen, setIsNotificacaoOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
+
+    const naoLidas = notificacoes?.filter(e => e.isLida === false).length;
 
     const checarConvidado = (): boolean => {
         return usuarioLogado?.isGuest === undefined ? false : usuarioLogado?.isGuest;
@@ -54,6 +61,12 @@ export function Header() {
             </div>
             <div className="user-header-actions">
                 <div className="user-profile-header">
+                    <div style={{ display: 'flex', gap: 5 }}>
+                        <button onClick={() => setIsNotificacaoOpen(prev => !prev)} style={{ background: "transparent", border: "none", cursor: "pointer" }}>
+                            <BellIcon size={20} style={{ color: theme === 'light' ? "black" : "white" }} />
+                        </button>
+                        <p>{naoLidas}</p>
+                    </div>
                     <button onClick={toggleTheme} title={theme === 'light' ? 'Modo escuro' : 'Modo claro'} style={{ background: "transparent", border: "none", cursor: "pointer" }}>
                         <ToggleSwitch />
                     </button>
@@ -65,7 +78,8 @@ export function Header() {
                         <span>Pesquisar</span>
                     </button>
                     <div ref={menuRef}>
-                        <img src={usuarioLogado?.picture} onClick={() => setIsMenuOpen(prev => !prev)} alt="" />
+                        {usuarioLogado ? <img src={usuarioLogado?.picture} onClick={() => setIsMenuOpen(prev => !prev)} alt="" /> : <div style={{ display: "flex", alignItems: 'center', gap: 10 }}> <p style={{margin: 0, cursor: 'pointer', color: "var(--accent-color)", textDecoration: 'underline'}} onClick={() => navigate("/auth/login")}>Entrar</p> <button className="login-btn-header" onClick={() => navigate("/auth/register")}>Cadastrar-se</button>
+                        </div>}
                         {isMenuOpen && (
                             <div className="user-options-menu">
                                 <button className="profile-actions" onClick={() => { navigate(`/user/${usuarioLogado?.id}`); setIsMenuOpen(false) }}>
@@ -84,6 +98,7 @@ export function Header() {
                 </div>
             </div>
             {isSearchOpen && <SearchModal closeModal={handleSearchModal} />}
+            {isNotificacaoOpen && <NotificacaoModal notificacoes={notificacoes ?? []} onClose={() => setIsNotificacaoOpen(prev => !prev)} />}
         </header>
     )
 }

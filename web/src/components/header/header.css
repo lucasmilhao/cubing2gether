@@ -15,7 +15,32 @@
     box-shadow: var(--shadow-lg);
 }
 
-.user-header > img {
+
+.login-btn-header {
+    padding: 14px 20px;
+    background-color: var(--accent-color);
+    color: var(--accent-text);
+    border: none;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition-duration: .2s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: var(--shadow-lg);
+
+    &:hover {
+        transform: scale(1.03);
+    }
+
+    &:active {
+        transform: scale(0.98);
+    }
+}
+
+.user-header>img {
     width: 54px;
     border-radius: 50%;
 }
@@ -87,6 +112,7 @@ hr {
     align-items: center;
     gap: 5px;
     font-weight: bold;
+
     svg {
         fill: #ffffff96;
     }
