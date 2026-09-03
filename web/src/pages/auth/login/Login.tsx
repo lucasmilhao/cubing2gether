@@ -3,7 +3,6 @@ import "./login.css";
 
 import { useUsuarioLogin } from "../../../hooks/usuario/useUsuarioLogin";
 import type { UsuarioLoginRequest } from "../../../interface/UsuarioLoginRequest";
-import { useGuestCreate } from "../../../hooks/usuario/useGuestCreate";
 import { GoogleLogin } from "@react-oauth/google";
 import { useUsuarioLoginGoogle } from "../../../hooks/usuario/useUsuarioLoginGoogle";
 
@@ -18,7 +17,6 @@ export function Login() {
 
   const { mutate, isPending} = useUsuarioLogin();
   const { mutate: loginGoogle } = useUsuarioLoginGoogle();
-  const { mutate: convidado } = useGuestCreate();
 
   const togglePassword = () => {
     setMostrarSenha(!mostrarSenha);
@@ -94,14 +92,6 @@ export function Login() {
 
           <button type="submit" className="login-btn">
             {isPending ? "Entrando..." : "Entrar"}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => convidado()}
-            className="guest-btn"
-          >
-            Entrar como convidado
           </button>
 
           <div className="signup-link">

@@ -23,19 +23,28 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/postagem")
 public class PostagemController {
-    
+
     @Autowired
     private PostagemService service;
 
     @GetMapping
     public ResponseEntity<List<PostagemResponseDTO>> getTodas() {
         List<PostagemResponseDTO> lista = service.getTodasPostagens().stream()
-        .map(PostagemResponseDTO::new)
-        .toList();
+                .map(PostagemResponseDTO::new)
+                .toList();
 
         return ResponseEntity.ok(lista);
     }
 
+    @GetMapping("/{idUsuario}")
+    public ResponseEntity<List<PostagemResponseDTO>> getPostagemUsuario(@PathVariable String idUsuario) {
+        List<PostagemResponseDTO> lista = service.getPostagemPorUsuario(idUsuario).stream()
+        .map(PostagemResponseDTO::new)
+        .toList();
+        
+        return ResponseEntity.ok(lista);
+    }
+    
     @PostMapping
     public ResponseEntity<PostagemResponseDTO> criarPostagem(@RequestBody @Valid PostagemRequestDTO request) {
         Postagem p = service.criarPostagem(request);
@@ -43,6 +52,7 @@ public class PostagemController {
         return ResponseEntity.ok(new PostagemResponseDTO(p));
     }
 
+    
     @DeleteMapping("{idPostagem}")
     public ResponseEntity<PostagemResponseDTO> deletarPostagem(@PathVariable String idPostagem) {
         service.removerPostagem(idPostagem);
@@ -50,8 +60,10 @@ public class PostagemController {
         return ResponseEntity.noContent().build();
     }
 
+    
     @PutMapping("{idPostagem}")
-    public ResponseEntity<PostagemResponseDTO> editarPostagem(@PathVariable String idPostagem, @RequestBody @Valid PostagemRequestDTO request) {
+    public ResponseEntity<PostagemResponseDTO> editarPostagem(@PathVariable String idPostagem,
+            @RequestBody @Valid PostagemRequestDTO request) {
         Postagem p = service.editarPostagem(idPostagem, request);
 
         return ResponseEntity.ok(new PostagemResponseDTO(p));

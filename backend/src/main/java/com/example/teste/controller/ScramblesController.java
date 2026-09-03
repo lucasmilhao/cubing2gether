@@ -24,7 +24,7 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/scrambles")
 public class ScramblesController {
-    
+
     @Autowired
     private ScrambleService service;
 
@@ -34,7 +34,6 @@ public class ScramblesController {
         return ResponseEntity.ok(scramble);
     }
 
-
     @PostMapping
     public ResponseEntity<ScrambleResponseDTO> criarScramble(@RequestBody @Valid ScrambleRequestDTO request) {
         Scramble s = service.criarScramble(request);
@@ -43,7 +42,8 @@ public class ScramblesController {
     }
 
     @PutMapping("{idScramble}")
-    public ResponseEntity<ScrambleResponseDTO> editarScramble(@PathVariable String idScramble, @RequestBody @Valid ScrambleRequestDTO request) {
+    public ResponseEntity<ScrambleResponseDTO> editarScramble(@PathVariable String idScramble,
+            @RequestBody @Valid ScrambleRequestDTO request) {
         Scramble s = service.editarScramble(idScramble, request);
 
         return ResponseEntity.ok(new ScrambleResponseDTO(s));
@@ -55,5 +55,5 @@ public class ScramblesController {
 
         return ResponseEntity.noContent().build();
     }
-    
+
 }

@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useUsuarioDataId } from "../../hooks/usuario/useUsuarioDataId"
 import './Usuario.css';
 import { useSolveDataUser } from "../../hooks/solves/useSolveDataUser";
@@ -12,14 +12,18 @@ import { useFollowSeguidoresData } from "../../hooks/follow/useFollowSeguidoresD
 import { useFollowCreate, type FollowRequest } from "../../hooks/follow/useFollowCreate";
 import { useFollowStatus } from "../../hooks/follow/useFollowStatus";
 import { SolveChart } from "../../components/chart/SolveChart";
+import { PostCard } from "../../components/postagem/PostCard";
+import { usePostagemUsuario } from "../../hooks/postagem/usePostagemUsuario";
 
 
 export function Usuario() {
+    const location = useLocation();
     const { idUsuario } = useParams();
     const { data: usuario, isLoading, isError, error } = useUsuarioDataId(idUsuario);
     const { data: usuarioLogado, isError: erroUsuario } = useUsuarioLogado();
     const { data: seguindo } = useFollowSeguindoData(idUsuario);
     const { data: seguidores } = useFollowSeguidoresData(idUsuario);
+    const { data: postagens } = usePostagemUsuario(idUsuario);
     const { mutate: seguir, isPending: carregandoSeguir } = useFollowCreate();
     const navigate = useNavigate();
     const { data: solveUser } = useSolveDataUser(usuario?.id);
@@ -77,6 +81,21 @@ export function Usuario() {
 
         else setIsOpen(prev => !prev);
     }
+
+
+    useEffect(() => {
+        if (!location.hash) return;
+
+        const postId = location.hash.substring(1);
+        const elemento = document.getElementById(postId);
+
+        if (elemento) {
+            elemento.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+        }
+    }, [location.hash, postagens]);
 
     useEffect(() => {
         if (!usuario?.picture || !usuario?.nome) return;
@@ -142,10 +161,18 @@ export function Usuario() {
                 </div>
                 {show && (
                     <>
-                        {<SolveChart solves={solves ?? []}/>}
+                        {<SolveChart solves={solves ?? []} />}
                     </>
                 )
                 }
+
+                <div className="home-posts-list">
+                    {postagens?.length ? (
+                        postagens.map((postagem) => <PostCard key={postagem.id} postagem={postagem} />)
+                    ) : (
+                        <div className="home-empty-state">Ainda não há publicações para mostrar.</div>
+                    )}
+                </div>
             </div>
         </div>
     )

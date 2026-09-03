@@ -1,24 +1,62 @@
 import "./PostCard.css";
 import type { PostagemProps } from "../../hooks/postagem/usePostagemData";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useUsuarioLogado } from "../../hooks/usuario/useUsuarioLogado";
 import { useCurtidaCreate, type CurtidaRequest } from "../../hooks/curtida/useCurtidaCreate";
 import { useEffect, useRef, useState } from "react";
 import { PostModal } from "./PostModal";
 import { usePostagemDelete } from "../../hooks/postagem/usePostagemDelete";
 import { useDenunciaCreate, type DenunciaRequest } from "../../hooks/denuncia/useDenunciaCreate";
+import { CommentModal } from "../comentario/ComentarioModal";
+import { useIsCurtido } from "../../hooks/curtida/useIsCurtida";
 
 export function PostCard({ postagem }: { postagem: PostagemProps }) {
 
+  const location = useLocation();
   const { data: usuarioLogado } = useUsuarioLogado();
-  const {mutate : deletar} = usePostagemDelete();
-  const{mutate : denunciar} = useDenunciaCreate();
+  const { mutate: deletar } = usePostagemDelete();
+  const { mutate: denunciar } = useDenunciaCreate();
 
   const curtida = useCurtidaCreate();
+  const { data: isCurtido } = useIsCurtido(postagem.id);
+
+  const [searchParams] = useSearchParams();
 
   const [menuAberto, setMenuAberto] = useState(false);
+  const [shareAberto, setShareAberto] = useState(false);
   const [modalAberto, setModalAberto] = useState(false);
+  const [comentarioAberto, setComentarioAberto] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const shareRef = useRef<HTMLDivElement>(null);
+
+  const [destacado, setDestacado] = useState(false);
+  const comentarioUrl = searchParams.get("comentarios") === "true";
+
+  useEffect(() => {
+    const postIdNaUrl = location.hash.startsWith("#post-")
+      ? location.hash.replace("#post-", "")
+      : null;
+
+    if (postIdNaUrl !== postagem.id) {
+      return;
+    }
+
+    setDestacado(true);
+
+    if (comentarioUrl) {
+      setComentarioAberto(true);
+    }
+
+    const timer = setTimeout(() => {
+      setDestacado(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [
+    location.hash,
+    comentarioUrl,
+    postagem.id
+  ]);
 
   const TwistyPlayer = "twisty-player" as any;
   const navigate = useNavigate();
@@ -27,12 +65,16 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
     setModalAberto(prev => !prev)
   }
 
+  const handleComentarioModal = () => {
+    setComentarioAberto(prev => !prev);
+  }
+
   const remover = () => {
     deletar(postagem.id);
   }
 
   const denuncia = () => {
-    const props : DenunciaRequest = {
+    const props: DenunciaRequest = {
       idPostagem: postagem.id,
       idUsuario: postagem.usuario.id
     }
@@ -41,8 +83,11 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
   }
 
   const copiarLink = () => {
-    navigator.clipboard.writeText(``)
-    .then(() => window.alert("Copiado com sucesso"))
+
+    const link = `${window.location.origin}/user/${postagem.usuario.id}#post-${postagem.id}`;
+    navigator.clipboard.writeText(link)
+      .then(() => window.alert("Copiado com sucesso"))
+    setShareAberto(false);
   }
 
   useEffect(() => {
@@ -52,6 +97,14 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
         !menuRef.current.contains(event.target as Node)
       ) {
         setMenuAberto(false);
+      }
+
+
+      if (
+        shareRef.current &&
+        !shareRef.current.contains(event.target as Node)
+      ) {
+        setShareAberto(false);
       }
     };
 
@@ -74,8 +127,10 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
   const tempoRelativo = formatarTempoRelativo(postagem.createdAt);
 
   return (
-    <article className="post-card">
-      {modalAberto && <PostModal onClose={handleModal} postagem={postagem} key={postagem.id}/>}
+    <article id={`post-${postagem.id}`}
+      className={`post-card ${destacado ? "post-card-destacado" : ""}`}>
+      {comentarioAberto && <CommentModal idPostagem={postagem.id} idUsuario={usuarioLogado?.id} comentarios={postagem.comentarios} onClose={handleComentarioModal} />}
+      {modalAberto && <PostModal onClose={handleModal} postagem={postagem} key={postagem.id} />}
       <div className="post-card-avatar">
         {postagem.usuario.picture ? (
           <img onClick={() => navigate(`/user/${postagem.usuario.id}`)} src={postagem.usuario.picture} alt={postagem.usuario.nome} />
@@ -97,28 +152,28 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
           <div className="post-options" ref={menuRef}>
             <button onClick={() => setMenuAberto(prev => !prev)} className="action-btn options-btn">
               <OptionsIcon />
-
-              {menuAberto && (
-                <div className="post-options-menu">
-                  {usuarioLogado?.id === postagem.usuario.id ?
-                    (<>
-                      <button onClick={handleModal}>
-                        Editar
-                      </button>
-
-                      <button onClick={remover}>
-                        Excluir
-                      </button>
-                    </>
-                    )
-                    :
-                    <button onClick={denuncia}>
-                      Denunciar
-                    </button>
-                  }
-                </div>
-              )}
             </button>
+
+            {menuAberto && (
+              <div className="post-options-menu">
+                {usuarioLogado?.id === postagem.usuario.id ?
+                  (<>
+                    <button onClick={handleModal}>
+                      Editar
+                    </button>
+
+                    <button onClick={remover}>
+                      Excluir
+                    </button>
+                  </>
+                  )
+                  :
+                  <button onClick={denuncia}>
+                    Denunciar
+                  </button>
+                }
+              </div>
+            )}
           </div>
         </header>
 
@@ -152,13 +207,12 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
         )}
 
         <footer className="post-card-actions">
-          <button className="action-btn" title="Comentar">
-            <CommentIcon />
-            {/* {postagem.comentarios ? <span>{postagem.comentarios}</span> : null} */}
+          <button className="action-btn" onClick={() => setComentarioAberto(prev => !prev)} title="Comentar">
+            <CommentIcon /> {postagem.comentarios.length}
           </button>
 
           <button
-            className={`action-btn like-btn ${false /*curtido : boolean*/ ? "like-btn-active" : ""}`}
+            className={`action-btn like-btn ${isCurtido /*curtido : boolean*/ ? "like-btn-active" : ""}`}
             onClick={toggleCurtir}
             title="Curtir"
           >
@@ -166,9 +220,19 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
             {postagem.curtidas}
           </button>
 
-          <button onClick={copiarLink} className="action-btn" title="Compartilhar">
-            <ShareIcon />
-          </button>
+          <div className="share-container" ref={shareRef}>
+            <button onClick={() => setShareAberto(prev => !prev)} className="action-btn" title="Compartilhar">
+              <ShareIcon />
+            </button>
+
+            {shareAberto && (
+              <div className="post-options-menu share-menu">
+                <button onClick={copiarLink}>
+                  Copiar link
+                </button>
+              </div>
+            )}
+          </div>
         </footer>
       </div>
     </article>
@@ -202,7 +266,7 @@ function CommentIcon() {
   );
 }
 
-function OptionsIcon() {
+export function OptionsIcon() {
   return (
     <svg width="12" height="12" fill="gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512"><path d="M64 144a56 56 0 1 1 0-112 56 56 0 1 1 0 112zm0 224c30.9 0 56 25.1 56 56s-25.1 56-56 56-56-25.1-56-56 25.1-56 56-56zm56-112c0 30.9-25.1 56-56 56s-56-25.1-56-56 25.1-56 56-56 56 25.1 56 56z" /></svg>
   )

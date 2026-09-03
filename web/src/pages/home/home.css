@@ -1,12 +1,18 @@
 .home-shell {
   display: grid;
-  grid-template-columns: minmax(280px, 360px) 1fr;
   gap: 1.25rem;
   padding: 1.25rem;
   align-items: start;
   min-height: calc(100vh - var(--header-height));
   height: calc(100vh - var(--header-height));
-  overflow: hidden;
+}
+
+.home-with-sidebar {
+  grid-template-columns: minmax(280px, 360px) 1fr;
+}
+
+.home-without-sidebar {
+  grid-template-columns: 1fr;
 }
 
 .home-sidebar,
@@ -59,7 +65,6 @@
   overflow: hidden;
   display: grid;
   place-items: center;
-  background: linear-gradient(135deg, var(--accent-color), #8b5cf6);
   color: white;
   font-weight: 700;
   font-size: 1.1rem;

@@ -7,6 +7,7 @@ export interface ParticipantesProps {
     id: string;
     conversa : ConversaResponseProps;
     usuario : UsuarioProps;
+    isAdmin : boolean;
     entrou : string;
 }
 

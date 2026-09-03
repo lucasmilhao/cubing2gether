@@ -24,7 +24,6 @@
   flex-shrink: 0;
   display: grid;
   place-items: center;
-  background: linear-gradient(135deg, var(--accent-color), #8b5cf6);
   color: white;
   font-weight: 700;
   font-size: 1rem;
@@ -39,7 +38,7 @@
 .conversa-card-content {
   flex: 1;
   min-width: 0;
-}
+} 
 
 .conversa-card-header {
   display: flex;

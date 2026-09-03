@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.teste.dto.chat.conversa.ConversaRequestDTO;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,8 +39,12 @@ public class Conversa {
     @Column(name = "data_criado")
     private Instant dataCriado;
 
-    @OneToMany(mappedBy = "conversa")
+    @OneToMany(mappedBy = "conversa", orphanRemoval = true)
+    @JsonManagedReference
     private List<ParticipantesConversa> participantes = new ArrayList<>();
+
+    @Column(name = "is_publico")
+    private Boolean isPublico = false;
 
     @PrePersist
     public void prePersist() {

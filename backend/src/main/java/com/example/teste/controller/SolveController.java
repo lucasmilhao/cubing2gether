@@ -19,14 +19,15 @@ import com.example.teste.dto.solve.SolveResponseDTO;
 import com.example.teste.model.Solve;
 import com.example.teste.service.SolveService;
 
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/solves")
 public class SolveController {
-    
+
     @Autowired
     private SolveService service;
-
+    
     @PostMapping
     public ResponseEntity<SolveResponseDTO> createSolve(@RequestBody SolveRequestDTO request) {
         Solve solve = service.criarSolve(request);
@@ -44,17 +45,17 @@ public class SolveController {
     @GetMapping
     public ResponseEntity<List<SolveResponseDTO>> getSolves() {
         List<SolveResponseDTO> listaSolves = service.getTodasSolves().stream()
-            .map(SolveResponseDTO::new)
-            .toList();
+                .map(SolveResponseDTO::new)
+                .toList();
 
         return ResponseEntity.ok(listaSolves);
     }
-    
+
     @GetMapping("{idUsuario}")
     public ResponseEntity<List<SolveResponseDTO>> getSolvesUsuario(@PathVariable String idUsuario) {
         List<SolveResponseDTO> listaSolves = service.getTodasSolvesUsuario(idUsuario).stream()
-            .map(SolveResponseDTO::new)
-            .toList();
+                .map(SolveResponseDTO::new)
+                .toList();
 
         return ResponseEntity.ok(listaSolves);
     }
@@ -62,8 +63,8 @@ public class SolveController {
     @GetMapping("/partida/{idPartida}")
     public ResponseEntity<List<SolveResponseDTO>> getSolvesPartida(@PathVariable String idPartida) {
         List<SolveResponseDTO> listaSolves = service.getTodasSolvesPartida(idPartida).stream()
-            .map(SolveResponseDTO::new)
-            .toList();
+                .map(SolveResponseDTO::new)
+                .toList();
 
         return ResponseEntity.ok(listaSolves);
     }
