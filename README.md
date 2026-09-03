@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🧊 cubing2gether
+# cubing2gether
 
 **A rede social para a comunidade de speedcubing**
 
