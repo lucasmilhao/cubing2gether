@@ -210,3 +210,149 @@
     width: 20px;
     height: 20px;
 }
+/* SIDEBAR OVERLAY */
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* SIDEBAR */
+.participantes-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 340px;
+    max-width: 90vw;
+    background: var(--bg-secondary);
+    border-left: 1px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    animation: slideIn 0.25s ease;
+    overflow-y: auto;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+}
+
+.sidebar-header h3 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+}
+
+.close-sidebar-btn {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.close-sidebar-btn:hover {
+    background: var(--bg-tertiary);
+}
+
+/* PERFIL DA CONVERSA */
+.sidebar-perfil {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 32px 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.perfil-foto-unica {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+}
+
+.sidebar-nome-conversa {
+    margin: 8px 0 0;
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.sidebar-qtd {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+/* LISTA DE PARTICIPANTES */
+.sidebar-lista-participantes {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 8px;
+    gap: 4px;
+}
+
+.lista-titulo {
+    padding: 8px 12px;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* GRUPO FOTO (reaproveitado) */
+.grupo-foto {
+    width: 110px;
+    height: 110px;
+    display: grid;
+    overflow: hidden;
+    border-radius: 50%;
+    background: var(--bg-elevated, #1e2126);
+    border: 1px solid var(--border-color, #2f3336);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+}
+
+.grupo-foto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    min-width: 0;
+    min-height: 0;
+}
+
+.grupo-1 { grid-template-columns: 1fr; grid-template-rows: 1fr; }
+.grupo-2 { grid-template-columns: 1fr 1fr; }
+.grupo-3 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+.grupo-3 img:nth-child(3) { grid-column: 1 / 3; width: 50%; justify-self: center; }
+.grupo-4 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+
+@media (max-width: 480px) {
+    .participantes-sidebar {
+        width: 100vw;
+    }
+}

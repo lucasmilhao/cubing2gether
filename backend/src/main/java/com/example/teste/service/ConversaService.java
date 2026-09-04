@@ -184,13 +184,10 @@ public class ConversaService {
         Conversa c = conversaRepository.findById(idConversa)
                 .orElseThrow(() -> new RuntimeException("Conversa não encontrada"));
         ParticipantesConversa pc = participantesConversaRepository.findByUsuarioAndConversa(u, c);
-        participantesConversaRepository.delete(pc);
+        pc.setIsAtivo(false);
+        participantesConversaRepository.save(pc);
 
         c.getParticipantes().remove(pc);
         editarConversa(c);
-
-        if (c.getParticipantes().size() < 3) {
-            deletarConversa(c);
-        }
     }
 }

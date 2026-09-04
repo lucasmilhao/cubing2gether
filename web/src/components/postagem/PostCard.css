@@ -210,18 +210,18 @@ img {
 }
 
 .action-btn:hover {
-  background: rgba(29, 155, 240, 0.1);
-  color: #1d9bf0;
+  background: color-mix(in srgb, var(--accent-disabled) 20%, transparent);
+  color: var(--accent-color);
 }
 
 .like-btn:hover {
-  background: rgba(249, 24, 128, 0.1);
-  color: #f9183d;
+  background: color-mix(in srgb, var(--accent-disabled) 20%, transparent);
+  color: var(--accent-color);
 }
 
 
 .like-btn-active {
-  color: #f9183d;
+  color: var(--accent-color);
 }
 
 .options-btn:hover {

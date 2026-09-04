@@ -11,4 +11,5 @@ import com.example.teste.model.Usuario;
 public interface PostagemRepository extends JpaRepository<Postagem, String> {
     List<Postagem> findByScramble(Scramble scramble);
     List<Postagem> findByUsuario(Usuario usuario);
+    List<Postagem> findAllByOrderByCreatedAtDesc();
 }

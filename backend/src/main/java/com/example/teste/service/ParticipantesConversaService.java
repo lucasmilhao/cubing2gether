@@ -41,7 +41,7 @@ public class ParticipantesConversaService {
     
     public List<ParticipantesConversa> getTodosPorConversa(String idConversa) {
         Conversa c = conversaRepository.findById(idConversa).orElseThrow(() -> new RuntimeException("Conversa não encontrada"));
-        List<ParticipantesConversa> lista = participantesConversaRepository.findByConversa(c);
+        List<ParticipantesConversa> lista = participantesConversaRepository.findByConversa(c).stream().filter(e -> e.getIsAtivo()).toList();
 
         return lista;
     }
