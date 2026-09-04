@@ -10,9 +10,11 @@ import com.example.teste.dto.notificacao.NotificacaoRequestDTO;
 import com.example.teste.exception.UsuarioNaoEncontradoException;
 import com.example.teste.model.Conversa;
 import com.example.teste.model.Mensagem;
+import com.example.teste.model.ParticipantesConversa;
 import com.example.teste.model.Usuario;
 import com.example.teste.repository.ConversaRepository;
 import com.example.teste.repository.MensagemRepository;
+import com.example.teste.repository.ParticipantesConversaRepository;
 import com.example.teste.repository.UsuarioRepository;
 import com.example.teste.type.TypeNotificacao;
 
@@ -32,6 +34,9 @@ public class MensagemService {
 
     @Autowired
     private NotificacaoService notificacaoService;
+
+    @Autowired
+    private ParticipantesConversaRepository participantesConversaRepository;
 
     public Mensagem criarMensagem(MensagemRequestDTO request) {
 
@@ -63,7 +68,11 @@ public class MensagemService {
     }
 
     public List<Mensagem> getMensagensConversa(String idConversa, Usuario usuarioLogado) {
-        List<Mensagem> listaMensagens = mensagemRepository.findByConversaIdConversaOrderByMandado(idConversa);
+        Conversa c = conversaRepository.findById(idConversa)
+                .orElseThrow(() -> new RuntimeException("Conversa não encontrada."));
+        ParticipantesConversa pc = participantesConversaRepository.findByUsuarioAndConversa(usuarioLogado, c);
+        List<Mensagem> listaMensagens = mensagemRepository.findByConversaIdConversaAndMandadoGreaterThanEqualOrderByMandadoAsc(idConversa, pc.getEntrou());
+
         listaMensagens.stream().forEach(e -> {
             if (!e.getSender().getId().equals(usuarioLogado.getId()))
                 e.setIsVisto(true);

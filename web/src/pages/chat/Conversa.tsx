@@ -15,6 +15,7 @@ import { useParticipantesConversa } from "../../hooks/chat/conversa/useParticipa
 import { useConversaEdit } from "../../hooks/chat/conversa/useConversaEdit";
 import type { ConversaResponseProps } from "../../interface/ConversaResponse";
 import { useConviteCreate } from "../../hooks/chat/conversa/useConviteCreate";
+import { ParticipantesSidebar } from "../../components/sidebar/SidebarParticipantes";
 
 export function Conversa() {
     const { idConversa } = useParams();
@@ -30,16 +31,17 @@ export function Conversa() {
     const menuRef = useRef<HTMLDivElement>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const [isOptionOpen, setOptionOpen] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const navigate = useNavigate();
 
     const qtdParticipantes = conversa?.participantes?.length ?? 0;
     const user = conversa?.participantes?.at(0)?.id === usuarioLogado?.id ? conversa?.participantes?.at(1) : conversa?.participantes?.at(0)
     const nomeConversa = qtdParticipantes > 2 ? conversa?.nome : user?.nome;
-    
+
     const isAdmin = dataParticipantes?.find(e => e.usuario.id === usuarioLogado?.id)?.isAdmin;
 
     console.log(isAdmin);
-    
+
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -127,7 +129,7 @@ export function Conversa() {
                     <button className="back-button-chat" onClick={() => window.history.back()}>
                         <ArrowLeft />
                     </button>
-                    {qtdParticipantes > 2 ? 
+                    {qtdParticipantes > 2 ?
                         <div className="convite-members__avatars">
                             {conversa?.participantes?.slice(0, 3).map(
                                 (participante, index) => (
@@ -156,11 +158,11 @@ export function Conversa() {
                     </button>
                     {isOptionOpen && (
                         <div className="post-options-menu">
+                            <button onClick={() => setIsSidebarOpen(prev => !prev)}>
+                                Detalhes
+                            </button>
                             {isAdmin && (
                                 <>
-                                    <button>
-                                        Adicionar participante
-                                    </button>
                                     <button onClick={editar}>
                                         {conversa?.isPublico ? "Tornar privado" : "Tornar público"}
                                     </button>
@@ -192,6 +194,8 @@ export function Conversa() {
                 ))}
                 <div ref={messagesEndRef} />
             </div>
+
+            <ParticipantesSidebar key={conversa?.idConversa}  isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(prev => !prev)} conversa={conversa}/>
 
             <div className="input-area">
                 <input

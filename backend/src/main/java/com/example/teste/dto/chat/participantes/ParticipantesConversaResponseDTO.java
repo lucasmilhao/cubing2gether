@@ -11,10 +11,11 @@ public record ParticipantesConversaResponseDTO(
     Conversa conversa,
     Usuario usuario,
     Boolean isAdmin,
+    Boolean isAtivo,
     Instant entrou
 ) {
     public ParticipantesConversaResponseDTO(ParticipantesConversa p) {
-        this(p.getId(), p.getConversa(), p.getUsuario(), p.getIsAdmin(), p.getEntrou());
+        this(p.getId(), p.getConversa(), p.getUsuario(), p.getIsAdmin(), p.getIsAtivo(), p.getEntrou());
     }
     
 }

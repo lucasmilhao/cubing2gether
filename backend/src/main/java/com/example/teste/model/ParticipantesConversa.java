@@ -42,6 +42,9 @@ public class ParticipantesConversa {
     @Column(name = "is_admin", nullable = false)
     private Boolean isAdmin = false;
 
+    @Column(name = "is_ativo", nullable = false)
+    private Boolean isAtivo = true;
+
     private Instant entrou;
     
     @PrePersist

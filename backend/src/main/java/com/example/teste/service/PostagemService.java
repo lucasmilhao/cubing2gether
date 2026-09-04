@@ -42,7 +42,7 @@ public class PostagemService {
     }
 
     public List<Postagem> getTodasPostagens() {
-        return postagemRepository.findAll();
+        return postagemRepository.findAllByOrderByCreatedAtDesc();
     }
 
     public List<Postagem> getPostagemPorUsuario(String idUsuario) {

@@ -7,6 +7,7 @@ import { useUsuarioLogado } from "../../hooks/usuario/useUsuarioLogado";
 import "./home.css";
 import { useState } from "react";
 import { PostModal } from "../../components/postagem/PostModal";
+import { Sobre } from "../sobre/Sobre";
 
 export default function Home() {
   const { data: postagens } = usePostagemData();
@@ -20,8 +21,8 @@ export default function Home() {
     setIsOpen(prev => !prev);
   }
 
-  return (
-    <div className={`home-shell ${usuarioLogado ? "home-with-sidebar" : "home-without-sidebar"}`}>
+  return usuarioLogado ? (
+    <div className={`home-shell home-with-sidebar`}>
       {usuarioLogado &&
         <aside className="home-sidebar">
           <div className="home-profile-card">
@@ -73,5 +74,5 @@ export default function Home() {
         </div>
       </main>
     </div>
-  );
+  ) : <Sobre/>;
 }

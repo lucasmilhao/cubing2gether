@@ -12,6 +12,8 @@ import { useIsCurtido } from "../../hooks/curtida/useIsCurtida";
 
 export function PostCard({ postagem }: { postagem: PostagemProps }) {
 
+  console.log(postagem);
+  
   const location = useLocation();
   const { data: usuarioLogado } = useUsuarioLogado();
   const { mutate: deletar } = usePostagemDelete();

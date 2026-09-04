@@ -55,30 +55,37 @@ export function Header() {
             <img src={logo} alt="" />
             <div className="user-header-nav">
                 <h2 onClick={() => navigate("/")}>Home</h2>
-                <h2 onClick={() => navigate("/practice")}>Practice</h2>
-                <h2 onClick={() => navigate("/sobre")}>Sobre</h2>
-                {!checarConvidado() && <h2 onClick={() => navigate("/amigos")}>Amigos</h2>}
+                {usuarioLogado && (
+                    <>
+                        <h2 onClick={() => navigate("/practice")}>Practice</h2>
+                        {!checarConvidado() && <h2 onClick={() => navigate("/amigos")}>Amigos</h2>}
+                    </>
+                )}
             </div>
             <div className="user-header-actions">
                 <div className="user-profile-header">
                     <div style={{ display: 'flex', gap: 5 }}>
-                        <button onClick={() => setIsNotificacaoOpen(prev => !prev)} style={{ background: "transparent", border: "none", cursor: "pointer" }}>
-                            <BellIcon size={20} style={{ color: theme === 'light' ? "black" : "white" }} />
-                        </button>
-                        <p>{naoLidas}</p>
+                        {usuarioLogado &&
+                            <>
+                                <button onClick={() => setIsNotificacaoOpen(prev => !prev)} style={{ background: "transparent", border: "none", cursor: "pointer" }}>
+                                    <BellIcon size={20} style={{ color: theme === 'light' ? "black" : "white" }} />
+                                </button>
+                                <p>{naoLidas}</p>
+                            </>
+                        }
                     </div>
                     <button onClick={toggleTheme} title={theme === 'light' ? 'Modo escuro' : 'Modo claro'} style={{ background: "transparent", border: "none", cursor: "pointer" }}>
                         <ToggleSwitch />
                     </button>
-                    <button className="search-button" onClick={handleSearchModal}>
+                    {usuarioLogado && <button className="search-button" onClick={handleSearchModal}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                             <circle cx="11" cy="11" r="6"></circle>
                             <path d="m20 20-4.2-4.2"></path>
                         </svg>
                         <span>Pesquisar</span>
-                    </button>
+                    </button>}
                     <div ref={menuRef}>
-                        {usuarioLogado ? <img src={usuarioLogado?.picture} onClick={() => setIsMenuOpen(prev => !prev)} alt="" /> : <div style={{ display: "flex", alignItems: 'center', gap: 10 }}> <p style={{margin: 0, cursor: 'pointer', color: "var(--accent-color)", textDecoration: 'underline'}} onClick={() => navigate("/auth/login")}>Entrar</p> <button className="login-btn-header" onClick={() => navigate("/auth/register")}>Cadastrar-se</button>
+                        {usuarioLogado ? <img src={usuarioLogado?.picture} onClick={() => setIsMenuOpen(prev => !prev)} alt="" /> : <div style={{ display: "flex", alignItems: 'center', gap: 10 }}> <p style={{ margin: 0, cursor: 'pointer', color: "var(--accent-color)", textDecoration: 'underline' }} onClick={() => navigate("/auth/login")}>Entrar</p> <button className="login-btn-header" onClick={() => navigate("/auth/register")}>Cadastrar-se</button>
                         </div>}
                         {isMenuOpen && (
                             <div className="user-options-menu">
@@ -88,6 +95,9 @@ export function Header() {
                                 <hr />
                                 <button onClick={() => { navigate("/ajuda"); setIsMenuOpen(false) }} className="profile-actions">
                                     Ajuda
+                                </button>
+                                <button onClick={() => { navigate("/sobre"); setIsMenuOpen(false) }} className="profile-actions">
+                                    Sobre
                                 </button>
                                 <button onClick={() => logout()} className="profile-actions">
                                     Logout
