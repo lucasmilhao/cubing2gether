@@ -1,0 +1,30 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: cubing2gether-mysql
+    environment:
+      MYSQL_DATABASE: cubing2gether
+      MYSQL_USER: cubing
+      MYSQL_PASSWORD: cubing123
+      MYSQL_ROOT_PASSWORD: root123
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cubing2gether-backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/cubing2gether?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: cubing
+      SPRING_DATASOURCE_PASSWORD: cubing123
+    depends_on:
+      - mysql
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
