@@ -71,6 +71,13 @@ public class MensagemService {
         Conversa c = conversaRepository.findById(idConversa)
                 .orElseThrow(() -> new RuntimeException("Conversa não encontrada."));
         ParticipantesConversa pc = participantesConversaRepository.findByUsuarioAndConversa(usuarioLogado, c);
+        
+        if(!pc.getIsAtivo()){
+
+            pc.setIsAtivo(true);
+            participantesConversaRepository.save(pc);
+        }
+
         List<Mensagem> listaMensagens = mensagemRepository.findByConversaIdConversaAndMandadoGreaterThanEqualOrderByMandadoAsc(idConversa, pc.getEntrou());
 
         listaMensagens.stream().forEach(e -> {

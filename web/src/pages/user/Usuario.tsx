@@ -14,6 +14,8 @@ import { useFollowStatus } from "../../hooks/follow/useFollowStatus";
 import { SolveChart } from "../../components/chart/SolveChart";
 import { PostCard } from "../../components/postagem/PostCard";
 import { usePostagemUsuario } from "../../hooks/postagem/usePostagemUsuario";
+import type { ConversaRequestProps } from "../../interface/ConversaRequestProps";
+import { useConversaCreate } from "../../hooks/chat/conversa/useConversaCreate";
 
 
 export function Usuario() {
@@ -30,7 +32,7 @@ export function Usuario() {
     const [isOpen, setIsOpen] = useState(false);
     const { data: followStatus } = useFollowStatus(idUsuario);
     const [nome, setNome] = useState(usuario?.nome);
-    console.log("FollowStatus: ", followStatus);
+    const { mutate: conversa } = useConversaCreate();
     const followInfo = useMemo(() => {
         if (!followStatus) return "Seguir";
 
@@ -42,9 +44,25 @@ export function Usuario() {
     }, [followStatus]);
 
     const EditarPerfilBtn = <button onClick={() => handleModal()} className="edit-profile-btn">Editar perfil</button>;
+    let idsUsuarios: string[] | undefined = []
 
     const checarConvidado = (): boolean => {
         return usuarioLogado?.isGuest === undefined ? false : usuarioLogado?.isGuest;
+    }
+
+
+    const submitConversa = (nome: string, idsUsuarios: string[]) => {
+        const props: ConversaRequestProps = {
+            nome,
+            idsUsuarios
+        }
+
+        conversa(props, {
+            onSuccess: (data) => {
+                navigate(`/chat/${data.idConversa}`)
+                console.log(data.nome);
+            }
+        });
     }
 
 
@@ -122,6 +140,15 @@ export function Usuario() {
             {isOpen && <Modal closeModal={handleModal} usuarioLogado={usuarioLogado} />}
             <div className="usuario-page">
                 <div className="actions">
+                    {!isUsuarioLogado && <button className="chat-button-usuario" onClick={() => {
+                        idsUsuarios.push(usuario?.id ?? "");
+                        if (usuarioLogado?.id) {
+                            idsUsuarios.push(usuarioLogado.id);
+                        }
+                        submitConversa(`${usuario?.nome} e ${usuarioLogado?.nome}`, idsUsuarios)
+                    }} title="Iniciar conversa">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M64 416L64 192C64 139 107 96 160 96L480 96C533 96 576 139 576 192L576 416C576 469 533 512 480 512L360 512C354.8 512 349.8 513.7 345.6 516.8L230.4 603.2C226.2 606.3 221.2 608 216 608C202.7 608 192 597.3 192 584L192 512L160 512C107 512 64 469 64 416z" /></svg>
+                    </button>}
 
                     <div className="usuario-card">
                         <img className="usuario-avatar" src={image} alt="Foto Usuario" onClick={() => window.location.href = image} />
@@ -131,6 +158,7 @@ export function Usuario() {
                         </div>
                     </div>
                     {isUsuarioLogado ? EditarPerfilBtn : FollowBtn}
+
                 </div>
 
                 <div className="usuario-sections">

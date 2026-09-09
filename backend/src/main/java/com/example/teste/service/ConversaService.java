@@ -106,8 +106,10 @@ public class ConversaService {
 
     public List<Conversa> getConversaPorIdUsuario(String idUsuario) {
         Usuario u = usuarioRepository.findById(idUsuario).orElseThrow(() -> new UsuarioNaoEncontradoException());
-        List<Conversa> lista = participantesConversaRepository.findByUsuario(u)
-                .stream().map(e -> e.getConversa()).toList();
+        List<Conversa> lista = participantesConversaRepository.findByUsuario(u).stream().filter(e -> e.getIsAtivo())
+                .map(e -> e.getConversa()).toList();
+
+                System.out.println("PASSEI POR AQUI PORRAAA: " + lista);
 
         return lista;
     }
@@ -185,9 +187,9 @@ public class ConversaService {
                 .orElseThrow(() -> new RuntimeException("Conversa não encontrada"));
         ParticipantesConversa pc = participantesConversaRepository.findByUsuarioAndConversa(u, c);
         pc.setIsAtivo(false);
+        pc.setEntrou(Instant.now());
         participantesConversaRepository.save(pc);
 
-        c.getParticipantes().remove(pc);
         editarConversa(c);
     }
 }
