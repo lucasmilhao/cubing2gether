@@ -218,7 +218,7 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
             onClick={toggleCurtir}
             title="Curtir"
           >
-            <HeartIcon filled={false} />
+            <HeartIcon filled={isCurtido ?? false} />
             {postagem.curtidas}
           </button>
 

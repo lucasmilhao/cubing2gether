@@ -35,6 +35,7 @@ public class ParticipantesConversaService {
         ParticipantesConversa pc = new ParticipantesConversa();
         pc.setConversa(c);
         pc.setUsuario(u);
+        pc.setIsAtivo(true);
 
         return participantesConversaRepository.save(pc);
     }
@@ -53,7 +54,7 @@ public class ParticipantesConversaService {
     public List<ParticipantesConversa> getPorIdUsuario(String idUsuario) {
         Usuario u = usuarioService.getUsuarioId(idUsuario);
 
-        return participantesConversaRepository.findByUsuario(u);
+        return participantesConversaRepository.findByUsuario(u).stream().filter(e -> e.getIsAtivo()).toList();
     }
     
 }
