@@ -42,7 +42,7 @@ public class AuthController {
                 .from("access_token", result.token())
                 .httpOnly(true)
                 .secure(true)
-                .sameSite("Lax")
+                .sameSite("None")
                 .path("/")
                 .maxAge(60 * 60 * 24)
                 .build();
@@ -67,7 +67,7 @@ public class AuthController {
                 .from("access_token", result.token())
                 .httpOnly(true)
                 .secure(true)
-                .sameSite("Lax")
+                .sameSite("None")
                 .path("/")
                 .maxAge(60 * 60 * 24)
                 .build();
