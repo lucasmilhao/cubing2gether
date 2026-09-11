@@ -11,11 +11,12 @@ public record ConversaResponseDTO(
     String nome,
     List<UsuarioResponseDTO> participantes,
     Boolean isPublico,
+    Boolean isGrupo,
     Instant dataCriado
 ) {
     
     public ConversaResponseDTO(Conversa c) {
-        this(c.getIdConversa(), c.getNome(), c.getParticipantes().stream().map(e -> new UsuarioResponseDTO(e.getUsuario())).toList(), c.getIsPublico(), c.getDataCriado());
+        this(c.getIdConversa(), c.getNome(), c.getParticipantes().stream().map(e -> new UsuarioResponseDTO(e.getUsuario())).toList(), c.getIsPublico(), c.getIsGrupo(),c.getDataCriado());
     }
 
 }

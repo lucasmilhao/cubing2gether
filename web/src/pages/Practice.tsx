@@ -9,6 +9,20 @@ import Swal from 'sweetalert2'
 import { useUsuarioLogado } from '../hooks/usuario/useUsuarioLogado'
 import { useSolveDataUser } from '../hooks/solves/useSolveDataUser'
 
+const KEY_TO_MOVE: Record<string, string> = {
+  u: 'U', U: "U'",
+  d: 'D', D: "D'",
+  l: 'L', L: "L'",
+  r: 'R', R: "R'",
+  f: 'F', F: "F'",
+  b: 'B', B: "B'",
+  m: 'M', M: "M'",
+  e: 'E', E: "E'",
+  s: 'S', S: "S'",
+  x: 'x', X: "x'",
+  y: 'y', Y: "y'",
+  z: 'z', Z: "z'",
+};
 
 export const segundos = (milis: number): string => {
 
@@ -25,9 +39,13 @@ export function Practice() {
   const { refetch } = useScramble(`${puzzle}`);
   const [scramble, setScramble] = useState("");
   const postSolve = useSolveMutate();
-  const { data: usuarioLogado} = useUsuarioLogado();
+  const { data: usuarioLogado } = useUsuarioLogado();
   const { data: solves } = useSolveDataUser(usuarioLogado?.id);
   const [seconds, setSeconds] = useState("00.00");
+  const [isTutor, setIsTutor] = useState(false);
+  const [isController, setIsController] = useState(false);
+  const twistyRef = useRef<any>(null);
+  const activeScrambleRef = useRef("");
 
   useEffect(() => {
     gerarScramble();
@@ -62,6 +80,12 @@ export function Practice() {
 
   function start() {
     if (!isRunning) {
+      activeScrambleRef.current = scramble;
+
+      if (isController && twistyRef.current) {
+        twistyRef.current.alg = '';
+      }
+
       startTime.current = Date.now();
       timer.current = setInterval(Update, 16);
       gerarScramble();
@@ -87,9 +111,26 @@ export function Practice() {
   }
 
   useEffect(() => {
+    if (!isController || !isRunning) return;
+
+    const handleMoveKey = (e: KeyboardEvent) => {
+      if (e.code === "Space" || e.ctrlKey || e.altKey || e.metaKey) return;
+
+      const move = KEY_TO_MOVE[e.key];
+      if (!move) return;
+
+      e.preventDefault();
+      twistyRef.current?.experimentalAddMove(move, { cancel: true });
+    };
+
+    window.addEventListener("keydown", handleMoveKey);
+    return () => window.removeEventListener("keydown", handleMoveKey);
+  }, [isController, isRunning]);
+
+  useEffect(() => {
 
     const keyHandlerUp = (e: KeyboardEvent) => {
-      if (e.code !== "Space" && !isRunning) return;
+      if (e.code !== "Space") return;
 
       e.preventDefault();
 
@@ -106,7 +147,7 @@ export function Practice() {
 
     const handleTouchEnter = (e: TouchEvent) => {
       console.log(e);
-      
+
       handleStart();
     }
 
@@ -167,6 +208,31 @@ export function Practice() {
   console.log(solves?.data);
 
   if (isPronto) {
+    if (isController) {
+      return (
+        <div className="container">
+          <p>{activeScrambleRef.current}</p>
+          <div className="info-cube">
+            <TwistyPlayer
+              ref={twistyRef}
+              puzzle={puzzle}
+              control-panel='none'
+              viewer-link='none'
+              experimental-setup-alg={activeScrambleRef.current}
+              background='none'
+              visualization={dimension}
+            ></TwistyPlayer>
+            <h1
+              className="practice-timer controller-timer"
+              style={isRunning ? { color: 'green' } : { color: 'red' }}
+            >
+              {seconds}
+            </h1>
+          </div>
+        </div>
+      )
+    }
+
     return (
       <div className="container">
         <div>
@@ -181,14 +247,27 @@ export function Practice() {
       <div className='container'>
         <p>{scramble}</p>
         <div className='info-cube'>
-          <TwistyPlayer
-            puzzle={puzzle}
-            control-panel='none'
-            viewer-link='none'
-            experimental-setup-alg={scramble}
-            background='none'
-            visualization={dimension}
-          ></TwistyPlayer>
+          {!isTutor ?
+            <TwistyPlayer
+              puzzle={puzzle}
+              control-panel='none'
+              viewer-link='none'
+              experimental-setup-alg={scramble}
+              background='none'
+              visualization={dimension}
+            ></TwistyPlayer>
+            :
+
+            <TwistyPlayer
+              puzzle={puzzle}
+              control-panel='bottom-row'
+              viewer-link='none'
+              experimental-setup-alg=""
+              alg={scramble}
+              background='none'
+              visualization={dimension}
+            ></TwistyPlayer>
+          }
           <h1 className='practice-timer'>{seconds}</h1>
         </div>
         <div className='sidebar'>
@@ -236,6 +315,53 @@ export function Practice() {
                 ))}
               </tbody>
             </table>
+          </div>
+          <div className="tutor-toggle-container">
+            <div className="tutor-info">
+              <span className="tutor-info-icon">i</span>
+
+              <div className="tutor-tooltip">
+                O modo tutor permite visualizar e acompanhar os movimentos
+                do scramble antes da resolução.
+              </div>
+
+              <span className="tutor-toggle-label">Modo tutor</span>
+            </div>
+
+            <label className="tutor-switch">
+              <input
+                type="checkbox"
+                checked={isTutor}
+                onChange={(e) => setIsTutor(e.target.checked)}
+              />
+
+              <span className="tutor-slider"></span>
+            </label>
+          </div>
+          <div className="tutor-toggle-container">
+            <div className="tutor-info">
+              <span className="tutor-info-icon">i</span>
+
+              <div className="tutor-tooltip controller-tooltip">
+                Resolva o cubo pelo teclado: cada letra gira a face no sentido
+                horário, e Shift + letra gira no sentido anti-horário
+                (U, R, F, D, L, B, M, E, S, x, y, z). Para giro duplo, pressione
+                a mesma tecla duas vezes.
+                <br /><br />
+                Não conhece a notação? <a href="https://jperm.net/3x3/moves" target="_blank" rel="noreferrer">Veja o tutorial do J Perm</a>.
+              </div>
+
+              <span className="tutor-toggle-label">Modo controlador</span>
+            </div>
+
+            <label className="tutor-switch">
+              <input
+                type="checkbox"
+                checked={isController}
+                onChange={(e) => setIsController(e.target.checked)}
+              />
+              <span className="tutor-slider"></span>
+            </label>
           </div>
           <div>
           </div>

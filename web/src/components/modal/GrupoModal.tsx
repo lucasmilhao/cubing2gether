@@ -46,7 +46,8 @@ export function GrupoModal({ onClose }: GrupoModalProps) {
 
         const props: ConversaRequestProps = {
             nome,
-            idsUsuarios
+            idsUsuarios,
+            isGrupo: true
         }
 
         conversa(props, {

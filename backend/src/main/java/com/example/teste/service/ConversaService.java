@@ -73,12 +73,13 @@ public class ConversaService {
     }
 
     public Conversa criarConversaComParticipantes(ConversaRequestDTO request) {
-        if (request.idsUsuarios().size() < 3) {
-            Optional<Conversa> c = conversaRepository.findConversaByParticipantes(request.idsUsuarios(),
-                    (long) request.idsUsuarios().size());
+        if (!request.isGrupo()) {
+            System.out.println("CAÍ AQUIIALDKJLDKJSADFLKSAJFÇLSKADJFÇALSKFJ");
+            List<Conversa> c = conversaRepository.findConversaByParticipantes(request.idsUsuarios(),
+                    (long) request.idsUsuarios().size()).stream().filter(e -> !e.getIsGrupo()).toList();
 
-            if (c.isPresent())
-                return c.get();
+            if (!c.isEmpty())
+                return c.getFirst();
         }
         Conversa conversa = new Conversa(request);
         conversaRepository.save(conversa);
@@ -181,15 +182,4 @@ public class ConversaService {
         return convite;
     }
 
-    public void removerParticipante(String idConversa, String idUsuario) {
-        Usuario u = usuarioRepository.findById(idUsuario).orElseThrow(() -> new UsuarioNaoEncontradoException());
-        Conversa c = conversaRepository.findById(idConversa)
-                .orElseThrow(() -> new RuntimeException("Conversa não encontrada"));
-        ParticipantesConversa pc = participantesConversaRepository.findByUsuarioAndConversa(u, c);
-        pc.setIsAtivo(false);
-        pc.setEntrou(Instant.now());
-        participantesConversaRepository.save(pc);
-
-        editarConversa(c);
-    }
 }

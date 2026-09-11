@@ -1,5 +1,7 @@
 package com.example.teste.dto.usuario;
 
+import com.example.teste.type.TypeUsuario;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -17,7 +19,7 @@ public record UsuarioRequestDTO(
     @Size(min=8, message="Senha muito curta.")
     String senha, 
 
-    String tipo,
+    TypeUsuario tipo,
 
     Boolean isGuest,
 

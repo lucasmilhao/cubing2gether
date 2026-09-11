@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.teste.dto.usuario.UsuarioRequestDTO;
+import com.example.teste.type.TypeUsuario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -33,8 +36,10 @@ public class Usuario {
     private String nome;
 
     private String email;
-
-    private String tipo;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo")
+    private TypeUsuario tipo;
 
     private Boolean isGuest;
 

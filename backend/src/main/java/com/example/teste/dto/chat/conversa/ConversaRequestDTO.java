@@ -12,7 +12,8 @@ public record ConversaRequestDTO(
     @Size(max = 50, min=1)
     String nome,
     List<String> idsUsuarios,
-    Boolean isPublico
+    Boolean isPublico,
+    Boolean isGrupo
 ) {
     
 }

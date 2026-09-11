@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.teste.dto.postagem.PostagemRequestDTO;
 import com.example.teste.dto.postagem.PostagemResponseDTO;
 import com.example.teste.model.Postagem;
+import com.example.teste.model.Usuario;
 import com.example.teste.service.PostagemService;
 
 import jakarta.validation.Valid;
@@ -28,8 +30,8 @@ public class PostagemController {
     private PostagemService service;
 
     @GetMapping
-    public ResponseEntity<List<PostagemResponseDTO>> getTodas() {
-        List<PostagemResponseDTO> lista = service.getTodasPostagens().stream()
+    public ResponseEntity<List<PostagemResponseDTO>> getTodas(@AuthenticationPrincipal Usuario usuario) {
+        List<PostagemResponseDTO> lista = service.getTodasPostagens(usuario).stream()
                 .map(PostagemResponseDTO::new)
                 .toList();
 

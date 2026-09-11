@@ -87,13 +87,7 @@ public class ConversaController {
         
         return ResponseEntity.ok(new ConviteResponseDTO(convite.getToken(), "", convite.getExpiraEm(), new ConversaResponseDTO(convite.getConversa())));
     }
-
-    @DeleteMapping
-    public ResponseEntity<Void> removerParticipante(@RequestBody ParticipantesConversaRequestDTO request) {
-        service.removerParticipante(request.idConversa(), request.idUsuario());
-        return ResponseEntity.noContent().build();
-    }
-
+    
     @PostMapping("/convite/{token}")
     public ResponseEntity<ConversaResponseDTO> aceitarConvite(@PathVariable String token,
             @AuthenticationPrincipal Usuario usuario) {

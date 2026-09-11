@@ -54,7 +54,8 @@ export function Usuario() {
     const submitConversa = (nome: string, idsUsuarios: string[]) => {
         const props: ConversaRequestProps = {
             nome,
-            idsUsuarios
+            idsUsuarios,
+            isGrupo: false
         }
 
         conversa(props, {
@@ -174,14 +175,14 @@ export function Usuario() {
                     </section>
 
                     <section className="usuario-section">
-                        <h2 onClick={() => navigate(`/followers/${idUsuario}`)}>Seguidores</h2>
+                        <h2 style={{cursor: "pointer"}} onClick={() => navigate(`/followers/${idUsuario}`)}>Seguidores</h2>
                         <div className="photos-grid">
                             <h1>{seguidores?.length ?? 0}</h1>
                         </div>
                     </section>
 
                     <section className="usuario-section">
-                        <h2 onClick={() => navigate(`/following/${idUsuario}`)}>Seguindo</h2>
+                        <h2 style={{cursor: "pointer"}} onClick={() => navigate(`/following/${idUsuario}`)}>Seguindo</h2>
                         <div className="photos-grid">
                             <h1>{seguindo ? seguindo.length : 0}</h1>
                         </div>
