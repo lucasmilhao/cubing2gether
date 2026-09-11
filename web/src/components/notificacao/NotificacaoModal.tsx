@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useNotificacaoLida } from "../../hooks/notificacao/useNotificacaoLida";
+import { useLerTodas } from "../../hooks/notificacao/useLerTodas";
 
 interface NotificacaoModalProps {
     notificacoes: NotificacaoProps[];
@@ -26,6 +27,7 @@ export function NotificacaoModal({
 }: NotificacaoModalProps) {
 
     const { mutate: setNotificacaoLida } = useNotificacaoLida();
+    const {mutate : setTodasLidas} = useLerTodas();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -111,6 +113,9 @@ export function NotificacaoModal({
                     <div className="notificacao-header-title">
                         <BellIcon size={22} />
                         <h2>Notificações</h2>
+                    <button type="button" className="postar-btn" onClick={() => setTodasLidas()}>
+                        Ler todas
+                    </button>
                     </div>
 
                     <button

@@ -80,5 +80,12 @@ public class NotificacaoService {
         n.setIsLida(true);
         notificacaoRepository.save(n);
     }
+    
+    public void setNotificacoesLidas(Usuario u) {
+        getNotificacaoUsuario(u).forEach(n -> {
+            n.setIsLida(true);
+            notificacaoRepository.save(n);
+        });
+    }
 
 }
