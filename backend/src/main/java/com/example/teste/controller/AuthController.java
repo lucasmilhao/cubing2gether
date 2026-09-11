@@ -41,7 +41,7 @@ public class AuthController {
         ResponseCookie cookie = ResponseCookie
                 .from("access_token", result.token())
                 .httpOnly(true)
-                .secure(false)
+                .secure(true)
                 .sameSite("Lax")
                 .path("/")
                 .maxAge(60 * 60 * 24)
@@ -66,7 +66,7 @@ public class AuthController {
         ResponseCookie cookie = ResponseCookie
                 .from("access_token", result.token())
                 .httpOnly(true)
-                .secure(false)
+                .secure(true)
                 .sameSite("Lax")
                 .path("/")
                 .maxAge(60 * 60 * 24)
@@ -118,7 +118,7 @@ public class AuthController {
         ResponseCookie cookie = ResponseCookie
                 .from("access_token", "")
                 .httpOnly(true)
-                .secure(false)
+                .secure(true)
                 .sameSite("Lax")
                 .path("/")
                 .maxAge(0)
