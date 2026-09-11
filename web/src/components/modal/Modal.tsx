@@ -13,8 +13,7 @@ export function Modal ({closeModal, usuarioLogado} : ModalProps) {
     const [file, setFile] = useState<File | null>(null)
     const [nome, setNome] = useState(usuarioLogado?.nome ?? "")
     const {mutate : upload, isError, error, isPending} = useUploadPost();
-    const [erro, setErro] = useState("");
-    const edit = useUsuarioEdit();
+     const edit = useUsuarioEdit();
 
     let url : string;
 

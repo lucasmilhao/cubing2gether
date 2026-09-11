@@ -22,7 +22,8 @@ export function Following() {
     const submitConversa = (nome: string, idsUsuarios: string[])=> {
         const props: ConversaRequestProps = {
             nome,
-            idsUsuarios
+            idsUsuarios,
+            isGrupo: false
         }
 
         console.log(props);
@@ -43,7 +44,8 @@ export function Following() {
                 
                 const propsConversa: ConversaRequestProps = {
                     nome,
-                    idsUsuarios
+                    idsUsuarios,
+                    isGrupo: false
                 }
 
                 conversa.mutate(propsConversa, {
