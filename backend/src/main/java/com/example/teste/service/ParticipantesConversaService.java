@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.teste.dto.chat.participantes.ParticipantesConversaRequestDTO;
-import com.example.teste.exception.UsuarioNaoEncontradoException;
 import com.example.teste.model.Conversa;
 import com.example.teste.model.ParticipantesConversa;
 import com.example.teste.model.Usuario;

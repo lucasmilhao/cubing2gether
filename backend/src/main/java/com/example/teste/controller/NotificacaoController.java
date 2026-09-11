@@ -49,5 +49,12 @@ public class NotificacaoController {
         
         return ResponseEntity.noContent().build();
     }
+    
+    @PutMapping()
+    public ResponseEntity<Void> setNotificacoesLidas(@AuthenticationPrincipal Usuario u) {
+        service.setNotificacoesLidas(u);
+        
+        return ResponseEntity.noContent().build();
+    }
 
 }
