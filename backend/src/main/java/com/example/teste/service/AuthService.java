@@ -166,6 +166,8 @@ public class AuthService {
 
         usuario.setPicture(authenticated.pictureUrl());
 
+        usuario.setTipo(TypeUsuario.USUARIO);
+
         usuarioRepository.save(usuario);
 
         return usuario;
