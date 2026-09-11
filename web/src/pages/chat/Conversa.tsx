@@ -36,7 +36,7 @@ export function Conversa() {
 
     const qtdParticipantes = conversa?.participantes?.length ?? 0;
     const user = conversa?.participantes?.at(0)?.id === usuarioLogado?.id ? conversa?.participantes?.at(1) : conversa?.participantes?.at(0)
-    const nomeConversa = qtdParticipantes > 2 ? conversa?.nome : user?.nome;
+    const nomeConversa = conversa?.isGrupo ? conversa?.nome : user?.nome;
 
     const isAdmin = dataParticipantes?.find(e => e.usuario.id === usuarioLogado?.id)?.isAdmin;
 
@@ -161,14 +161,7 @@ export function Conversa() {
                             <button onClick={() => setIsSidebarOpen(prev => !prev)}>
                                 Detalhes
                             </button>
-                            {isAdmin && (
-                                <>
-                                    <button onClick={editar}>
-                                        {conversa?.isPublico ? "Tornar privado" : "Tornar público"}
-                                    </button>
-                                </>
-                            )
-                            }
+                            {(isAdmin && conversa?.isGrupo) && <button onClick={editar}> {conversa?.isPublico ? "Tornar privado" : "Tornar público"}</button>}
                             {conversa?.isPublico && <button onClick={() => criarConvite(idConversa ?? "", {
                                 onSuccess: (response: any) => {
                                     navigator.clipboard.writeText(response.link)

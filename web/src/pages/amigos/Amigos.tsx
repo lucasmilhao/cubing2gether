@@ -28,7 +28,8 @@ export function Amigos() {
     const submitConversa = (nome: string, idsUsuarios: string[])=> {
         const props: ConversaRequestProps = {
             nome,
-            idsUsuarios
+            idsUsuarios,
+            isGrupo: false
         }
 
         conversa.mutate(props, {
@@ -46,7 +47,8 @@ export function Amigos() {
                 
                 const propsConversa: ConversaRequestProps = {
                     nome,
-                    idsUsuarios
+                    idsUsuarios,
+                    isGrupo: false
                 }
 
                 conversa.mutate(propsConversa, {

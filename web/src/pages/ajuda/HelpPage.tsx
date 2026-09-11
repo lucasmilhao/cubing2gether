@@ -51,9 +51,9 @@ const CATEGORIES: Category[] = [
     icon: User,
     label: "Minha conta",
     faqs: [
-      { q: "Como altero meus dados?", a: "Acesse seu perfil → Configurações → Editar perfil. Lá você pode atualizar nome, bio e foto." },
-      { q: "Como editar meu perfil?", a: "Vá em Perfil → Editar perfil para alterar nome de usuário, bio e avatar." },
-      { q: "Como altero minha senha?", a: "Em Configurações → Senha, informe a senha atual e defina a nova senha." },
+      { q: "Como altero meus dados?", a: "Acesse seu perfil → Editar perfil. Lá você pode atualizar nome e foto." },
+      { q: "Como editar meu perfil?", a: "Vá em Perfil → Editar perfil para alterar nome de usuário e avatar." },
+      { q: "Como altero minha senha?", a: "Em Ajuda → Senha. Um email será mandado com um link para definir a nova senha." },
       { q: "Como recupero minha senha?", a: 'Na tela de login, toque em "Esqueci minha senha" e siga as instruções enviadas para seu e-mail cadastrado.' },
       { q: "Como altero meu e-mail?", a: "Em Configurações → Conta → E-mail, informe o novo endereço e confirme com sua senha atual." },
       { q: "Como altero minha foto de perfil?", a: "Toque na sua foto atual em Editar perfil e escolha uma nova imagem da galeria." },
@@ -67,7 +67,7 @@ const CATEGORIES: Category[] = [
     icon: FileText,
     label: "Postagens",
     faqs: [
-      { q: "Como criar uma postagem?", a: 'Toque em "Nova postagem", escreva o que deseja compartilhar, adicione um scramble se quiser e toque em Publicar.' },
+      { q: "Como criar uma postagem?", a: 'Toque em "Postar", escreva o que deseja compartilhar, adicione um scramble se quiser e toque em Publicar.' },
       { q: "Como adicionar um scramble à postagem?", a: "No editor de postagem, toque no ícone de cubo para escrever ou colar um scramble. Ele aparece como um cubo 3D interativo abaixo do texto." },
       { q: "Como editar ou excluir uma postagem?", a: "Toque nos três pontos no canto da postagem e escolha Editar ou Excluir. Apenas o autor pode fazer isso." },
       { q: "Como curtir uma postagem?", a: "Toque no ícone de coração abaixo da postagem. Toque novamente para descurtir." },

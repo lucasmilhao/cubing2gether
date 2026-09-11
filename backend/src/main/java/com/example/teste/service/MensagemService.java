@@ -72,8 +72,7 @@ public class MensagemService {
                 .orElseThrow(() -> new RuntimeException("Conversa não encontrada."));
         ParticipantesConversa pc = participantesConversaRepository.findByUsuarioAndConversa(usuarioLogado, c);
         
-        if(!pc.getIsAtivo()){
-
+        if(pc.getIsAtivo() == null || !pc.getIsAtivo()){
             pc.setIsAtivo(true);
             participantesConversaRepository.save(pc);
         }

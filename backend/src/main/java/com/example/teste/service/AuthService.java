@@ -28,6 +28,7 @@ import com.example.teste.repository.CredentialRepository;
 import com.example.teste.repository.TokenRedefinicaoSenhaRepository;
 import com.example.teste.repository.UsuarioRepository;
 import com.example.teste.type.TypeProvider;
+import com.example.teste.type.TypeUsuario;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -95,7 +96,7 @@ public class AuthService {
         u.setEmail(request.email());
         u.setNome(request.nome());
         u.setIsGuest(false);
-        u.setTipo("USER");
+        u.setTipo(TypeUsuario.USUARIO);
 
         Credential cred = new Credential();
         cred.setExternalId(u.getEmail());

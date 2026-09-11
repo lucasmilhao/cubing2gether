@@ -7,7 +7,7 @@ export interface ParticipantesRequest {
 }
 
 const fetchdata = async (data : ParticipantesRequest) : Promise<ParticipantesRequest> => {
-    const response = await api.delete(`/conversa`, {data});
+    const response = await api.delete(`/participantes`, {data});
 
     return response.data;
 }

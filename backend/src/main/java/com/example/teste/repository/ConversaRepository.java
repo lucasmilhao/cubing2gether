@@ -19,7 +19,7 @@ public interface ConversaRepository extends JpaRepository<Conversa, String>{
         AND
         COUNT(DISTINCT CASE WHEN p.usuario.id IN :ids THEN p.usuario.id END) = :size
 """)
-    Optional<Conversa> findConversaByParticipantes(
+    List<Conversa> findConversaByParticipantes(
         @Param("ids") List<String> ids,
         @Param("size") Long size
     );

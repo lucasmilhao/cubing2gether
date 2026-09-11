@@ -279,6 +279,196 @@ body {
         }
       }
     }
+
+    .tutor-toggle-container {
+      width: 100%;
+      min-height: 52px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-top: 16px;
+      padding: 12px 14px;
+
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+
+      transition:
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+    }
+
+    .controller-tooltip {
+      width: 280px;
+    }
+
+    .controller-tooltip a {
+      color: var(--accent-color);
+      font-weight: 600;
+      text-decoration: underline;
+    }
+
+    .controller-timer {
+      font-size: 72px;
+    }
+
+    .tutor-toggle-container:hover {
+      box-shadow: var(--shadow-sm);
+    }
+
+    .tutor-toggle-label {
+      color: var(--text-primary);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .tutor-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+    }
+
+
+    .tutor-info-icon {
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border: 1px solid var(--text-secondary);
+      border-radius: 50%;
+
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 700;
+
+      cursor: help;
+
+      transition:
+        color 0.2s ease,
+        border-color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .tutor-info-icon:hover {
+      color: var(--accent-color);
+      border-color: var(--accent-color);
+    }
+
+    /* Tooltip */
+    .tutor-tooltip {
+      position: absolute;
+      left: 0;
+      bottom: calc(100% + 10px);
+
+      width: 240px;
+      padding: 10px 12px;
+
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+
+      color: var(--text-primary);
+      font-size: 12px;
+      line-height: 1.4;
+
+      box-shadow: var(--shadow-md);
+
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+
+      transform: translateY(5px);
+
+      transition:
+        opacity 0.2s ease,
+        visibility 0.2s ease,
+        transform 0.2s ease;
+
+      z-index: 100;
+    }
+
+    /* Mostra o tooltip ao passar no i */
+    .tutor-info-icon:hover+.tutor-tooltip {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .tutor-switch {
+      position: relative;
+
+      width: 46px;
+      height: 24px;
+
+      margin: 0;
+      padding: 0;
+
+      cursor: pointer;
+    }
+
+    .tutor-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      position: absolute;
+    }
+
+    .tutor-slider {
+      position: absolute;
+
+      inset: 0;
+
+      background: var(--border-color);
+
+      border-radius: 999px;
+
+      cursor: pointer;
+
+      transition: all 0.3s ease;
+    }
+
+    .tutor-slider::before {
+      content: "";
+
+      position: absolute;
+
+      width: 18px;
+      height: 18px;
+
+      left: 3px;
+      top: 3px;
+
+      background: var(--card-bg);
+
+      border-radius: 50%;
+
+      box-shadow: var(--shadow-sm);
+
+      transition: all 0.3s ease;
+    }
+
+    .tutor-switch input:checked+.tutor-slider {
+      background: var(--accent-color);
+    }
+
+    .tutor-switch input:checked+.tutor-slider::before {
+      transform: translateX(22px);
+    }
+
+    .tutor-switch input:focus-visible+.tutor-slider {
+      outline: 2px solid var(--accent-color);
+      outline-offset: 3px;
+    }
+
+    .tutor-switch:hover .tutor-slider {
+      filter: brightness(1.05);
+    }
   }
 }
 
@@ -340,11 +530,11 @@ body {
       font-size: 100px;
     }
 
-    > div:first-of-type {
+    >div:first-of-type {
       margin-right: 120px;
     }
 
-    > p {
+    >p {
       margin-right: 120px;
       max-width: min(700px, calc(100% - 240px - 40px));
     }
@@ -353,15 +543,16 @@ body {
 
 @media (max-width: 768px) {
   .container {
-    padding: 20px; /* não precisa mais de padding-top:100px, já que o p não é mais absoluto sobrepondo a sidebar */
+    padding: 20px;
+    /* não precisa mais de padding-top:100px, já que o p não é mais absoluto sobrepondo a sidebar */
 
-    > p {
+    >p {
       margin-right: 0;
       max-width: 100%;
       font-size: 12px;
     }
 
-    > div:first-of-type {
+    >div:first-of-type {
       margin-right: 0;
     }
 
@@ -398,4 +589,18 @@ body {
       font-size: 80px;
     }
   }
+}
+
+
+
+.tutor-info:hover .tutor-tooltip {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.tutor-tooltip {
+  bottom: 100%;
+  padding: 10px 12px 20px 12px;
 }

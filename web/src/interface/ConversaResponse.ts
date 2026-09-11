@@ -4,6 +4,7 @@ export interface ConversaResponseProps {
     idConversa? : string,
     nome? : string,
     participantes? : UsuarioProps[]
-    isPublico? : boolean;
+    isPublico? : boolean,
+    isGrupo? : boolean,
     dataCriado?: string,
 }

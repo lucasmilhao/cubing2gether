@@ -45,6 +45,9 @@ public class Conversa {
 
     @Column(name = "is_publico")
     private Boolean isPublico = false;
+    
+    @Column(name = "is_grupo")
+    private Boolean isGrupo = false;
 
     @PrePersist
     public void prePersist() {
@@ -53,5 +56,7 @@ public class Conversa {
 
     public Conversa(ConversaRequestDTO requestDTO) {
         this.nome = requestDTO.nome();
+        this.isPublico = requestDTO.isPublico();
+        this.isGrupo = requestDTO.isGrupo();
     }
 }

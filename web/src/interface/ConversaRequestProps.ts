@@ -1,4 +1,5 @@
 export interface ConversaRequestProps {
     nome : string,
-    idsUsuarios?: string[] 
+    idsUsuarios?: string[],
+    isGrupo : boolean
 }

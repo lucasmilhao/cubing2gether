@@ -7,11 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.teste.dto.postagem.PostagemRequestDTO;
+import com.example.teste.model.Follow;
 import com.example.teste.model.Postagem;
 import com.example.teste.model.Scramble;
 import com.example.teste.model.Usuario;
 import com.example.teste.repository.PostagemRepository;
 import com.example.teste.repository.ScrambleRepository;
+import com.example.teste.type.TypeUsuario;
 
 @Service
 public class PostagemService {
@@ -24,6 +26,9 @@ public class PostagemService {
 
     @Autowired
     private ScrambleRepository scrambleRepository;
+
+    @Autowired 
+    private FollowService followService;
 
     public Postagem criarPostagem(PostagemRequestDTO request) {
         Usuario u = usuarioService.getUsuarioId(request.idUsuario());
@@ -41,8 +46,16 @@ public class PostagemService {
         return postagemRepository.save(p);
     }
 
-    public List<Postagem> getTodasPostagens() {
-        return postagemRepository.findAllByOrderByCreatedAtDesc();
+    public List<Postagem> getTodasPostagens(Usuario u) {
+        List<Usuario> amigos = followService.getAmigos(u.getId()).stream().map(Follow::getSeguindo).toList();
+
+        return postagemRepository.findAllByOrderByCreatedAtDesc().stream().filter(e -> {
+            Boolean isAdmin = e.getUsuario().getTipo().equals(TypeUsuario.ADMIN);
+            Boolean isCriador = e.getUsuario().getTipo().equals(TypeUsuario.CRIADOR);
+            Boolean isAmigo = amigos.stream().filter(i -> i.getId() == e.getUsuario().getId()).toList().size() > 0;
+
+            return isAdmin || isAmigo || isCriador;
+        }).toList();
     }
 
     public List<Postagem> getPostagemPorUsuario(String idUsuario) {

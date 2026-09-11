@@ -5,7 +5,7 @@ import type { ConversaResponseProps } from "../../interface/ConversaResponse";
 import { formatarTempoRelativo } from "../postagem/PostCard";
 import "./conversa-card.css";
 
-export function ConversaCard({ idConversa, nome, participantes }: ConversaResponseProps) {
+export function ConversaCard({ idConversa, nome, participantes, isGrupo }: ConversaResponseProps) {
   const { data: mensagens } = useMensagemData(idConversa);
   const { data: usuarioLogado } = useUsuarioLogado();
   const user = participantes?.at(0)?.id === usuarioLogado?.id ? participantes?.at(1) : participantes?.at(0)
@@ -15,7 +15,7 @@ export function ConversaCard({ idConversa, nome, participantes }: ConversaRespon
   const ultimaMensagem = mensagens?.at(-1);
   const avatarFallback = user?.nome?.charAt(0)?.toUpperCase() || "C";
   const previewText = ultimaMensagem?.texto || "Nenhuma mensagem ainda";
-  const nomeConversa = participantes.length > 2 ? nome : user?.nome;
+  const nomeConversa = isGrupo ? nome : user?.nome;
 
   return (
     <article onClick={() => navigate(`/chat/${idConversa}`)} className="conversa-card">
