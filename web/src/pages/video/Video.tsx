@@ -349,7 +349,6 @@ export default function Video() {
         ? dadosPartida.find((p) => p.usuario.nome !== usuarioLogado?.nome)?.usuario.nome ?? "Oponente"
         : "Oponente";
 
-    const TwistyPlayer = 'twisty-player' as any;
 
     return (
         <div className="video-page">

@@ -21,7 +21,7 @@ export function useComentarioPost(){
     return useMutation({
         mutationFn: fetchData, 
         retry: 2,
-        onSuccess: (data : ComentarioProps) => {
+        onSuccess: () => {
             queryClient.invalidateQueries({queryKey : ["postagem-data"]})
         }
     })

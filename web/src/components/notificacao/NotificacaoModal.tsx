@@ -147,7 +147,7 @@ export function NotificacaoModal({
 
                     ) : (
 
-                        notificacoes.toReversed().map((notificacao) => {
+                        notificacoes.reverse().map((notificacao : any) => {
 
                             const tipo = getTipoNotificacao(notificacao);
                             console.log(tipo.caminho);

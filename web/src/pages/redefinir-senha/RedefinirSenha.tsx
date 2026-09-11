@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { type FormEvent, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useRedefinirSenha } from "../../hooks/usuario/useRedefinirSenha";
 import "./RedefinirSenha.css";
