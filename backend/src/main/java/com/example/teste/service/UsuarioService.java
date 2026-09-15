@@ -54,10 +54,12 @@ public class UsuarioService {
 
         System.out.println("O USUARIO MUDOU DE NOME SIM SIM SIM MUDOU SIM AGORA O NOVO NOME É " + data.nome() + " POR FAVOR OQ ESTPA ACONTECENTDO");
 
-        String url = uploadService.subirArquivo(file);
+        if(file != null) {
+            String url = uploadService.subirArquivo(file);
+            usuario.setPicture(url);
+        }
 
         usuario.setNome(data.nome());
-        usuario.setPicture(url);
     
         usuarioRepository.save(usuario);
 
