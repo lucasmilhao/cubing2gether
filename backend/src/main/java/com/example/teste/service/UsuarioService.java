@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.teste.dto.usuario.UsuarioEditRequestDTO;
 import com.example.teste.dto.usuario.UsuarioRequestDTO;
@@ -17,6 +19,8 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired 
+    private UploadService uploadService;
     
     public Usuario criarUser(UsuarioRequestDTO data) {
 
@@ -26,6 +30,10 @@ public class UsuarioService {
 
         return user;
 
+    }
+
+    public List<Usuario> getTodos() {
+        return usuarioRepository.findAll();
     }
 
     public Usuario getUsuarioId(String idUsuario) {
@@ -40,13 +48,16 @@ public class UsuarioService {
         return usuarioRepository.findByEmail(emailUsuario).orElseThrow(() -> new UsuarioNaoEncontradoException());
     }
 
-    public Usuario editarUsuario(UsuarioEditRequestDTO data){
+    public Usuario editarUsuario(UsuarioEditRequestDTO data, MultipartFile file){
         
         Usuario usuario = usuarioRepository.findById(data.id()).orElseThrow(() -> new UsuarioNaoEncontradoException());
 
         System.out.println("O USUARIO MUDOU DE NOME SIM SIM SIM MUDOU SIM AGORA O NOVO NOME É " + data.nome() + " POR FAVOR OQ ESTPA ACONTECENTDO");
 
+        String url = uploadService.subirArquivo(file);
+
         usuario.setNome(data.nome());
+        usuario.setPicture(url);
     
         usuarioRepository.save(usuario);
 

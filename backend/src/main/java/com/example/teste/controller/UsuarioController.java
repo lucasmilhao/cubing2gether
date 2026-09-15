@@ -3,6 +3,7 @@ package com.example.teste.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,24 +13,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.teste.dto.usuario.UsuarioEditRequestDTO;
 import com.example.teste.dto.usuario.UsuarioRequestDTO;
 import com.example.teste.dto.usuario.UsuarioResponseDTO;
 import com.example.teste.model.Usuario;
-import com.example.teste.repository.UsuarioRepository;
 import com.example.teste.service.UsuarioService;
 
 import jakarta.validation.Valid;
-
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
-    @Autowired
-    private UsuarioRepository repository;
 
     @Autowired
     private UsuarioService service;
@@ -37,7 +36,7 @@ public class UsuarioController {
     @GetMapping
     public ResponseEntity<List<UsuarioResponseDTO>> getAll() {
 
-        List<UsuarioResponseDTO> listaUsuarios = repository.findAll()
+        List<UsuarioResponseDTO> listaUsuarios = service.getTodos()
                 .stream()
                 .map(UsuarioResponseDTO::new)
                 .toList();
@@ -66,7 +65,7 @@ public class UsuarioController {
 
         return ResponseEntity.ok(new UsuarioResponseDTO(u));
     }
-    
+
     @GetMapping("/me")
     public ResponseEntity<UsuarioResponseDTO> getMe(
             @AuthenticationPrincipal Usuario user) {
@@ -81,9 +80,22 @@ public class UsuarioController {
         return ResponseEntity.ok(new UsuarioResponseDTO(user));
     }
 
-    @PutMapping("{idUsuario}")
-    public ResponseEntity<UsuarioResponseDTO> editarUser(@RequestBody UsuarioEditRequestDTO data) {
-        Usuario u = service.editarUsuario(data);
+    @PutMapping(
+            value = "{idUsuario}",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
+    public ResponseEntity<UsuarioResponseDTO> editarUser(
+            @PathVariable String idUsuario,
+            @RequestParam("nome") String nome,
+            @RequestParam(value = "file", required = false) MultipartFile file
+    ) {
+
+        UsuarioEditRequestDTO data = new UsuarioEditRequestDTO(
+                idUsuario,
+                nome
+        );
+
+        Usuario u = service.editarUsuario(data, file);
 
         return ResponseEntity.ok(new UsuarioResponseDTO(u));
     }
