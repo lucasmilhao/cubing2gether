@@ -234,3 +234,56 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* Input de arquivo completamente escondido */
+#post-image-input {
+  display: none;
+}
+
+/* Container da prévia */
+.image-preview-container {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  margin-top: 12px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Imagem selecionada */
+.image-preview {
+  display: block;
+  max-width: 100%;
+  max-height: 300px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+/* Botão X */
+.image-preview-remove {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+
+  width: 28px;
+  height: 28px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.image-preview-remove:hover {
+  background: rgba(0, 0, 0, 0.9);
+}

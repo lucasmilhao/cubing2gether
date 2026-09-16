@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.teste.dto.postagem.PostagemRequestDTO;
 import com.example.teste.model.Follow;
@@ -17,7 +18,7 @@ import com.example.teste.type.TypeUsuario;
 
 @Service
 public class PostagemService {
-    
+
     @Autowired
     private PostagemRepository postagemRepository;
 
@@ -27,15 +28,19 @@ public class PostagemService {
     @Autowired
     private ScrambleRepository scrambleRepository;
 
-    @Autowired 
+    @Autowired
+    private UploadService uploadService;
+
+    @Autowired
     private FollowService followService;
 
-    public Postagem criarPostagem(PostagemRequestDTO request) {
+    public Postagem criarPostagem(PostagemRequestDTO request, MultipartFile file) {
         Usuario u = usuarioService.getUsuarioId(request.idUsuario());
         Scramble s = null;
 
-        if(request.idScramble() != null) {
-            s = scrambleRepository.findById(request.idScramble()).orElseThrow(() -> new RuntimeException("Scramble nao encontrado"));
+        if (request.idScramble() != null) {
+            s = scrambleRepository.findById(request.idScramble())
+                    .orElseThrow(() -> new RuntimeException("Scramble nao encontrado"));
         }
 
         Postagem p = new Postagem();
@@ -43,19 +48,16 @@ public class PostagemService {
         p.setUsuario(u);
         p.setScramble(s);
 
+        if (file != null) {
+            String url = uploadService.subirArquivo(file);
+            p.setCaminhoImagem(url);
+        }
+
         return postagemRepository.save(p);
     }
 
     public List<Postagem> getTodasPostagens(Usuario u) {
-        List<Usuario> amigos = followService.getAmigos(u.getId()).stream().map(Follow::getSeguindo).toList();
-
-        return postagemRepository.findAllByOrderByCreatedAtDesc().stream().filter(e -> {
-            Boolean isAdmin = e.getUsuario().getTipo().equals(TypeUsuario.ADMIN);
-            Boolean isCriador = e.getUsuario().getTipo().equals(TypeUsuario.CRIADOR);
-            Boolean isAmigo = amigos.stream().filter(i -> i.getId() == e.getUsuario().getId()).toList().size() > 0;
-
-            return isAdmin || isAmigo || isCriador;
-        }).toList();
+        return postagemRepository.findAllByOrderByCreatedAtDesc().stream().filter(e -> isPostValido(e, u)).toList();
     }
 
     public List<Postagem> getPostagemPorUsuario(String idUsuario) {
@@ -67,19 +69,20 @@ public class PostagemService {
     @Transactional
     public Postagem removerPostagem(String idPostagem) {
         Postagem p = postagemRepository.findById(idPostagem).orElseThrow(() -> new RuntimeException());
-        
+
         postagemRepository.delete(p);
-        
+
         return p;
     }
 
     public Postagem editarPostagem(String idPostagem, PostagemRequestDTO request) {
         Postagem p = postagemRepository.findById(idPostagem).orElseThrow(() -> new RuntimeException());
-        
+
         Scramble s = null;
-        
-        if(request.idScramble() != null) {
-            s = scrambleRepository.findById(request.idScramble()).orElseThrow(() -> new RuntimeException("Scramble nao encontrado"));
+
+        if (request.idScramble() != null) {
+            s = scrambleRepository.findById(request.idScramble())
+                    .orElseThrow(() -> new RuntimeException("Scramble nao encontrado"));
         }
 
         p.setScramble(s);
@@ -89,7 +92,17 @@ public class PostagemService {
     }
 
     public Postagem getPostagemId(String idPostagem) {
-        return postagemRepository.findById(idPostagem).orElseThrow(() -> new RuntimeException("Postagem não encontrada"));
+        return postagemRepository.findById(idPostagem)
+                .orElseThrow(() -> new RuntimeException("Postagem não encontrada"));
     }
 
+    public Boolean isPostValido(Postagem post, Usuario u) {
+        
+        Boolean isAdmin = post.getUsuario().getTipo().equals(TypeUsuario.ADMIN);
+        Boolean isCriador = post.getUsuario().getTipo().equals(TypeUsuario.CRIADOR);
+        Boolean isAmigo = followService.isAmigo(u, post.getUsuario().getId());
+        Boolean isEu = post.getUsuario().getId().equals(u.getId());
+
+        return isAdmin || isAmigo || isCriador || isEu;
+    }
 }

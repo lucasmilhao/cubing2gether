@@ -24,6 +24,8 @@ export function PostModal({ onClose, postagem }: PostModalProps) {
   const { mutate: editarScramble } = useScrambleEdit();
   const { mutate: scramble } = useScramblePost();
 
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [file, setFile] = useState<File | null>(null)
   const [descricao, setDescricao] = useState(isEditando ? postagem.descricao : "");
   const [showScramble, setShowScramble] = useState(isEditando ? postagem?.scramble?.scramble?.length > 0 : false);
   const [setupScramble, setSetupScramble] = useState(isEditando ? postagem?.scramble?.scramble : "");
@@ -45,6 +47,10 @@ export function PostModal({ onClose, postagem }: PostModalProps) {
   const [placeholder] = useState(() => {
     return placeholders[Math.floor(Math.random() * placeholders.length)];
   });
+
+  const isAdmin = (usuario?.tipo == "ADMIN" || usuario?.tipo == "CRIADOR")
+  console.log(isAdmin);
+  
 
   const TwistyPlayer = "twisty-player" as any;
 
@@ -75,10 +81,17 @@ export function PostModal({ onClose, postagem }: PostModalProps) {
             idScramble: scramble.id,
             idUsuario: usuario?.id
           }
+          const formData = new FormData();
+
+          formData.append(
+            'dados',
+            new Blob([JSON.stringify(postProps)], { type: 'application/json' })
+          );
+
 
           console.log(scramble.id);
 
-          postar(postProps, {
+          postar(formData, {
             onSuccess: onClose
           });
         }
@@ -90,7 +103,18 @@ export function PostModal({ onClose, postagem }: PostModalProps) {
         idUsuario: usuario?.id
       }
 
-      postar(postProps, {
+      const formData = new FormData();
+
+      formData.append(
+        'dados',
+        new Blob([JSON.stringify(postProps)], { type: 'application/json' })
+      );
+
+      if (file) {
+        formData.append("file", file)
+      }
+
+      postar(formData, {
         onSuccess: onClose
       });
 
@@ -163,6 +187,17 @@ export function PostModal({ onClose, postagem }: PostModalProps) {
 
   }
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+
+    if (!selectedFile) return;
+
+    setFile(selectedFile);
+
+    const previewUrl = URL.createObjectURL(selectedFile);
+    setImagePreview(previewUrl);
+  }
+
   const submit = () => {
     if (!hasContent || !usuario) return;
 
@@ -196,6 +231,28 @@ export function PostModal({ onClose, postagem }: PostModalProps) {
               onChange={(e) => setDescricao(e.target.value)}
               rows={3}
             />
+            {imagePreview && (
+              <div className="image-preview-container">
+                <img
+                  src={imagePreview}
+                  alt="Imagem selecionada"
+                  className="image-preview"
+                />
+
+                <button
+                  type="button"
+                  className="image-preview-remove"
+                  onClick={() => {
+                    setFile(null);
+                    setImagePreview(null);
+                  }}
+                  aria-label="Remover imagem"
+                  title="Remover imagem"
+                >
+                  ✕
+                </button>
+              </div>
+            )}
 
             {showScramble && (
               <div className="scramble-attachment">
@@ -260,9 +317,22 @@ export function PostModal({ onClose, postagem }: PostModalProps) {
               <CubeIcon />
             </button>
 
-            <button type="button" className="tool-btn" title="Adicionar imagem" disabled>
-              <ImageIcon />
-            </button>
+            {isAdmin && <button type="button" className="tool-btn" title="Adicionar imagem">
+              <label
+                htmlFor="post-image-input"
+                className="tool-btn"
+                title="Adicionar imagem"
+              >
+                <ImageIcon />
+
+                <input
+                  id="post-image-input"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleChange}
+                />
+              </label>
+            </button>}
 
             <button type="button" className="tool-btn" title="Adicionar enquete" disabled>
               <PollIcon />

@@ -9,7 +9,7 @@ export interface PostagemRequest {
     idScramble? : string
 }
 
-const fetchData = async (data : PostagemRequest) : AxiosPromise<PostagemProps[]> => {
+const fetchData = async (data : FormData) : AxiosPromise<PostagemProps[]> => {
     const response = api.post(`/postagem`, data);
 
     return response;

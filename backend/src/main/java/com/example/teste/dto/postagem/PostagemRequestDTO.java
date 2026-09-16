@@ -17,7 +17,10 @@ public record PostagemRequestDTO(
     @NotNull
     @NotBlank
     @NotEmpty
-    String idUsuario
+    String idUsuario,
+
+    @Nullable 
+    String caminhoImagem
 
 ) {
     

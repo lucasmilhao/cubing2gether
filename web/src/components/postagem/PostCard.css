@@ -228,3 +228,16 @@ img {
   background: #71767b(0, 0, 0, 0.1);
   color: #71767b;
 }
+
+.post-card-image-container {
+  width: 100%;
+  margin-top: 12px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.post-card-image {
+  display: block;
+  max-height: 500px;
+  border-radius: 12px;
+}
