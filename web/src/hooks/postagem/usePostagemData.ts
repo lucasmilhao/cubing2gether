@@ -18,7 +18,8 @@ export interface PostagemProps {
     usuario : UsuarioProps,
     createdAt : string,
     curtidas : number,
-    comentarios : ComentarioProps[]
+    comentarios : ComentarioProps[],
+    caminhoImagem : string
 }
 
 const fetchData = async () : Promise<PostagemProps[]> => {

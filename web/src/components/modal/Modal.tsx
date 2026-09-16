@@ -1,7 +1,6 @@
 import { useState } from "react"
 import "./modal.css"
 import type { UsuarioProps } from "../../interface/UsuarioProps"
-import { useUploadPost } from "../../hooks/uploads/useUploadPost"
 import { useUsuarioEdit } from "../../hooks/usuario/useUsuarioEdit"
 
 interface ModalProps {

@@ -47,6 +47,9 @@ public class Postagem {
     @Column(name = "created_at")
     private Instant createdAt;
 
+    @Column(name = "caminho_imagem", nullable = false)
+    private String caminhoImagem;
+
     @OneToMany(mappedBy = "postagem", orphanRemoval = true)
     private List<Curtida> curtidas = new ArrayList<>();
 

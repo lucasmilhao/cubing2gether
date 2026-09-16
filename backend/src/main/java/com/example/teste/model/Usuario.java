@@ -48,7 +48,7 @@ public class Usuario {
     private List<Credential> credentials = new ArrayList<>();
 
     @Column(name="foto_perfil")
-    private String picture = "http:localhost:8080/uploads/1783392569974_default.webp";
+    private String picture = "https://res.cloudinary.com/t8awtqrh/image/upload/v1789515124/cubing2gether/a2lryysfrhrpwtzapnfz.webp";
     
     public Usuario(UsuarioRequestDTO data) {
         this.nome = data.nome();

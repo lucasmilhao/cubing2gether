@@ -13,7 +13,7 @@ import { useIsCurtido } from "../../hooks/curtida/useIsCurtida";
 export function PostCard({ postagem }: { postagem: PostagemProps }) {
 
   console.log(postagem);
-  
+
   const location = useLocation();
   const { data: usuarioLogado } = useUsuarioLogado();
   const { mutate: deletar } = usePostagemDelete();
@@ -181,6 +181,16 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
 
         {postagem.descricao && (
           <p className="post-card-descricao">{postagem.descricao}</p>
+        )}
+        
+        {postagem.caminhoImagem && (
+          <div className="post-card-image-container">
+            <img
+              src={postagem.caminhoImagem}
+              alt="Imagem da postagem"
+              className="post-card-image"
+            />
+          </div>
         )}
 
         {postagem.scramble && (

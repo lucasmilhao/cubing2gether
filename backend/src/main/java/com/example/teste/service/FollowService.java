@@ -88,6 +88,13 @@ public class FollowService {
         return f;
     }
 
+    public Boolean isAmigo(Usuario logado, String idUsuario) {
+        Boolean sigo = followRepository.existsBySeguidorIdAndSeguindoId(logado.getId(), idUsuario);
+        Boolean meSegue = followRepository.existsBySeguidorIdAndSeguindoId(idUsuario, logado.getId());
+
+        return sigo && meSegue;
+    }
+
     public List<Follow> getAmigos(String idUsuario) {
         List<Follow> lista = followRepository.findAmigos(idUsuario);
 
