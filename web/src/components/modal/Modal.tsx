@@ -33,7 +33,7 @@ export function Modal({ closeModal, usuarioLogado }: ModalProps) {
         }
 
         edit({
-            id: usuarioLogado?.id,
+            id: usuarioLogado?.id ?? "",
             formData: formData
         }, {
             onSuccess: () => {
