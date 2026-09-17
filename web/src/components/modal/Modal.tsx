@@ -11,7 +11,7 @@ interface ModalProps {
 export function Modal({ closeModal, usuarioLogado }: ModalProps) {
     const [file, setFile] = useState<File | null>(null)
     const [nome, setNome] = useState(usuarioLogado?.nome ?? "")
-    const { mutate: edit, isError, isPending } = useUsuarioEdit();
+    const { mutate: edit, isError, isPending, error } = useUsuarioEdit();
 
     let url: string;
 
