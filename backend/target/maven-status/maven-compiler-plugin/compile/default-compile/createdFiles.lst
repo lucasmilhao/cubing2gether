@@ -24,6 +24,7 @@ com\example\teste\dto\usuario\AuthenticatedUserDTO.class
 com\example\teste\infra\security\TokenService.class
 com\example\teste\model\Comentario.class
 com\example\teste\service\ParticipantesConversaService.class
+com\example\teste\type\TypeUsuario.class
 com\example\teste\infra\security\CustomUserDetailsService.class
 com\example\teste\type\TypeProvider.class
 com\example\teste\repository\CurtidaRepository.class
@@ -46,6 +47,7 @@ com\example\teste\config\SecurityConfig$1.class
 com\example\teste\model\Follow.class
 com\example\teste\model\Notificacao.class
 com\example\teste\model\Denuncia.class
+com\example\teste\model\ConviteConversa.class
 com\example\teste\config\SecurityConfig.class
 com\example\teste\model\Solve.class
 com\example\teste\dto\chat\participantes\ParticipantesConversaRequestDTO.class
@@ -77,6 +79,7 @@ com\example\teste\service\DenunciaService.class
 com\example\teste\dto\usuario\UsuarioResponseDTO.class
 com\example\teste\model\TokenRedefinicaoSenha.class
 com\example\teste\dto\erros\ErroResponseDTO.class
+com\example\teste\repository\ConviteRepository.class
 com\example\teste\model\Scramble.class
 com\example\teste\service\MensagemService.class
 com\example\teste\service\SolveService.class
@@ -109,6 +112,7 @@ com\example\teste\controller\DenunciaController.class
 com\example\teste\repository\MensagemRepository.class
 com\example\teste\infra\security\ApiError.class
 com\example\teste\controller\ComentarioController.class
+com\example\teste\dto\conversa\ConviteResponseDTO.class
 com\example\teste\dto\login\LoginRequestDTO.class
 com\example\teste\repository\TokenRedefinicaoSenhaRepository.class
 com\example\teste\controller\PartidaUsuarioController.class
