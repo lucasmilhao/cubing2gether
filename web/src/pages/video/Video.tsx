@@ -165,18 +165,62 @@ export default function Video() {
         peerConnection.current = pc;
 
         const setupLocalMedia = async () => {
-            console.log("Setando os bagui aqui");
+            try {
+                console.log("Solicitando câmera e microfone...");
 
-            const stream = await navigator.mediaDevices.getUserMedia({
-                video: true,
-                audio: true
-            });
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 },
+                        facingMode: "user",
+                    },
+                    audio: true,
+                });
 
-            if (localVideoRef.current) {
+                console.log("Câmera/microfone obtidos:", stream.getTracks());
+
+                if (!localVideoRef.current) {
+                    stream.getTracks().forEach((track) => track.stop());
+                    return;
+                }
+
                 localVideoRef.current.srcObject = stream;
-            }
 
-            stream.getTracks().forEach((track) => pc.addTrack(track, stream));
+                await localVideoRef.current.play();
+
+                stream.getTracks().forEach((track) => {
+                    pc.addTrack(track, stream);
+                });
+
+            } catch (error) {
+                console.error("Erro ao acessar câmera/microfone:", error);
+
+                if (error instanceof DOMException) {
+                    switch (error.name) {
+                        case "NotReadableError":
+                            console.error(
+                                "A câmera/microfone foi encontrado, mas não pôde ser aberto. " +
+                                "Verifique se outro aplicativo ou aba está usando a câmera."
+                            );
+                            break;
+
+                        case "NotAllowedError":
+                            console.error("Permissão de câmera/microfone negada.");
+                            break;
+
+                        case "NotFoundError":
+                            console.error("Nenhuma câmera ou microfone encontrado.");
+                            break;
+
+                        case "OverconstrainedError":
+                            console.error("As configurações solicitadas não são suportadas.");
+                            break;
+
+                        default:
+                            console.error("Erro de mídia:", error.name);
+                    }
+                }
+            }
         };
 
         const broadcastScramble = async () => {
