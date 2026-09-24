@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePostagemCreate, type PostagemRequest } from "../../hooks/postagem/usePostagemCreate";
 import { useUsuarioLogado } from "../../hooks/usuario/useUsuarioLogado";
 import type { ScrambleProps } from "../../interface/ScrambleProps";
@@ -8,6 +8,8 @@ import type { PostagemProps } from "../../hooks/postagem/usePostagemData";
 import { usePostagemEdit, type PostagemEditRequest } from "../../hooks/postagem/usePostagemEdit";
 import { useScrambleEdit } from "../../hooks/scramble/useScrambleEdit";
 import { useScrambleDelete } from "../../hooks/scramble/useScrambleDelete";
+import { api } from "../../service/api";
+import type { UsuarioProps } from "../../interface/UsuarioProps";
 
 export interface PostModalProps {
   onClose(): void;
@@ -27,6 +29,8 @@ export function PostModal({ onClose, postagem }: PostModalProps) {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null)
   const [descricao, setDescricao] = useState(isEditando ? postagem.descricao : "");
+  const [sugestoes, setSugestoes] = useState<UsuarioProps[]>([]);
+  const [mostrarSugestoes, setMostrarSugestoes] = useState(false);
   const [showScramble, setShowScramble] = useState(isEditando ? postagem?.scramble?.scramble?.length > 0 : false);
   const [setupScramble, setSetupScramble] = useState(isEditando ? postagem?.scramble?.scramble : "");
   const [solution, setSolution] = useState(isEditando ? postagem?.scramble?.solution : "");
@@ -198,6 +202,93 @@ export function PostModal({ onClose, postagem }: PostModalProps) {
     setImagePreview(previewUrl);
   }
 
+  const renderizarDescricao = (texto: string) => {
+    const partes = texto.split(/(@[a-zA-Z0-9_]+)/g);
+
+    return partes.map((parte, index) => {
+      if (parte.startsWith("@")) {
+        return (
+          <span key={`${parte}-${index}`} className="post-modal-mention">
+            {parte}
+          </span>
+        );
+      }
+
+      return <span key={`${parte}-${index}`}>{parte}</span>;
+    });
+  };
+
+  const handleDescricaoChange = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const texto = e.target.value;
+    setDescricao(texto);
+
+    const cursor = e.target.selectionStart ?? texto.length;
+    const textoAteCursor = texto.slice(0, cursor);
+    const match = textoAteCursor.match(/@([a-zA-Z0-9_]*)$/);
+
+    if (!match) {
+      setMostrarSugestoes(false);
+      setSugestoes([]);
+      return;
+    }
+
+    const busca = match[1] ?? "";
+
+    try {
+      const response = await api.get<UsuarioProps[]>(`/usuarios/busca`, {
+        params: { username: busca }
+      });
+
+      setSugestoes(response.data);
+      setMostrarSugestoes(true);
+    } catch {
+      setSugestoes([]);
+      setMostrarSugestoes(false);
+    }
+  };
+
+  const selecionarUsuario = (usuarioSelecionado: UsuarioProps) => {
+    const textarea = document.querySelector<HTMLTextAreaElement>(".post-textarea");
+    const valorAtual = textarea?.value ?? descricao;
+    const cursor = textarea?.selectionStart ?? valorAtual.length;
+    const antes = valorAtual.slice(0, cursor);
+    const depois = valorAtual.slice(cursor);
+    const match = antes.match(/@([a-zA-Z0-9_]*)$/);
+
+    if (!match) return;
+
+    const inicioMention = antes.lastIndexOf("@");
+    const novoTexto = `${antes.slice(0, inicioMention)}@${usuarioSelecionado.username ?? usuarioSelecionado.email ?? "usuario"} ${depois}`;
+
+    setDescricao(novoTexto);
+    setMostrarSugestoes(false);
+    setSugestoes([]);
+
+    setTimeout(() => {
+      const textareaAtual = document.querySelector<HTMLTextAreaElement>(".post-textarea");
+      if (!textareaAtual) return;
+
+      const novaPosicao = novoTexto.length;
+      textareaAtual.focus();
+      textareaAtual.setSelectionRange(novaPosicao, novaPosicao);
+    }, 0);
+  };
+
+  useEffect(() => {
+    const handleClickFora = (event: MouseEvent) => {
+      const target = event.target as Node;
+      const container = document.querySelector(".mention-suggestions");
+
+      if (!container?.contains(target) && !document.querySelector(".post-textarea")?.contains(target)) {
+        setMostrarSugestoes(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickFora);
+
+    return () => document.removeEventListener("mousedown", handleClickFora);
+  }, []);
+
   const submit = () => {
     if (!hasContent || !usuario) return;
 
@@ -224,13 +315,35 @@ export function PostModal({ onClose, postagem }: PostModalProps) {
           </div>
 
           <div className="post-modal-main">
-            <textarea
-              className="post-textarea"
-              placeholder={placeholder}
-              value={descricao}
-              onChange={(e) => setDescricao(e.target.value)}
-              rows={3}
-            />
+            <div className="post-textarea-wrapper">
+              <div className="post-textarea-highlight" aria-hidden="true">
+                {renderizarDescricao(descricao)}
+              </div>
+
+              <textarea
+                className="post-textarea"
+                placeholder={placeholder}
+                value={descricao}
+                onChange={handleDescricaoChange}
+                rows={3}
+              />
+
+              {mostrarSugestoes && sugestoes.length > 0 && (
+                <div className="mention-suggestions">
+                  {sugestoes.map((usuarioSugestao) => (
+                    <button
+                      key={usuarioSugestao.id}
+                      type="button"
+                      className="mention-suggestion-item"
+                      onClick={() => selecionarUsuario(usuarioSugestao)}
+                    >
+                      <span className="mention-suggestion-name">{usuarioSugestao.nome}</span>
+                      <span className="mention-suggestion-username">@{usuarioSugestao.username ?? usuarioSugestao.email}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
             {imagePreview && (
               <div className="image-preview-container">
                 <img

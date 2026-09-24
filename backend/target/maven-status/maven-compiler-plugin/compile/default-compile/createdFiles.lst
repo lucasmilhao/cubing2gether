@@ -8,6 +8,7 @@ com\example\teste\dto\curtida\CurtidaRequestDTO.class
 com\example\teste\repository\ScrambleRepository.class
 com\example\teste\controller\PostagemController.class
 com\example\teste\dto\comentario\ComentarioRequestDTO.class
+com\example\teste\model\MarcacaoPostagem.class
 com\example\teste\dto\notificacao\NotificacaoResponseDTO.class
 com\example\teste\service\UsuarioService.class
 com\example\teste\dto\solve\SolveRequestDTO.class

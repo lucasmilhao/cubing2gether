@@ -1,5 +1,4 @@
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useUsuarioDataId } from "../../hooks/usuario/useUsuarioDataId"
 import './Usuario.css';
 import { useSolveDataUser } from "../../hooks/solves/useSolveDataUser";
 import { segundos } from "../Practice";
@@ -16,19 +15,21 @@ import { PostCard } from "../../components/postagem/PostCard";
 import { usePostagemUsuario } from "../../hooks/postagem/usePostagemUsuario";
 import type { ConversaRequestProps } from "../../interface/ConversaRequestProps";
 import { useConversaCreate } from "../../hooks/chat/conversa/useConversaCreate";
+import { useUsuarioUsername } from "../../hooks/usuario/useUsuarioUsername";
 
 
 export function Usuario() {
     const location = useLocation();
-    const { idUsuario } = useParams();
-    const { data: usuario, isLoading, isError, error } = useUsuarioDataId(idUsuario);
+    const { username } = useParams();
+    const { data: usuario, isLoading, isError, error } = useUsuarioUsername(username ?? "");    
+    const idUsuario = usuario?.id;
     const { data: usuarioLogado, isError: erroUsuario } = useUsuarioLogado();
     const { data: seguindo } = useFollowSeguindoData(idUsuario);
     const { data: seguidores } = useFollowSeguidoresData(idUsuario);
     const { data: postagens } = usePostagemUsuario(idUsuario);
     const { mutate: seguir, isPending: carregandoSeguir } = useFollowCreate();
     const navigate = useNavigate();
-    const { data: solveUser } = useSolveDataUser(usuario?.id);
+    const { data: solveUser } = useSolveDataUser(idUsuario);
     const [isOpen, setIsOpen] = useState(false);
     const { data: followStatus } = useFollowStatus(idUsuario);
     const [nome, setNome] = useState(usuario?.nome);

@@ -19,7 +19,7 @@ export const Mensagem = (props: MensagemProps) => {
         >
             <div className="user-msg">
                 <img
-                    onClick={() => navigate(`/user/${user.id}`)}
+                    onClick={() => navigate(`/user/${user.username}`)}
                     src={user?.picture}
                     alt={user?.nome}
                 />

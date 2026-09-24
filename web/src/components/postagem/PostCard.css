@@ -72,6 +72,17 @@
   color: var(--text-primary);
   white-space: pre-wrap;
   margin: 0;
+  word-break: break-word;
+}
+
+.post-card-mention {
+  color: var(--accent-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.post-card-mention:hover {
+  text-decoration: underline;
 }
 
 .post-card-scramble {

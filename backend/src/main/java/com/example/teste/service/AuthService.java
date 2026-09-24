@@ -97,6 +97,7 @@ public class AuthService {
         u.setNome(request.nome());
         u.setIsGuest(false);
         u.setTipo(TypeUsuario.USUARIO);
+        u.setUsername(request.username());
 
         Credential cred = new Credential();
         cred.setExternalId(u.getEmail());
@@ -168,10 +169,13 @@ public class AuthService {
 
         usuario.setTipo(TypeUsuario.USUARIO);
 
+        usuario.setUsername(authenticated.name().replace(" ", "")+gerarToken(5));
+
         usuarioRepository.save(usuario);
 
         return usuario;
     }
+    
 
     @Transactional
     public void solicitarRedefinicao(String email) {
@@ -242,6 +246,15 @@ public class AuthService {
 
     private String gerarToken() {
         byte[] bytes = new byte[32];
+        new SecureRandom().nextBytes(bytes);
+
+        return Base64.getUrlEncoder()
+                .withoutPadding()
+                .encodeToString(bytes);
+    }
+
+    private String gerarToken(int qtdBytes) {
+        byte[] bytes = new byte[qtdBytes];
         new SecureRandom().nextBytes(bytes);
 
         return Base64.getUrlEncoder()

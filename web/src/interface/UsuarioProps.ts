@@ -28,6 +28,7 @@ export interface UsuarioProps {
   id: string;
   nome: string;
   email?: string;
+  username?: string;
   tipo : string;
   isGuest : boolean;
   picture?: string;

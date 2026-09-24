@@ -20,8 +20,8 @@ export function useUsuarioLoginGoogle() {
             queryClient.invalidateQueries({queryKey : ["usuario-data"]});
             navigate("/");
         },
-        onError: () => {
-            console.log("FERROU RAPAZES");
+        onError: (error : any) => {
+            console.log("FERROU RAPAZES", error.response.data);
             
         }
     });

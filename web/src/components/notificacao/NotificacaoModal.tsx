@@ -61,7 +61,7 @@ export function NotificacaoModal({
                     icone: <MessageCircle size={18} />,
                     texto: "comentou na sua postagem",
                     classe: "notificacao-comment",
-                    caminho: `/user/${notificacao.usuario.id}?comentarios=true#post-${notificacao.referenciaId}`
+                    caminho: `/user/${notificacao.usuario.username}?comentarios=true#post-${notificacao.referenciaId}`
                 };
 
             case "SEGUIDOR":
@@ -70,7 +70,7 @@ export function NotificacaoModal({
                     icone: <UserPlus size={18} />,
                     texto: "começou a seguir você",
                     classe: "notificacao-follow",
-                    caminho: `/user/${notificacao.referenciaId}`
+                    caminho: `/user/${notificacao.remetente.username}`
                 };
 
             case "COMPARTILHAMENTO":

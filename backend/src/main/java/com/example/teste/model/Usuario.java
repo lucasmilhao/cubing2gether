@@ -35,6 +35,9 @@ public class Usuario {
 
     private String nome;
 
+    @Column(name = "username", unique = true, nullable = false, length = 30)
+    private String username;
+
     private String email;
     
     @Enumerated(EnumType.STRING)
@@ -47,14 +50,34 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario")
     private List<Credential> credentials = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "usuario")
+    private List<MarcacaoPostagem> marcacoes = new ArrayList<>();
+
     @Column(name="foto_perfil")
     private String picture = "https://res.cloudinary.com/t8awtqrh/image/upload/v1789515124/cubing2gether/a2lryysfrhrpwtzapnfz.webp";
     
     public Usuario(UsuarioRequestDTO data) {
         this.nome = data.nome();
         this.email = data.email();
+        this.username = normalizarUsername(data.username(), data.nome());
         this.tipo = data.tipo();
         this.isGuest = data.isGuest();
+
+        if (data.picture() != null && !data.picture().isBlank()) {
+            this.picture = data.picture();
+        }
+    }
+
+    public static String normalizarUsername(String username, String nome) {
+        String valor = username != null && !username.isBlank() ? username : nome;
+        String normalizado = valor.trim().replaceAll("[^a-zA-Z0-9_]", "").toLowerCase();
+
+        if (normalizado.isBlank()) {
+            return "usuario";
+        }
+
+        return normalizado;
     }
 
 }

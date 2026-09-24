@@ -24,14 +24,14 @@ public class FollowService {
     private FollowRepository followRepository;
 
     @Autowired
-    private UsuarioService usuarioService;
+    private UsuarioRepository usuarioRepository;
 
     @Autowired
     private NotificacaoService notificacaoService;
 
     public Follow criarFollow(FollowRequestDTO request) {
-        Usuario uSeguidor = usuarioService.getUsuarioId(request.idSeguidor());
-        Usuario uSeguindo = usuarioService.getUsuarioId(request.idSeguindo());
+        Usuario uSeguidor = usuarioRepository.findById(request.idSeguidor()).orElseThrow(() -> new RuntimeException());
+        Usuario uSeguindo = usuarioRepository.findById(request.idSeguindo()).orElseThrow(() -> new RuntimeException());
 
         Optional<Follow> follow = followRepository.findBySeguidorAndSeguindo(uSeguidor, uSeguindo);
 
@@ -55,7 +55,7 @@ public class FollowService {
     }
 
     public List<Follow> getSeguindo(String idUsuario) {
-        Usuario u = usuarioService.getUsuarioId(idUsuario);
+        Usuario u = usuarioRepository.findById(idUsuario).orElseThrow(() -> new RuntimeException());
 
         List<Follow> lista = followRepository.findBySeguidor(u);
 
@@ -63,7 +63,7 @@ public class FollowService {
     }
 
     public List<Follow> getSeguidores(String idUsuario) {
-        Usuario u = usuarioService.getUsuarioId(idUsuario);
+        Usuario u = usuarioRepository.findById(idUsuario).orElseThrow(() -> new RuntimeException());
 
         List<Follow> lista = followRepository.findBySeguindo(u);
 

@@ -42,7 +42,7 @@ export function UsuarioCard({
       return;
     }
     onNavigate?.();
-    navigate(`/user/${usuario.id}`);
+    navigate(`/user/${usuario.username}`);
   };
 
   const handleSeguir = () => {

@@ -49,7 +49,7 @@ return (
 
             if(!usuario) return;
 
-            navigate(`/user/${results[0].id}`)
+            navigate(`/user/${results[0].username}`)
             closeModal()
         }} >
         <input

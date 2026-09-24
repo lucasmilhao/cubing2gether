@@ -24,7 +24,7 @@ function App() {
     <>
       <Routes>
         <Route Component={MainLayout}>
-          <Route path='/user/:idUsuario' Component={Usuario} />
+          <Route path='/user/:username' Component={Usuario} />
           <Route path='/followers/:idUsuario' Component={Followers} />
           <Route path='/following/:idUsuario' Component={Following} />
           <Route path='/practice' Component={Practice} />

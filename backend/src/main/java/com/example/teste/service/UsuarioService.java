@@ -20,6 +20,9 @@ public class UsuarioService {
 
     @Autowired 
     private UploadService uploadService;
+
+    @Autowired
+    private FollowService followService;
     
     public Usuario criarUser(UsuarioRequestDTO data) {
 
@@ -29,6 +32,10 @@ public class UsuarioService {
 
         return user;
 
+    }
+
+    public void deletarUsuario(String idUsuario) {
+        usuarioRepository.delete(getUsuarioId(idUsuario));
     }
 
     public List<Usuario> getTodos() {
@@ -43,8 +50,17 @@ public class UsuarioService {
         return usuarioRepository.findByNomeContainingOrEmailContaining(nomeUsuario, nomeUsuario);
     }
 
+    public List<Usuario> getUsuarioPorUsername(String username, Usuario u) {
+
+        return usuarioRepository.findByUsernameContainingIgnoreCase(username).stream().filter(e -> followService.isAmigo(u, e.getId())).toList();
+    }
+
     public Usuario getUsuarioPorEmail(String emailUsuario) {
         return usuarioRepository.findByEmail(emailUsuario).orElseThrow(() -> new UsuarioNaoEncontradoException());
+    }
+
+    public Usuario getUsuarioPorUsernameExato(String username) {
+        return usuarioRepository.findByUsername(username).orElseThrow(() -> new UsuarioNaoEncontradoException());
     }
 
     public Usuario editarUsuario(UsuarioEditRequestDTO data, MultipartFile file){

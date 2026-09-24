@@ -1,6 +1,10 @@
 package com.example.teste.service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,19 +12,25 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.teste.dto.postagem.PostagemRequestDTO;
-import com.example.teste.model.Follow;
+import com.example.teste.model.MarcacaoPostagem;
 import com.example.teste.model.Postagem;
 import com.example.teste.model.Scramble;
 import com.example.teste.model.Usuario;
 import com.example.teste.repository.PostagemRepository;
 import com.example.teste.repository.ScrambleRepository;
+import com.example.teste.repository.UsuarioRepository;
 import com.example.teste.type.TypeUsuario;
 
 @Service
 public class PostagemService {
 
+    private static final Pattern MENTION_PATTERN = Pattern.compile("@([a-zA-Z0-9_]+)");
+
     @Autowired
     private PostagemRepository postagemRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @Autowired
     private UsuarioService usuarioService;
@@ -52,6 +62,8 @@ public class PostagemService {
             String url = uploadService.subirArquivo(file);
             p.setCaminhoImagem(url);
         }
+
+        processarMarcacoes(p);
 
         return postagemRepository.save(p);
     }
@@ -87,8 +99,40 @@ public class PostagemService {
 
         p.setScramble(s);
         p.setDescricao(request.descricao());
+        p.getMarcacoes().clear();
+        processarMarcacoes(p);
 
         return postagemRepository.save(p);
+    }
+
+    private void processarMarcacoes(Postagem postagem) {
+        if (postagem.getDescricao() == null || postagem.getDescricao().isBlank()) {
+            return;
+        }
+
+        Matcher matcher = MENTION_PATTERN.matcher(postagem.getDescricao());
+        Set<String> usernamesProcessados = new HashSet<>();
+
+        while (matcher.find()) {
+            String username = matcher.group(1).toLowerCase();
+
+            if (!usernamesProcessados.add(username)) {
+                continue;
+            }
+
+            Usuario usuarioMarcado = usuarioRepository.findByUsername(username).orElse(null);
+
+            if (usuarioMarcado == null) {
+                continue;
+            }
+
+            MarcacaoPostagem marcacao = new MarcacaoPostagem();
+            marcacao.setPostagem(postagem);
+            marcacao.setUsuario(usuarioMarcado);
+            marcacao.setPosicaoInicio(matcher.start());
+            marcacao.setPosicaoFim(matcher.end());
+            postagem.getMarcacoes().add(marcacao);
+        }
     }
 
     public Postagem getPostagemId(String idPostagem) {

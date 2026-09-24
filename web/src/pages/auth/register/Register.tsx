@@ -10,6 +10,7 @@ export function Register() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [nome, setNome] = useState("");
+  const [username, setUsername] = useState("");
   const [tipo, setTipo] = useState("password");
   const [errors, setErrors] = useState<any>({});
   const [mostrarSenha, setMostrarSenha] = useState(false);
@@ -27,11 +28,13 @@ export function Register() {
     loginGoogle(response);
   }
 
+
   const submit = () => {
     const user: UsuarioRequest = {
       nome,
       email,
-      senha
+      senha,
+      username: username.trim() || nome.trim()
     }
 
     data.mutate(user, {
@@ -62,14 +65,25 @@ export function Register() {
           </div>
 
           <div className="input-field">
-            <p>Nick:</p>
+            <p>Nome:</p>
             <input
               type="text"
               value={nome}
               onChange={(e) => setNome(e.target.value)}
-              placeholder="seunickname123"
+              placeholder="Seu nome"
             />
             {errors.nome && <p className="errors">{errors.nome}</p>}
+          </div>
+
+          <div className="input-field">
+            <p>Username:</p>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="seunickname123"
+            />
+            {errors.username && <p className="errors">{errors.username}</p>}
           </div>
 
           <div className="input-field">

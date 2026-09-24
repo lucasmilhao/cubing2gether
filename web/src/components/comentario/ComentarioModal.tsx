@@ -108,7 +108,7 @@ export function CommentModal({
                                                 <img
                                                     src={comentario.usuario.picture}
                                                     alt={comentario.usuario.nome}
-                                                    onClick={() => navigate(`/user/${comentario.usuario.id}`)}
+                                                    onClick={() => navigate(`/user/${comentario.usuario.username}`)}
                                                 />
                                             ) : (
                                                 <span>

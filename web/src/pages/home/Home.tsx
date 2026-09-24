@@ -28,7 +28,7 @@ export default function Home() {
           <div className="home-profile-card">
             <div className="home-profile-avatar">
               {usuarioLogado?.picture ? (
-                <img onClick={() => navigate(`/user/${usuarioLogado.id}`)} src={usuarioLogado.picture} alt={`Foto de ${usuarioLogado.nome || "usuário"}`} />
+                <img onClick={() => navigate(`/user/${usuarioLogado.username}`)} src={usuarioLogado.picture} alt={`Foto de ${usuarioLogado.nome || "usuário"}`} />
               ) : (
                 <span>{avatarFallback}</span>
               )}

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -42,6 +43,21 @@ public class UsuarioController {
                 .toList();
 
         return ResponseEntity.ok(listaUsuarios);
+    }
+
+    @GetMapping("/busca")
+    public ResponseEntity<List<UsuarioResponseDTO>> getUsuariosPorUsername(@RequestParam String username, @AuthenticationPrincipal Usuario u) {
+        List<UsuarioResponseDTO> lista = service.getUsuarioPorUsername(username, u).stream()
+                .map(UsuarioResponseDTO::new)
+                .toList();
+
+        return ResponseEntity.ok(lista);
+    }
+
+    @GetMapping("/username/{username}")
+    public ResponseEntity<UsuarioResponseDTO> getUsuarioPorUsernameExato(@PathVariable String username) {
+        Usuario user = service.getUsuarioPorUsernameExato(username);
+        return ResponseEntity.ok(new UsuarioResponseDTO(user));
     }
 
     @GetMapping("{idUsuario}")
@@ -98,6 +114,12 @@ public class UsuarioController {
         Usuario u = service.editarUsuario(data, file);
 
         return ResponseEntity.ok(new UsuarioResponseDTO(u));
+    }
+
+    @DeleteMapping("/{idUsuario}")
+    public ResponseEntity<Void> deletarUsuario(@PathVariable String idUsuario) {
+        service.deletarUsuario(idUsuario);
+        return ResponseEntity.ok().build();
     }
 
 }

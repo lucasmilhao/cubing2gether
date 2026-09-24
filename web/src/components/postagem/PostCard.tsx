@@ -86,7 +86,7 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
 
   const copiarLink = () => {
 
-    const link = `${window.location.origin}/user/${postagem.usuario.id}#post-${postagem.id}`;
+    const link = `${window.location.origin}/user/${postagem.usuario.username}#post-${postagem.id}`;
     navigator.clipboard.writeText(link)
       .then(() => window.alert("Copiado com sucesso"))
     setShareAberto(false);
@@ -128,6 +128,32 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
 
   const tempoRelativo = formatarTempoRelativo(postagem.createdAt);
 
+  const renderizarTexto = (texto: string) => {
+    const partes = texto.split(/(@[a-zA-Z0-9_]+)/g);
+
+    return partes.map((parte, index) => {
+      if (parte.startsWith("@")) {
+        const username = parte.substring(1);
+
+        return (
+          <a
+            key={`${parte}-${index}`}
+            href={`/user/${username}`}
+            className="post-card-mention"
+            onClick={(event) => {
+              event.preventDefault();
+              navigate(`/user/${username}`);
+            }}
+          >
+            {parte}
+          </a>
+        );
+      }
+
+      return <span key={`${parte}-${index}`}>{parte}</span>;
+    });
+  };
+
   return (
     <article id={`post-${postagem.id}`}
       className={`post-card ${destacado ? "post-card-destacado" : ""}`}>
@@ -135,7 +161,7 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
       {modalAberto && <PostModal onClose={handleModal} postagem={postagem} key={postagem.id} />}
       <div className="post-card-avatar">
         {postagem.usuario.picture ? (
-          <img onClick={() => navigate(`/user/${postagem.usuario.id}`)} src={postagem.usuario.picture} alt={postagem.usuario.nome} />
+          <img onClick={() => navigate(`/user/${postagem.usuario.username}`)} src={postagem.usuario.picture} alt={postagem.usuario.nome} />
         ) : (
           <div className="avatar-placeholder">{postagem.usuario.nome?.[0] ?? "U"}</div>
         )}
@@ -145,8 +171,8 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
         <header className="post-card-header">
           <div className="post-card-user-props">
             <span className="post-card-nome">{postagem.usuario.nome}</span>
-            {postagem.usuario.nome && (
-              <span className="post-card-handle">@{postagem.usuario.email}</span>
+            {postagem.usuario.username && (
+              <span className="post-card-handle">@{postagem.usuario.username}</span>
             )}
             <span className="post-card-dot">·</span>
             <span className="post-card-tempo">{tempoRelativo}</span>
@@ -180,7 +206,7 @@ export function PostCard({ postagem }: { postagem: PostagemProps }) {
         </header>
 
         {postagem.descricao && (
-          <p className="post-card-descricao">{postagem.descricao}</p>
+          <p className="post-card-descricao">{renderizarTexto(postagem.descricao)}</p>
         )}
         
         {postagem.caminhoImagem && (

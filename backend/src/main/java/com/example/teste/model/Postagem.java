@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -47,7 +48,7 @@ public class Postagem {
     @Column(name = "created_at")
     private Instant createdAt;
 
-    @Column(name = "caminho_imagem", nullable = false)
+    @Column(name = "caminho_imagem", nullable = true)
     private String caminhoImagem;
 
     @OneToMany(mappedBy = "postagem", orphanRemoval = true)
@@ -55,6 +56,9 @@ public class Postagem {
 
     @OneToMany(mappedBy = "postagem", orphanRemoval = true)
     private List<Comentario> comentarios = new ArrayList<>();
+
+    @OneToMany(mappedBy = "postagem", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MarcacaoPostagem> marcacoes = new ArrayList<>();
     
     @PrePersist
     public void PrePersist() {

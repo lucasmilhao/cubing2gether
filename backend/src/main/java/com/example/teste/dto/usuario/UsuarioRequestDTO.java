@@ -23,6 +23,18 @@ public record UsuarioRequestDTO(
 
     Boolean isGuest,
 
-    String picture) {
+    String picture,
+
+    String username) {
+
+    public UsuarioRequestDTO(
+            String nome,
+            String email,
+            String senha,
+            TypeUsuario tipo,
+            Boolean isGuest,
+            String picture) {
+        this(nome, email, senha, tipo, isGuest, picture, null);
+    }
     
 }

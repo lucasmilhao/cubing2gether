@@ -107,9 +107,11 @@ export default function Video() {
         if (timer.current) clearInterval(timer.current);
         setIsRunning(false);
         setIsPronto(false);
-        setAguardandoOponente(true);
+        setAguardandoOponente(true);        
     }
     const handleStart = () => {
+        console.log(aguardandoOponente);
+        
         if (aguardandoOponente) return;
 
         if (isRunning) {

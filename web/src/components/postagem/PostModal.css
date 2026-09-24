@@ -76,13 +76,36 @@
   min-width: 0;
 }
 
+.post-textarea-wrapper {
+  position: relative;
+}
+
+.post-textarea-highlight {
+  position: absolute;
+  inset: 0;
+  padding-top: 8px;
+  color: var(--text-primary);
+  font-size: 18px;
+  line-height: 1.4;
+  font-family: inherit;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  pointer-events: none;
+}
+
+.post-modal-mention {
+  color: var(--accent-color);
+}
+
 .post-textarea {
   width: 100%;
   background: transparent;
   border: none;
   outline: none;
   resize: none;
-  color: var(--text-primary);
+  color: transparent;
+  caret-color: var(--text-primary);
   font-size: 18px;
   line-height: 1.4;
   font-family: inherit;
@@ -91,6 +114,49 @@
 
 .post-textarea::placeholder {
   color: #71767b;
+}
+
+.mention-suggestions {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 6px);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: var(--bg-primary);
+  border: 1px solid #2f3336;
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+  padding: 8px;
+}
+
+.mention-suggestion-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.mention-suggestion-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.mention-suggestion-name {
+  font-weight: 600;
+}
+
+.mention-suggestion-username {
+  color: #6ea8fe;
+  font-size: 13px;
 }
 
 .scramble-attachment {

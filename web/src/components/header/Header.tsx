@@ -89,7 +89,7 @@ export function Header() {
                         </div>}
                         {isMenuOpen && (
                             <div className="user-options-menu">
-                                <button className="profile-actions" onClick={() => { navigate(`/user/${usuarioLogado?.id}`); setIsMenuOpen(false) }}>
+                                <button className="profile-actions" onClick={() => { navigate(`/user/${usuarioLogado?.username}`); setIsMenuOpen(false) }}>
                                     Profile
                                 </button>
                                 <hr />
