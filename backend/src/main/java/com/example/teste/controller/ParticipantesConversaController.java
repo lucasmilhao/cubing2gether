@@ -2,7 +2,6 @@ package com.example.teste.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,12 +15,14 @@ import com.example.teste.dto.chat.participantes.ParticipantesConversaRequestDTO;
 import com.example.teste.dto.chat.participantes.ParticipantesConversaResponseDTO;
 import com.example.teste.service.ParticipantesConversaService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/participantes")
+@RequiredArgsConstructor 
 public class ParticipantesConversaController {
     
-    @Autowired
-    private ParticipantesConversaService service;
+    private final ParticipantesConversaService service;
 
     @GetMapping
     public ResponseEntity<List<ParticipantesConversaResponseDTO>> getAll() {

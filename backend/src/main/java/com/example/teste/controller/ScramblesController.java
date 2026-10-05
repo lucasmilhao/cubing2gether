@@ -1,6 +1,5 @@
 package com.example.teste.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,14 +18,15 @@ import com.example.teste.model.Scramble;
 import com.example.teste.service.ScrambleService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/scrambles")
+@RequiredArgsConstructor 
 public class ScramblesController {
 
-    @Autowired
-    private ScrambleService service;
+    private final ScrambleService service;
 
     @GetMapping("/{cube}")
     public ResponseEntity<ScrambleResponseDTO> getScramble(@PathVariable String cube) {

@@ -2,7 +2,6 @@ package com.example.teste.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,14 +23,15 @@ import com.example.teste.model.Usuario;
 import com.example.teste.service.ConversaService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/conversa")
+@RequiredArgsConstructor
 public class ConversaController {
 
-    @Autowired
-    private ConversaService service;
+    private final ConversaService service;
 
     @PostMapping
     public ResponseEntity<ConversaResponseDTO> criarConversa(@RequestBody @Valid ConversaRequestDTO request) {

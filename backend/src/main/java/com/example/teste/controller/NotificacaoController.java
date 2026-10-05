@@ -20,12 +20,14 @@ import com.example.teste.model.Notificacao;
 import com.example.teste.model.Usuario;
 import com.example.teste.service.NotificacaoService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/notificacao")
+@RequiredArgsConstructor 
 public class NotificacaoController {
     
-    @Autowired
-    private NotificacaoService service;
+    private final NotificacaoService service;
 
     @PostMapping
     public ResponseEntity<NotificacaoResponseDTO> criarNotificacao(@RequestBody NotificacaoRequestDTO request) {

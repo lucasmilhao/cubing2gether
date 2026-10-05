@@ -25,10 +25,12 @@ import com.example.teste.model.Usuario;
 import com.example.teste.service.UsuarioService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/usuarios")
+@RequiredArgsConstructor 
 public class UsuarioController {
 
     @Autowired

@@ -14,13 +14,14 @@ import com.example.teste.model.Denuncia;
 import com.example.teste.service.DenunciaService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/denuncia")
+@RequiredArgsConstructor 
 public class DenunciaController {
     
-    @Autowired
-    private DenunciaService service;
+    private final DenunciaService service;
 
     @PostMapping
     public ResponseEntity<DenunciaResponseDTO> criarDenuncia(@RequestBody @Valid DenunciaRequestDTO request) {

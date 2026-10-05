@@ -2,7 +2,6 @@ package com.example.teste.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,13 +21,14 @@ import com.example.teste.model.Usuario;
 import com.example.teste.service.FollowService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/follow")
+@RequiredArgsConstructor 
 public class FollowController {
     
-    @Autowired
-    private FollowService service;
+    private final FollowService service;
 
     @PostMapping
     public ResponseEntity<FollowResponseDTO> criarFollow(@RequestBody @Valid FollowRequestDTO request) {

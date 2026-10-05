@@ -2,7 +2,6 @@ package com.example.teste.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,12 +15,14 @@ import com.example.teste.dto.partida.PartidaResponseDTO;
 import com.example.teste.model.Partida;
 import com.example.teste.service.PartidaService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/partida")
+@RequiredArgsConstructor 
 public class PartidaController {
     
-    @Autowired
-    private PartidaService service;
+    private final PartidaService service;
 
 
     @PostMapping

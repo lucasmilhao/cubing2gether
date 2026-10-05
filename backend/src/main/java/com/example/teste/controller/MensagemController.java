@@ -2,7 +2,6 @@ package com.example.teste.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,13 +18,15 @@ import com.example.teste.model.Mensagem;
 import com.example.teste.model.Usuario;
 import com.example.teste.service.MensagemService;
 
+import lombok.RequiredArgsConstructor;
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/mensagens")
+@RequiredArgsConstructor 
 public class MensagemController {
     
-    @Autowired
-    private MensagemService service;
+    private final MensagemService service;
 
     @PostMapping
     public ResponseEntity<MensagemResponseDTO> enviarMensagem(@RequestBody MensagemRequestDTO request) {

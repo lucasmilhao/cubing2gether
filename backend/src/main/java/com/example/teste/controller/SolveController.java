@@ -19,14 +19,16 @@ import com.example.teste.dto.solve.SolveResponseDTO;
 import com.example.teste.model.Solve;
 import com.example.teste.service.SolveService;
 
+import lombok.RequiredArgsConstructor;
+
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/solves")
+@RequiredArgsConstructor 
 public class SolveController {
 
-    @Autowired
-    private SolveService service;
+    private final SolveService service;
     
     @PostMapping
     public ResponseEntity<SolveResponseDTO> createSolve(@RequestBody SolveRequestDTO request) {

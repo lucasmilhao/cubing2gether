@@ -11,12 +11,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.teste.service.UploadService;
 
+import lombok.RequiredArgsConstructor;
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/uploads")
+@RequiredArgsConstructor 
 public class UploadController {
 
-    @Autowired
     private UploadService service;
     
     @PostMapping

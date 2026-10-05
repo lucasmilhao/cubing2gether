@@ -24,13 +24,14 @@ import com.example.teste.model.Usuario;
 import com.example.teste.service.PostagemService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/postagem")
+@RequiredArgsConstructor 
 public class PostagemController {
 
-    @Autowired
-    private PostagemService service;
+    private final PostagemService service;
 
     @GetMapping
     public ResponseEntity<List<PostagemResponseDTO>> getTodas(@AuthenticationPrincipal Usuario usuario) {
