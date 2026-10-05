@@ -15,7 +15,7 @@ export function Register() {
   const [errors, setErrors] = useState<any>({});
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const { mutate: loginGoogle, isPending : isGooglePending } = useUsuarioLoginGoogle();
-  const {data, isPending} = useUsuarioCreate();
+  const {mutate : data, isPending} = useUsuarioCreate();
 
 
 
@@ -37,7 +37,7 @@ export function Register() {
       username: username.trim() || nome.trim()
     }
 
-    data.mutate(user, {
+    data(user, {
       onError: (err: any) => {
         if (err.response && err.response.data) {
           console.log(JSON.stringify(err.response.data));
@@ -102,7 +102,7 @@ export function Register() {
 
           <GoogleLogin context="signup" text="continue_with" useOneTap onSuccess={e => login(e.credential)} onError={() => { }} />
           <button type="submit" onClick={submit} className="login-btn">
-            {(isPending || isGooglePending) ? "Carregando" : "Crie sua Conta"}
+            {(isPending || isGooglePending) ? "Carregando..." : "Crie sua Conta"}
           </button>
 
           <div className="signup-link">
