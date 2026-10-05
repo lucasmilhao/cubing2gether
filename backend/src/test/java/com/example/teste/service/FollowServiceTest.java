@@ -22,6 +22,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+import com.example.teste.repository.UsuarioRepository;
+
 @ExtendWith(MockitoExtension.class)
 class FollowServiceTest {
 
@@ -30,6 +32,9 @@ class FollowServiceTest {
 
     @Mock
     private UsuarioService usuarioService;
+
+    @Mock
+    private UsuarioRepository usuarioRepository;
 
     @Mock
     private NotificacaoService notificacaoService;
@@ -56,8 +61,8 @@ class FollowServiceTest {
     void criarFollow_quandoNaoSegue_deveCriarFollowENotificar() {
         FollowRequestDTO request = new FollowRequestDTO("u1", "u2");
 
-        when(usuarioService.getUsuarioId("u1")).thenReturn(seguidor);
-        when(usuarioService.getUsuarioId("u2")).thenReturn(seguindo);
+        when(usuarioRepository.findById("u1")).thenReturn(Optional.of(seguidor));
+        when(usuarioRepository.findById("u2")).thenReturn(Optional.of(seguindo));
         when(followRepository.findBySeguidorAndSeguindo(seguidor, seguindo)).thenReturn(Optional.empty());
         when(followRepository.save(any(Follow.class))).thenAnswer(inv -> inv.getArgument(0));
 
@@ -78,8 +83,8 @@ class FollowServiceTest {
         existente.setSeguidor(seguidor);
         existente.setSeguindo(seguindo);
 
-        when(usuarioService.getUsuarioId("u1")).thenReturn(seguidor);
-        when(usuarioService.getUsuarioId("u2")).thenReturn(seguindo);
+        when(usuarioRepository.findById("u1")).thenReturn(Optional.of(seguidor));
+        when(usuarioRepository.findById("u2")).thenReturn(Optional.of(seguindo));
         when(followRepository.findBySeguidorAndSeguindo(seguidor, seguindo)).thenReturn(Optional.of(existente));
 
         Follow resultado = followService.criarFollow(request);
@@ -97,7 +102,7 @@ class FollowServiceTest {
         follow.setSeguidor(seguidor);
         follow.setSeguindo(seguindo);
 
-        when(usuarioService.getUsuarioId("u1")).thenReturn(seguidor);
+        when(usuarioRepository.findById("u1")).thenReturn(Optional.of(seguidor));
         when(followRepository.findBySeguidor(seguidor)).thenReturn(List.of(follow));
 
         List<Follow> resultado = followService.getSeguindo("u1");
@@ -112,7 +117,7 @@ class FollowServiceTest {
         follow.setSeguidor(seguindo);
         follow.setSeguindo(seguidor);
 
-        when(usuarioService.getUsuarioId("u1")).thenReturn(seguidor);
+        when(usuarioRepository.findById("u1")).thenReturn(Optional.of(seguidor));
         when(followRepository.findBySeguindo(seguidor)).thenReturn(List.of(follow));
 
         List<Follow> resultado = followService.getSeguidores("u1");

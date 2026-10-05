@@ -29,7 +29,9 @@ class ControllerLayerTest {
 
     @Test
     void logoutClearsAccessTokenAndReturnsNoContent() {
-        AuthController controller = new AuthController();
+        AuthService service = mock(AuthService.class);
+
+        AuthController controller = new AuthController(service);
         ReflectionTestUtils.setField(controller, "service", mock(AuthService.class));
         MockHttpServletResponse response = new MockHttpServletResponse();
 
@@ -43,7 +45,7 @@ class ControllerLayerTest {
     @Test
     void notificationReadEndpointsDelegateAndReturnNoContent() {
         NotificacaoService service = mock(NotificacaoService.class);
-        NotificacaoController controller = new NotificacaoController();
+        NotificacaoController controller = new NotificacaoController(service);
         ReflectionTestUtils.setField(controller, "service", service);
 
         assertEquals(HttpStatus.NO_CONTENT, controller.setNotificacaoLida("notification-id").getStatusCode());

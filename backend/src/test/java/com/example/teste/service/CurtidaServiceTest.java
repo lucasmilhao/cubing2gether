@@ -39,7 +39,6 @@ class CurtidaServiceTest {
     private Postagem postagem;
     private CurtidaRequestDTO request;
 
-    @BeforeEach
     void setUp() {
         usuario = new Usuario();
         usuario.setId("u1");
@@ -56,6 +55,7 @@ class CurtidaServiceTest {
     @Test
     @DisplayName("Deve criar uma curtida quando o usuário ainda não curtiu a postagem")
     void criarCurtida_quandoNaoExiste_deveCriarNovaCurtida() {
+        setUp();
         when(curtidaRepository.findByUsuarioAndPostagem(usuario, postagem)).thenReturn(Optional.empty());
         when(curtidaRepository.save(any(Curtida.class))).thenAnswer(inv -> inv.getArgument(0));
 
@@ -70,6 +70,7 @@ class CurtidaServiceTest {
     @Test
     @DisplayName("Deve remover a curtida (descurtir) quando ela já existir")
     void criarCurtida_quandoJaExiste_deveRemoverCurtida() {
+        setUp();
         Curtida existente = new Curtida();
         existente.setUsuario(usuario);
         existente.setPostagem(postagem);

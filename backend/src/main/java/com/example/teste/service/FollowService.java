@@ -17,17 +17,17 @@ import com.example.teste.repository.FollowRepository;
 import com.example.teste.repository.UsuarioRepository;
 import com.example.teste.type.TypeNotificacao;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor 
 public class FollowService {
 
-    @Autowired
-    private FollowRepository followRepository;
+    private final FollowRepository followRepository;
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
 
-    @Autowired
-    private NotificacaoService notificacaoService;
+    private final NotificacaoService notificacaoService;
 
     public Follow criarFollow(FollowRequestDTO request) {
         Usuario uSeguidor = usuarioRepository.findById(request.idSeguidor()).orElseThrow(() -> new RuntimeException());
