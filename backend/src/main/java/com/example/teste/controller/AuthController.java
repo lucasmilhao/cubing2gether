@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.teste.dto.login.LoginRequestDTO;
 import com.example.teste.dto.login.LoginResponseDTO;
@@ -27,30 +30,16 @@ public class AuthController {
     @Autowired
     private AuthService service;
 
-
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> fazerLoginUsuarioLocal(
             @RequestBody
-            @Valid
-            LoginRequestDTO request,
+            @Valid LoginRequestDTO request,
             HttpServletResponse response) {
 
-        LoginResponseDTO result =
-                service.login(TypeProvider.LOCAL, request);
+        LoginResponseDTO result
+                = service.login(TypeProvider.LOCAL, request);
 
-        ResponseCookie cookie = ResponseCookie
-                .from("access_token", result.token())
-                .httpOnly(true)
-                .secure(true)
-                .sameSite("None")
-                .path("/")
-                .maxAge(60 * 60 * 24)
-                .build();
-
-        response.addHeader(
-                HttpHeaders.SET_COOKIE,
-                cookie.toString()
-        );
+        setCookie(result, response);
 
         return ResponseEntity.ok(result);
     }
@@ -60,8 +49,15 @@ public class AuthController {
             @RequestBody String request,
             HttpServletResponse response) {
 
-        LoginResponseDTO result =
-                service.login(TypeProvider.GOOGLE, request);
+        LoginResponseDTO result
+                = service.login(TypeProvider.GOOGLE, request);
+
+        setCookie(result, response);
+
+        return ResponseEntity.ok(result);
+    }
+
+    public void setCookie(LoginResponseDTO result, HttpServletResponse response) {
 
         ResponseCookie cookie = ResponseCookie
                 .from("access_token", result.token())
@@ -77,19 +73,20 @@ public class AuthController {
                 cookie.toString()
         );
 
-        return ResponseEntity.ok(result);
     }
 
     @PostMapping("/register")
     public ResponseEntity<LoginResponseDTO> registrarUsuario(
-            @RequestBody @Valid UsuarioRequestDTO request) {
+            @RequestBody @Valid UsuarioRequestDTO request, HttpServletResponse response) {
 
-        LoginResponseDTO response =
-                service.registrarUsuario(request);
+        LoginResponseDTO result
+                = service.registrarUsuario(request);
+
+        setCookie(result, response);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(response);
+                .body(result);
     }
 
     @PostMapping("/recuperar-senha")
@@ -101,7 +98,6 @@ public class AuthController {
         return ResponseEntity.noContent().build();
     }
 
-    
     @PostMapping("/redefinir-senha")
     public ResponseEntity<Void> redefinirSenha(
             @RequestBody RedefinirSenhaRequestDTO request) {
@@ -110,7 +106,7 @@ public class AuthController {
 
         return ResponseEntity.noContent().build();
     }
-    
+
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(
             HttpServletResponse response) {
