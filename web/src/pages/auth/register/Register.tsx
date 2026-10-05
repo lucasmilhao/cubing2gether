@@ -14,8 +14,8 @@ export function Register() {
   const [tipo, setTipo] = useState("password");
   const [errors, setErrors] = useState<any>({});
   const [mostrarSenha, setMostrarSenha] = useState(false);
-  const { mutate: loginGoogle } = useUsuarioLoginGoogle();
-  const data = useUsuarioCreate();
+  const { mutate: loginGoogle, isPending : isGooglePending } = useUsuarioLoginGoogle();
+  const {data, isPending} = useUsuarioCreate();
 
 
 
@@ -102,7 +102,7 @@ export function Register() {
 
           <GoogleLogin context="signup" text="continue_with" useOneTap onSuccess={e => login(e.credential)} onError={() => { }} />
           <button type="submit" onClick={submit} className="login-btn">
-            Crie sua Conta
+            {(isPending || isGooglePending) ? "Carregando" : "Crie sua Conta"}
           </button>
 
           <div className="signup-link">

@@ -16,7 +16,7 @@ export function Login() {
   const [mostrarSenha, setMostrarSenha] = useState(false);
 
   const { mutate, isPending} = useUsuarioLogin();
-  const { mutate: loginGoogle } = useUsuarioLoginGoogle();
+  const { mutate: loginGoogle, isPending : isGooglePending } = useUsuarioLoginGoogle();
 
   const togglePassword = () => {
     setMostrarSenha(!mostrarSenha);
@@ -91,7 +91,7 @@ export function Login() {
           />
 
           <button type="submit" className="login-btn">
-            {isPending ? "Entrando..." : "Entrar"}
+            {(isPending || isGooglePending) ? "Entrando..." : "Entrar"}
           </button>
 
           <div className="signup-link">
