@@ -13,7 +13,7 @@ public class EmailService {
 
     private final JavaMailSender mailSender;
 
-    private String frontendUrl = "http://localhost:5173";
+    private String frontendUrl = "https://cubing2gether-2aen.onrender.com";
 
     public void enviarEmailRedefinicao(String email, String token) {
 
