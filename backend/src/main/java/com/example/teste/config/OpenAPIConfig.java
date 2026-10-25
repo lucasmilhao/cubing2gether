@@ -1,56 +1,56 @@
-// package com.example.teste.config;
+package com.example.teste.config;
 
-// import org.springframework.context.annotation.Bean;
-// import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-// import io.swagger.v3.oas.models.Components;
-// import io.swagger.v3.oas.models.OpenAPI;
-// import io.swagger.v3.oas.models.info.Contact;
-// import io.swagger.v3.oas.models.info.Info;
-// import io.swagger.v3.oas.models.info.License;
-// import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 
-// @Configuration
-// public class OpenAPIConfig {
+@Configuration
+public class OpenAPIConfig {
 
-//     @Bean
-//     public OpenAPI customOpenAPI() {
-//         return new OpenAPI()
-//                 .info(new Info()
-//                         .title("Cubing2Gether API")
-//                         .description("""
-//                                 API REST da plataforma Cubing2Gether.
+    @Bean
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .info(new Info()
+                        .title("Cubing2Gether API")
+                        .description("""
+                                API REST da plataforma Cubing2Gether.
 
-//                                 A API fornece funcionalidades relacionadas a:
-//                                 - Autenticação e cadastro de usuários
-//                                 - Usuários
-//                                 - Postagens
-//                                 - Curtidas e denúncias
-//                                 - Seguidores
-//                                 - Conversas e mensagens
-//                                 - Notificações
-//                                 - Scrambles
-//                                 - Solves
-//                                 - Partidas
-//                                 - Upload de arquivos
-//                                 """)
-//                         .version("1.0.0")
-//                         .contact(new Contact()
-//                                 .name("Cubing2Gether")
-//                                 .email("contato@cubing2gether.com"))
-//                         .license(new License()
-//                                 .name("MIT License")))
-//                 .components(new Components()
-//                         .addSecuritySchemes(
-//                                 "cookieAuth",
-//                                 new SecurityScheme()
-//                                         .type(SecurityScheme.Type.APIKEY)
-//                                         .in(SecurityScheme.In.COOKIE)
-//                                         .name("access_token")
-//                                         .description(
-//                                                 "Token JWT armazenado no cookie HTTP-only access_token."
-//                                         )
-//                         )
-//                 );
-//     }
-// }
+                                A API fornece funcionalidades relacionadas a:
+                                - Autenticação e cadastro de usuários
+                                - Usuários
+                                - Postagens
+                                - Curtidas e denúncias
+                                - Seguidores
+                                - Conversas e mensagens
+                                - Notificações
+                                - Scrambles
+                                - Solves
+                                - Partidas
+                                - Upload de arquivos
+                                """)
+                        .version("1.0.0")
+                        .contact(new Contact()
+                                .name("Cubing2Gether")
+                                .email("contato@cubing2gether.com"))
+                        .license(new License()
+                                .name("MIT License")))
+                .components(new Components()
+                        .addSecuritySchemes(
+                                "cookieAuth",
+                                new SecurityScheme()
+                                        .type(SecurityScheme.Type.APIKEY)
+                                        .in(SecurityScheme.In.COOKIE)
+                                        .name("access_token")
+                                        .description(
+                                                "Token JWT armazenado no cookie HTTP-only access_token."
+                                        )
+                        )
+                );
+    }
+}
