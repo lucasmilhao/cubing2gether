@@ -5,6 +5,7 @@ import type { UsuarioRequest } from "../../../interface/UsuarioRequest";
 import { GoogleLogin } from "@react-oauth/google";
 import { useUsuarioLoginGoogle } from "../../../hooks/usuario/useUsuarioLoginGoogle";
 import WorldMap from "../../../components/ui/world-map";
+import { TermosModal } from "../../../components/termos/TermosModal";
 
 export function Register() {
   const [email, setEmail] = useState("");
@@ -16,6 +17,7 @@ export function Register() {
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const { mutate: loginGoogle, isPending : isGooglePending } = useUsuarioLoginGoogle();
   const {mutate : data, isPending} = useUsuarioCreate();
+  const [isTermoOpen, setIsTermoOpen] = useState(false);
 
 
 
@@ -49,6 +51,7 @@ export function Register() {
 
   return (
     <div className="login-container">
+      {isTermoOpen && <TermosModal onClose={() => setIsTermoOpen(false)}/>}
       <div className="esquerda">
         <form onSubmit={(e) => e.preventDefault()}>
           <h1 className="login-title">cubing2gether</h1>
@@ -100,11 +103,15 @@ export function Register() {
             {errors.senha && <p className="errors">{errors.senha}</p>}
           </div>
 
+          <div className="signup-link">
+            <input type="checkbox" required name="check" id="" />
+            Li e acordo com os <a style={{cursor:"pointer"}} onClick={() => setIsTermoOpen(prev => !prev)}>Termos de uso</a>
+          </div>
+
           <GoogleLogin context="signup" text="continue_with" useOneTap onSuccess={e => login(e.credential)} onError={() => { }} />
           <button type="submit" onClick={submit} className="login-btn">
             {(isPending || isGooglePending) ? "Carregando..." : "Crie sua Conta"}
           </button>
-
           <div className="signup-link">
             Já possui uma conta? <a href="/auth/login">Entre</a>
           </div>
