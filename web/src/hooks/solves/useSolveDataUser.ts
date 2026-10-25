@@ -7,7 +7,8 @@ interface SolveProps {
     tempo :  number,
     scramble: string,
     penalty : string,
-    userId: string
+    userId: string,
+    tipoCubo?: string
 }
 
 const fetchData = async (userId : string | undefined) : AxiosPromise<SolveProps[]> => {

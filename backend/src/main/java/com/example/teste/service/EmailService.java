@@ -1,5 +1,7 @@
 package com.example.teste.service;
 
+import java.util.ArrayList;
+
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ public class EmailService {
     private String frontendUrl = "https://cubing2gether-2aenp.onrender.com";
 
     public void enviarEmailRedefinicao(String email, String token) {
+
+        
 
         String link = frontendUrl + "/redefinir-senha?token=" + token;
 

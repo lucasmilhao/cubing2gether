@@ -1,7 +1,7 @@
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import './Usuario.css';
 import { useSolveDataUser } from "../../hooks/solves/useSolveDataUser";
-import { segundos } from "../Practice";
+import { puzzles, segundos } from "../Practice";
 import { useUsuarioLogado } from "../../hooks/usuario/useUsuarioLogado";
 import { useEffect, useMemo, useState } from "react";
 import { Modal } from "../../components/modal/Modal";
@@ -17,11 +17,28 @@ import type { ConversaRequestProps } from "../../interface/ConversaRequestProps"
 import { useConversaCreate } from "../../hooks/chat/conversa/useConversaCreate";
 import { useUsuarioUsername } from "../../hooks/usuario/useUsuarioUsername";
 
+const puzzleNames: Record<string, string> = {
+    "3x3x3": "THREE",
+    "2x2x2": "TWO",
+    "4x4x4": "FOUR",
+    "5x5x5": "FIVE",
+    "6x6x6": "SIX",
+    "7x7x7": "SEVEN",
+    "square1": "SQ1",
+    "megaminx": "MEGA",
+    "clock": "CLOCK",
+    "skewb": "SKEWB",
+    "pyraminx": "PYRA",
+};
+
+function getTypeCubo(cubo: string): string {
+    return puzzleNames[cubo] ?? "Desconhecido";
+}
 
 export function Usuario() {
     const location = useLocation();
     const { username } = useParams();
-    const { data: usuario, isLoading, isError, error } = useUsuarioUsername(username ?? "");    
+    const { data: usuario, isLoading, isError, error } = useUsuarioUsername(username ?? "");
     const idUsuario = usuario?.id;
     const { data: usuarioLogado, isError: erroUsuario } = useUsuarioLogado();
     const { data: seguindo } = useFollowSeguindoData(idUsuario);
@@ -43,6 +60,8 @@ export function Usuario() {
 
         return "Seguir";
     }, [followStatus]);
+
+    const [puzzle, setPuzzle] = useState(puzzles[1]);
 
     const EditarPerfilBtn = <button onClick={() => handleModal()} className="edit-profile-btn">Editar perfil</button>;
     let idsUsuarios: string[] | undefined = []
@@ -125,7 +144,7 @@ export function Usuario() {
 
     }, [usuario?.picture, usuario?.picture])
 
-    const solves = solveUser?.data.reverse();
+    const solves = solveUser?.data.reverse().filter(e => e.tipoCubo === getTypeCubo(puzzle));
 
     const [image, setImage] = useState(usuario?.picture ? usuario.picture : "defaltImage");
 
@@ -165,10 +184,10 @@ export function Usuario() {
 
                 <div className="usuario-sections">
                     <section className="usuario-section">
-                        <h2>Média:</h2>
-                        {solveUser?.data && solveUser.data.length > 0 ? (
+                        <h2>{`Média ${puzzle}:`}</h2>
+                        {solves && solves.length > 0 ? (
                             <div className="photos-grid">
-                                <h1>{segundos(solveUser.data.reduce((a, b) => a + b.tempo, 0) / solveUser.data.length)}s</h1>
+                                <h1>{segundos(solves.filter(e => e.tipoCubo === getTypeCubo(puzzle)).reduce((a, b) => a + b.tempo, 0) / solves.filter(e => e.tipoCubo === getTypeCubo(puzzle)).length)}s</h1>
                             </div>
                         ) : (
                             <p>Sem resoluções ainda. Faça upload de suas melhores jogadas!</p>
@@ -176,25 +195,38 @@ export function Usuario() {
                     </section>
 
                     <section className="usuario-section">
-                        <h2 style={{cursor: "pointer"}} onClick={() => navigate(`/followers/${idUsuario}`)}>Seguidores</h2>
+                        <h2 style={{ cursor: "pointer" }} onClick={() => navigate(`/followers/${idUsuario}`)}>Seguidores</h2>
                         <div className="photos-grid">
                             <h1>{seguidores?.length ?? 0}</h1>
                         </div>
                     </section>
 
                     <section className="usuario-section">
-                        <h2 style={{cursor: "pointer"}} onClick={() => navigate(`/following/${idUsuario}`)}>Seguindo</h2>
+                        <h2 style={{ cursor: "pointer" }} onClick={() => navigate(`/following/${idUsuario}`)}>Seguindo</h2>
                         <div className="photos-grid">
                             <h1>{seguindo ? seguindo.length : 0}</h1>
                         </div>
                     </section>
                 </div>
-                {show && (
-                    <>
-                        {<SolveChart solves={solves ?? []} />}
-                    </>
-                )
-                }
+                <div className="chart-container">
+                    <div className="chart-controls">
+                        <label htmlFor="puzzle-select">Tipo de cubo:</label>
+                        <select
+                            id="puzzle-select"
+                            name="super"
+                            value={puzzle}
+                            onChange={(e) => setPuzzle(e.target.value)}
+                        >
+                            {puzzles.map((puzzle) => (
+                                <option key={puzzle} value={puzzle}>
+                                    {puzzle}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    {show && <SolveChart solves={solves ?? []} />}
+                </div>
 
                 <div className="home-posts-list">
                     {postagens?.length ? (

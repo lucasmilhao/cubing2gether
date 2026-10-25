@@ -69,6 +69,7 @@ public class ConversaService {
         c.setIsPublico(request.isPublico());
         c.setNome(request.nome());
 
+
         return conversaRepository.save(c);
     }
 

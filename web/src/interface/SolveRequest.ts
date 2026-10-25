@@ -3,5 +3,6 @@ export interface SolveRequest {
     scramble : string,
     penalty : any,
     userId? : string,
-    partidaId? : string | null
+    partidaId? : string | null,
+    tipoCubo? : string
 }

@@ -1,7 +1,11 @@
 package com.example.teste.model;
 
+import org.worldcubeassociation.tnoodle.scrambles.PuzzleRegistry;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,9 +32,13 @@ public class Solve {
     @Column(name="tempo_ms", nullable=false)
     private Long tempo;
 
+    @Column(name = "scramble", length=1024)
     private String scramble;
 
     private String penalty;
+
+    @Enumerated(EnumType.STRING)
+    private PuzzleRegistry typeCubo;
 
     @ManyToOne
     @JoinColumn(name="id_usuario", nullable=false)

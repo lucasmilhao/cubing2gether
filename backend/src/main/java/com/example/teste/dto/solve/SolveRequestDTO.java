@@ -5,7 +5,8 @@ public record SolveRequestDTO(
         String scramble,
         String penalty,
         String userId,
-        String partidaId
+        String partidaId,
+        String tipoCubo
         ) {
 
 }

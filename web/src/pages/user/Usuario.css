@@ -1,4 +1,3 @@
-
 /* .user-container {
   background-image: url("https://media.istockphoto.com/id/1021380426/pt/foto/sunset-in-serra-da-beleza-mountains-between-rio-de-janeiro-and-minas-gerais-states.jpg?s=612x612&w=0&k=20&c=Zv_iYGwEhHQ6V3AK8OHOBNZQV85Vhf4S1v0E1RAchfE=");
   background-size: cover;
@@ -19,30 +18,65 @@
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.chart-controls {
+  display: flex;
+  margin-top: 20px;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.chart-controls label {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.chart-controls select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #333;
+  font-size: 0.9rem;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.chart-controls select:focus {
+  border-color: #3b82f6;
+}
+
 .chat-button-usuario {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    border: none;
-    border-radius: 10px;
-    background-color: var(--accent-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 10px;
+  background-color: var(--accent-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(39, 64, 92, 0.192);
+
+  svg {
+    height: 24px;
+    fill: var(--accent-text);
+  }
+
+
+  &:hover {
     cursor: pointer;
-    transition: all 0.3s ease;
-    flex-shrink: 0;
-    box-shadow: 0 4px 12px rgba(39, 64, 92, 0.192);
-
-    svg {
-      height: 24px;
-      fill: var(--accent-text);
-    }
-
-    
-    &:hover {
-      cursor: pointer;
-      transform: scale(1.04);
-    }
+    transform: scale(1.04);
+  }
 }
 
 .graphic-solve {
@@ -69,14 +103,14 @@
     font-weight: 500;
     transition-duration: .2s;
     color: var(--text-primary);
-    
+
     &:hover {
       cursor: pointer;
       transform: scale(1.04);
     }
   }
 
-  img{
+  img {
     height: 54px;
     border-radius: 50%;
   }
@@ -194,7 +228,8 @@
 .usuario-section h2 {
   margin: 0 0 10px 0;
   font-size: 1rem;
-  color: var(--accent-color); /* site primary */
+  color: var(--accent-color);
+  /* site primary */
 }
 
 .usuario-section p {
@@ -209,13 +244,25 @@
 
 /* Small responsive tweak */
 @media (max-width: 720px) {
-  .usuario-card { flex-direction: column; align-items: flex-start; }
-  .usuario-avatar { width: 72px; height: 72px; }
-  .usuario-sections { grid-template-columns: repeat(2, 1fr); }
+  .usuario-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .usuario-avatar {
+    width: 72px;
+    height: 72px;
+  }
+
+  .usuario-sections {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 480px) {
-  .usuario-sections { grid-template-columns: 1fr; }
+  .usuario-sections {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Photos grid (Instagram-like) */
@@ -227,7 +274,8 @@
 
 .photo-item {
   width: 100%;
-  padding-top: 100%; /* 1:1 aspect ratio */
+  padding-top: 100%;
+  /* 1:1 aspect ratio */
   position: relative;
   overflow: hidden;
   border-radius: 6px;
@@ -279,12 +327,21 @@
   align-items: center;
 }
 
-.mention-item img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+.mention-item img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
 
 @media (max-width: 720px) {
-  .photos-grid { grid-template-columns: repeat(3, 1fr); }
+  .photos-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 @media (max-width: 480px) {
-  .photos-grid { grid-template-columns: repeat(2, 1fr); }
+  .photos-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

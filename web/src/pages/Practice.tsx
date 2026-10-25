@@ -49,14 +49,15 @@ export function Practice() {
 
   useEffect(() => {
     gerarScramble();
-  }, [puzzle])
+  }, [puzzle]);
 
   const submit = () => {
     const request: SolveRequest = {
       tempo: tempoCorrido.current,
       scramble,
       penalty,
-      userId: usuarioLogado?.id
+      userId: usuarioLogado?.id,
+      tipoCubo: puzzle
     }
 
     postSolve.mutate(request);

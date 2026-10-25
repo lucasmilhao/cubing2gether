@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.worldcubeassociation.tnoodle.scrambles.PuzzleRegistry;
 
 import com.example.teste.dto.solve.SolveRequestDTO;
 import com.example.teste.dto.solve.SolveResponseDTO;
@@ -21,15 +22,14 @@ import com.example.teste.service.SolveService;
 
 import lombok.RequiredArgsConstructor;
 
-
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/solves")
-@RequiredArgsConstructor 
+@RequiredArgsConstructor
 public class SolveController {
 
     private final SolveService service;
-    
+
     @PostMapping
     public ResponseEntity<SolveResponseDTO> createSolve(@RequestBody SolveRequestDTO request) {
         Solve solve = service.criarSolve(request);
@@ -47,6 +47,15 @@ public class SolveController {
     @GetMapping
     public ResponseEntity<List<SolveResponseDTO>> getSolves() {
         List<SolveResponseDTO> listaSolves = service.getTodasSolves().stream()
+                .map(SolveResponseDTO::new)
+                .toList();
+
+        return ResponseEntity.ok(listaSolves);
+    }
+
+    @GetMapping("{idUsuario}/{cubo}")
+    public ResponseEntity<List<SolveResponseDTO>> getSolvesUsuarioCubo(@PathVariable String idUsuario, @PathVariable PuzzleRegistry cubo) {
+        List<SolveResponseDTO> listaSolves = service.getSolvesCubo(idUsuario, cubo).stream()
                 .map(SolveResponseDTO::new)
                 .toList();
 
