@@ -34,7 +34,7 @@ public class ScramblesController {
         return ResponseEntity.ok(scramble);
     }
 
-    @GetMapping("/{scramble}")
+    @GetMapping("/svg/{scramble}")
     public ResponseEntity<String> getScrambleSvg(@PathVariable String scramble) {
         String svg = service.getSvgScramble(scramble);
         return ResponseEntity.ok(svg);
