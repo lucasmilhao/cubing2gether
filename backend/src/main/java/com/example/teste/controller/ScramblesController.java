@@ -35,7 +35,7 @@ public class ScramblesController {
     }
 
     @GetMapping("/{scramble}")
-    public ResponseEntity<ScrambleResponseDTO> getScramble(@PathVariable String scramble) {
+    public ResponseEntity<ScrambleResponseDTO> getScrambleSvg(@PathVariable String scramble) {
         String svg = service.getSvgScramble(scramble);
         return ResponseEntity.ok(svg);
     }
