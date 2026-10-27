@@ -17,7 +17,7 @@ import com.example.teste.repository.ScrambleRepository;
 
 @Service
 public class ScrambleService {
-    
+
     @Autowired
     private ScrambleRepository scrambleRepository;
 
@@ -25,9 +25,9 @@ public class ScrambleService {
     private PostagemRepository postagemRepository;
 
     public ScrambleResponseDTO getScramble(String cube) {
-        
+
         Puzzle puzzle;
-        switch(cube) {
+        switch (cube) {
             case "2x2x2" -> puzzle = PuzzleRegistry.TWO.getScrambler();
             case "3x3x3" -> puzzle = PuzzleRegistry.THREE.getScrambler();
             case "4x4x4" -> puzzle = PuzzleRegistry.FOUR.getScrambler();
@@ -42,7 +42,6 @@ public class ScrambleService {
             case "FM" -> puzzle = PuzzleRegistry.THREE_FM.getScrambler();
             default -> puzzle = PuzzleRegistry.THREE.getScrambler();
         }
-        
 
         String scramble = puzzle.generateScramble();
         try {
@@ -72,7 +71,6 @@ public class ScrambleService {
             e.printStackTrace();
         }
 
-
         return scramble;
     }
 
@@ -100,11 +98,27 @@ public class ScrambleService {
         Scramble s = scrambleRepository.findById(idScramble).orElseThrow(() -> new RuntimeException());
 
         List<Postagem> p = postagemRepository.findByScramble(s);
-        p.stream().forEach(e-> {
+        p.stream().forEach(e -> {
             e.setScramble(null);
             postagemRepository.save(e);
         });
 
         scrambleRepository.delete(s);
     }
+
+    public String getSvgScramble(String scramble) {
+
+        Puzzle puzzle = PuzzleRegistry.THREE.getScrambler();
+        try {
+            String svg = puzzle.drawScramble(scramble, null).toString();
+
+            return svg;
+
+        } catch (InvalidScrambleException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
