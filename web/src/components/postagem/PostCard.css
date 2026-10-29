@@ -249,6 +249,6 @@ img {
 
 .post-card-image {
   display: block;
-  max-height: 500px;
+  max-height: 250px;
   border-radius: 12px;
 }
