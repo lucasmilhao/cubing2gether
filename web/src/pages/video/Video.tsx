@@ -78,7 +78,8 @@ export default function Video() {
             scramble,
             penalty,
             userId: usuarioLogado?.id,
-            partidaId: roomId
+            partidaId: roomId,
+            tipoCubo: '3x3x3'
         }
 
         solve.mutate(request);
