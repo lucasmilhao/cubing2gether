@@ -4,8 +4,10 @@ import java.time.Instant;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
+import com.example.teste.dto.notificacao.NotificacaoCriadaEvent;
 import com.example.teste.dto.notificacao.NotificacaoRequestDTO;
 import com.example.teste.exception.UsuarioNaoEncontradoException;
 import com.example.teste.model.Notificacao;
@@ -13,6 +15,10 @@ import com.example.teste.model.Usuario;
 import com.example.teste.repository.NotificacaoRepository;
 import com.example.teste.repository.UsuarioRepository;
 
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 public class NotificacaoService {
 
@@ -22,39 +28,62 @@ public class NotificacaoService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public Notificacao criarNotificacao(NotificacaoRequestDTO request) {
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
-        List<Notificacao> notificacaoExistente = notificacaoRepository
+    @Transactional
+    public Notificacao criarNotificacao(
+            NotificacaoRequestDTO request
+    ) {
+        if (request.usuarioId().equals(request.remetenteId())) {
+            return null;
+        }
+
+        List<Notificacao> existentes = notificacaoRepository
                 .findByUsuarioIdAndReferenciaIdAndTipoAndIsLidaFalse(
                         request.usuarioId(),
                         request.referenciaId(),
-                        request.tipo());
+                        request.tipo()
+                );
 
-        if (!notificacaoExistente.isEmpty()) {
+        Notificacao notificacao;
 
-            Notificacao notificacao = notificacaoExistente.getFirst();
+        if (!existentes.isEmpty()) {
+            notificacao = existentes.getFirst();
 
             notificacao.setMensagem(request.mensagem());
             notificacao.setCreatedAt(Instant.now());
 
-            return notificacaoRepository.save(notificacao);
+        } else {
+            Usuario usuario = usuarioRepository
+                    .findById(request.usuarioId())
+                    .orElseThrow(UsuarioNaoEncontradoException::new);
+
+            Usuario remetente = usuarioRepository
+                    .findById(request.remetenteId())
+                    .orElseThrow(UsuarioNaoEncontradoException::new);
+
+            notificacao = new Notificacao();
+
+            notificacao.setUsuario(usuario);
+            notificacao.setRemetente(remetente);
+            notificacao.setTipo(request.tipo());
+            notificacao.setMensagem(request.mensagem());
+            notificacao.setReferenciaId(request.referenciaId());
+            notificacao.setIsLida(false);
         }
 
-        Usuario usuario = usuarioRepository.findById(request.usuarioId())
-                .orElseThrow(() -> new UsuarioNaoEncontradoException());
-        Usuario remetente = usuarioRepository.findById(request.remetenteId())
-                .orElseThrow(() -> new UsuarioNaoEncontradoException());
+        Notificacao salva
+                = notificacaoRepository.save(notificacao);
 
-        Notificacao n = new Notificacao();
-        n.setUsuario(usuario);
-        n.setRemetente(remetente);
-        n.setTipo(request.tipo());
-        n.setMensagem(request.mensagem());
-        n.setReferenciaId(request.referenciaId());
+        eventPublisher.publishEvent(
+                new NotificacaoCriadaEvent(salva.getId())
+        );
 
-        return notificacaoRepository.save(n);
+        return salva;
     }
 
+    @Transactional
     public Notificacao criarNotificacao(Notificacao notificacao) {
 
         if (notificacao.getUsuario().getId()
@@ -62,7 +91,18 @@ public class NotificacaoService {
             return null;
         }
 
-        return notificacaoRepository.save(notificacao);
+        if (notificacao.getIsLida() == null) {
+            notificacao.setIsLida(false);
+        }
+
+        Notificacao salva
+                = notificacaoRepository.save(notificacao);
+
+        eventPublisher.publishEvent(
+                new NotificacaoCriadaEvent(salva.getId())
+        );
+
+        return salva;
     }
 
     public List<Notificacao> getNotificacaoUsuario(Usuario u) {
@@ -80,7 +120,7 @@ public class NotificacaoService {
         n.setIsLida(true);
         notificacaoRepository.save(n);
     }
-    
+
     public void setNotificacoesLidas(Usuario u) {
         getNotificacaoUsuario(u).forEach(n -> {
             n.setIsLida(true);
