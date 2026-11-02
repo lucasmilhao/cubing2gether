@@ -8,9 +8,10 @@ import "./home.css";
 import { useState } from "react";
 import { PostModal } from "../../components/postagem/PostModal";
 import { Sobre } from "../sobre/Sobre";
+import { PostCardSkeleton } from "../../components/postagem/PostCardSkeleton";
 
 export default function Home() {
-  const { data: postagens } = usePostagemData();
+  const { data: postagens, isPending: isPostagensPending } = usePostagemData();
   const { data: usuarioLogado } = useUsuarioLogado();
   const { data: conversas, isPending } = useConversaDataUsuario(usuarioLogado?.id);
   const navigate = useNavigate();
@@ -66,7 +67,14 @@ export default function Home() {
         {isOpen && <PostModal onClose={handleModal} />}
 
         <div className="home-posts-list">
-          {postagens?.length ? (
+          {isPostagensPending ? (
+            <>
+              <PostCardSkeleton />
+              <PostCardSkeleton />
+              <PostCardSkeleton />
+              <PostCardSkeleton />
+            </>
+          ) : postagens?.length ? (
             postagens.map((postagem) => <PostCard key={postagem.id} postagem={postagem} />)
           ) : (
             <div className="home-empty-state">Ainda não há publicações para mostrar.</div>
@@ -74,5 +82,5 @@ export default function Home() {
         </div>
       </main>
     </div>
-  ) : <Sobre/>;
+  ) : <Sobre />;
 }
