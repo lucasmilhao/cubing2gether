@@ -41,6 +41,13 @@ public class PostagemController {
 
         return ResponseEntity.ok(lista);
     }
+    
+    @GetMapping("/{idPostagem}")
+    public ResponseEntity<PostagemResponseDTO> getPostagem() {
+        Postagem postagem = service.getPorId(idPostagem);
+
+        return ResponseEntity.ok(new PostagemResponseDTO(postagem));
+    }
 
     @GetMapping("/{idUsuario}")
     public ResponseEntity<List<PostagemResponseDTO>> getPostagemUsuario(@PathVariable String idUsuario) {
