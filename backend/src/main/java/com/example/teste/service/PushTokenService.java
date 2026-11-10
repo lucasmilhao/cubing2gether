@@ -19,6 +19,8 @@ public class PushTokenService {
     @Transactional
     public void registrar(Usuario usuario, String token) {
 
+        System.out.println("TOKEN EXPO RECEBIDO: " + token);
+
         if (token == null ||
             !token.matches(
                 "^(ExponentPushToken|ExpoPushToken)\\[[^\\]]+\\]$"

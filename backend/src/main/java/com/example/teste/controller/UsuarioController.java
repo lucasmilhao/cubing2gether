@@ -3,6 +3,7 @@ package com.example.teste.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -87,6 +88,11 @@ public class UsuarioController {
     @GetMapping("/me")
     public ResponseEntity<UsuarioResponseDTO> getMe(
             @AuthenticationPrincipal Usuario user) {
+
+
+    if (user == null) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
 
         return ResponseEntity.ok(
                 new UsuarioResponseDTO(user));

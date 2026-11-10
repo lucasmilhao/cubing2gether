@@ -21,6 +21,7 @@ import java.util.Collections;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
+
     @Autowired
     TokenService tokenService;
     @Autowired
@@ -62,15 +63,24 @@ public class SecurityFilter extends OncePerRequestFilter {
     }
 
     private String recoverToken(HttpServletRequest request) {
+        String authorization = request.getHeader("Authorization");
 
-        if (request.getCookies() == null) {
-            return null;
+        if (authorization != null
+                && authorization.regionMatches(true, 0, "Bearer ", 0, 7)) {
+            String token = authorization.substring(7).trim();
+
+            if (!token.isBlank()) {
+                return token;
+            }
         }
 
-        for (Cookie cookie : request.getCookies()) {
+        Cookie[] cookies = request.getCookies();
 
-            if ("access_token".equals(cookie.getName())) {
-                return cookie.getValue();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("access_token".equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
             }
         }
 
