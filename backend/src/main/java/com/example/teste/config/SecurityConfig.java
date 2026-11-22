@@ -23,6 +23,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.example.teste.infra.security.SecurityFilter;
+import com.example.teste.type.TypeUsuario;
 
 @Configuration
 @EnableWebSecurity
@@ -42,16 +43,19 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/login",
                                 "/auth/register",
                                 "/auth/guest",
-                            "/auth/login/google")
+                                "/auth/login/google")
                         .permitAll()
-                        .requestMatchers(HttpMethod.GET, "/uploads/**").permitAll()
                         .requestMatchers(HttpMethod.GET,
-                                "/usuarios/**",
                                 "/solves/**",
                                 "/scrambles/**")
-                        .permitAll()
-
-                        .anyRequest().permitAll())
+                        .permitAll().requestMatchers(
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/v3/api-docs",
+                                "/v3/api-docs/**",
+                                "/v3/api-docs.yaml"
+                        ).hasRole("ADMIN")
+                        .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
@@ -71,7 +75,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:5173", "https://cubing2gether-2aen.onrender.com","http://192.168.1.5:8081"));
+        configuration.setAllowedOrigins(List.of("http://localhost:5173", "https://cubing2gether-2aen.onrender.com", "http://192.168.1.5:8081"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
