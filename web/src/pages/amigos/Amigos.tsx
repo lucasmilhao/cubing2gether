@@ -54,7 +54,7 @@ export function Amigos() {
                 conversa.mutate(propsConversa, {
                     onSuccess: (dataConversa) => {
                         const props : MensagemRequest = {
-                            texto:`Junte-se à mim em: http://localhost:5173/video/${data.idPartida}`,
+                            texto:`Junte-se à mim em: https://cubing2gether-2aen.onrender.com/video/${data.idPartida}`,
                             idSender: usuarioLogado?.id,
                             idConversa: dataConversa.idConversa
                         }
